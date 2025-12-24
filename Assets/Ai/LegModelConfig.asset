@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a0e74687fd857409f7636203a15edb, type: 3}
   m_Name: LegModelConfig
   m_EditorClassIdentifier: 
-  modelAsset: {fileID: 5022602860645237092, guid: fac259bdb032e15429993774322982e8, type: 3}
+  modelAsset: {fileID: 5022602860645237092, guid: d47dc6507963a814294be7a15f65fa2a, type: 3}
   inputName: images
   outputName: output0
   inputSize: 640
