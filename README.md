@@ -1,4 +1,0 @@
-\#VR PROJECT 1
-
-
-

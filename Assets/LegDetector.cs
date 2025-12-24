@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
-using Unity.Sentis;
+
 
 public class LegDetector : MonoBehaviour
 {
     [Header("Model")]
-    public ModelAsset modelAsset;          // Drag your ONNX asset here in the Inspector
+    public Unity.InferenceEngine.ModelAsset modelAsset;          // Drag your ONNX asset here in the Inspector
     public string inputName = "images";    // Must match the model's input name
     public string outputName = "output0";  // Must match the model's output name
     public int inputSize = 640;            // 640x640 if that's what your model expects
-    public BackendType backend = BackendType.GPUCompute; // or CPU if GPU not available
+    public Unity.InferenceEngine.BackendType backend = Unity.InferenceEngine.BackendType.GPUCompute; // or CPU if GPU not available
 
-    private Model _model;
-    private Worker _worker;
-    private Tensor<float> _inputTensor;    // Shape: [1, 3, H, W]
+    private Unity.InferenceEngine.Model _model;
+    private Unity.InferenceEngine.Worker _worker;
+    private Unity.InferenceEngine.Tensor<float> _inputTensor;    // Shape: [1, 3, H, W]
 
     void Awake()
     {
@@ -23,11 +23,11 @@ public class LegDetector : MonoBehaviour
         }
 
         // Load the Sentis model and create a worker
-        _model = ModelLoader.Load(modelAsset);
-        _worker = new Worker(_model, backend);
+        _model = Unity.InferenceEngine.ModelLoader.Load(modelAsset);
+        _worker = new Unity.InferenceEngine.Worker(_model, backend);
 
         // Allocate input tensor in NCHW format: [N=1, C=3, H=inputSize, W=inputSize]
-        _inputTensor = new Tensor<float>(new TensorShape(1, 3, inputSize, inputSize));
+        _inputTensor = new Unity.InferenceEngine.Tensor<float>(new Unity.InferenceEngine.TensorShape(1, 3, inputSize, inputSize));
 
         Debug.Log("[LegDetector] Model loaded and worker created.");
     }
@@ -50,8 +50,8 @@ public class LegDetector : MonoBehaviour
         }
 
         // Convert the camera texture into the input tensor (resizing to inputSize x inputSize)
-        var transform = new TextureTransform().SetDimensions(inputSize, inputSize);
-        TextureConverter.ToTensor(cameraImage, _inputTensor, transform);
+        var transform = new Unity.InferenceEngine.TextureTransform().SetDimensions(inputSize, inputSize);
+        Unity.InferenceEngine.TextureConverter.ToTensor(cameraImage, _inputTensor, transform);
 
         // Set input and run the model
         _worker.SetInput(inputName, _inputTensor);
@@ -60,7 +60,7 @@ public class LegDetector : MonoBehaviour
 
 
         // Get the output tensor from the worker
-        var outputTensor = _worker.PeekOutput(outputName) as Tensor<float>;
+        var outputTensor = _worker.PeekOutput(outputName) as Unity.InferenceEngine.Tensor<float>;
         if (outputTensor == null)
         {
             Debug.LogError("[LegDetector] Failed to get output tensor.");
