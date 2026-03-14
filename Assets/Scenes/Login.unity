@@ -686,6 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13849bbe36950bf4ca5ef77f93275903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneController
+  webClientId: 631638620593-ievlldo6umld0oqd6iu9oofkt7sq0tlo.apps.googleusercontent.com
 --- !u!4 &914228496
 Transform:
   m_ObjectHideFlags: 0
