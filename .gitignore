@@ -1,0 +1,46 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild*/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+*.unitypackage
+
+# IDEs
+.vs/
+.idea/
+*.sln
+*.csproj
+*.user
+*.userprefs
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Mobile/Export
+.gradle/
+*.apk
+*.aab
+*.ipa
+*.app
+*.xcworkspace
+*.xcodeproj
+*.xcuserdata/
+*.onnx
+Library/
+Temp/
+Logs/
+.vs/
+.utmp/
+forshow_BackUpThisFolder_ButDontShipItWithYourGame/
+My project (2)_BurstDebugInformation_DoNotShip/
+*.apk
+*.csproj
+*.sln
+Assets/Firebase/Plugins/x86_64/
