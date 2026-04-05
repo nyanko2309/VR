@@ -31,7 +31,7 @@
           {
             "name": "NavMeshSettings",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -52,8 +52,9 @@
           {
             "name": "AnimationClip",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -62,8 +63,9 @@
           {
             "name": "Animator",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -72,8 +74,9 @@
           {
             "name": "AnimatorController",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
@@ -88,8 +91,9 @@
           {
             "name": "Avatar",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -138,7 +142,7 @@
           {
             "name": "AudioBehaviour",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -150,7 +154,7 @@
           {
             "name": "AudioClip",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -159,7 +163,7 @@
           {
             "name": "AudioListener",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -177,7 +181,7 @@
           {
             "name": "AudioResource",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -186,7 +190,7 @@
           {
             "name": "AudioSource",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -218,7 +222,7 @@
           {
             "name": "Camera",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -236,7 +240,7 @@
           {
             "name": "ComputeShader",
             "scenes": [
-              "Assets/Scenes/HandScene.unity"
+              "Assets/Scenes/Login.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -244,7 +248,7 @@
           {
             "name": "Cubemap",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -268,7 +272,7 @@
           {
             "name": "EditorExtension",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -286,7 +290,7 @@
           {
             "name": "GameObject",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -322,7 +326,7 @@
           {
             "name": "LevelGameManager",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -334,7 +338,7 @@
           {
             "name": "Light",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
@@ -363,7 +367,7 @@
           {
             "name": "LightmapSettings",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -390,7 +394,7 @@
           {
             "name": "Material",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -402,8 +406,9 @@
           {
             "name": "Mesh",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -412,7 +417,7 @@
           {
             "name": "MeshFilter",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -421,7 +426,7 @@
           {
             "name": "MeshRenderer",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -430,7 +435,7 @@
           {
             "name": "MonoBehaviour",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -448,7 +453,7 @@
           {
             "name": "MonoScript",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -460,7 +465,7 @@
           {
             "name": "NamedObject",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -496,6 +501,7 @@
           {
             "name": "RectTransform",
             "scenes": [
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
@@ -512,7 +518,7 @@
           {
             "name": "RenderSettings",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -524,7 +530,7 @@
           {
             "name": "RenderTexture",
             "scenes": [
-              "Assets/Scenes/HandScene.unity"
+              "Assets/Scenes/Login.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -550,7 +556,7 @@
           {
             "name": "Shader",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
               "Assets/Scenes/Login.unity",
@@ -568,8 +574,9 @@
           {
             "name": "SkinnedMeshRenderer",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -578,9 +585,8 @@
           {
             "name": "SortingGroup",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
-              "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -589,7 +595,7 @@
           {
             "name": "Sprite",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
@@ -606,7 +612,7 @@
           {
             "name": "SpriteRenderer",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -1140,7 +1146,7 @@
           {
             "name": "CapsuleCollider",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -1197,7 +1203,7 @@
           {
             "name": "Rigidbody",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -1206,7 +1212,7 @@
           {
             "name": "SphereCollider",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -1618,7 +1624,7 @@
           {
             "name": "Font",
             "scenes": [
-              "Assets/Scenes/HandScene.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
@@ -1664,6 +1670,7 @@
           {
             "name": "Canvas",
             "scenes": [
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
@@ -1680,6 +1687,7 @@
           {
             "name": "CanvasRenderer",
             "scenes": [
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
