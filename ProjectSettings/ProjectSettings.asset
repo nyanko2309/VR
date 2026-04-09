@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 4b9ced7231d6a934a8ed2c37336292c9
+  productGUID: fc795b36174a14971853b9f1bf08a7ad
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: My project (2)
+  companyName: Black Whale Studio
+  productName: Unity-QuestVisionKit
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -79,7 +79,7 @@ PlayerSettings:
   androidMinimumWindowHeight: 300
   androidFullscreenMode: 1
   androidAutoRotationBehavior: 1
-  androidPredictiveBackSupport: 1
+  androidPredictiveBackSupport: 0
   androidApplicationEntry: 2
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
@@ -145,9 +145,9 @@ PlayerSettings:
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1.0
   preloadedAssets:
-  - {fileID: 11400000, guid: f58555270206bbd44882d70e3b171e26, type: 2}
-  - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 5d826038237f5496fbd76f720ad11943, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -169,7 +169,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.UnityTechnologies.com.unity.template.urpblank
+    Android: com.BlackWhaleStudio.letstrythisagain
     Standalone: com.Unity-Technologies.com.unity.template.urp-blank
     iPhone: com.Unity-Technologies.com.unity.template.urp-blank
   buildNumber:
@@ -180,14 +180,14 @@ PlayerSettings:
   overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 32
-  AndroidTargetSdkVersion: 0
+  AndroidTargetSdkVersion: 32
   AndroidPreferredInstallLocation: 0
   AndroidPreferredDataLocation: 1
   aotOptions: 
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
-  ForceInternetPermission: 0
+  ForceInternetPermission: 1
   ForceSDCardPermission: 0
   CreateWallpaper: 0
   androidSplitApplicationBinary: 0
@@ -260,9 +260,9 @@ PlayerSettings:
   appleEnableProMotion: 0
   shaderPrecisionModel: 0
   clonedFromGUID: 3c72c65a16f0acb438eed22b8b16c24a
-  templatePackageId: com.unity.template.urp-blank@17.0.14
+  templatePackageId: com.unity.template.urp-blank@17.0.11
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  useCustomMainManifest: 0
+  useCustomMainManifest: 1
   useCustomLauncherManifest: 0
   useCustomMainGradleTemplate: 0
   useCustomLauncherGradleManifest: 0
@@ -527,11 +527,18 @@ PlayerSettings:
       m_Height: 720
       m_Kind: 1
       m_SubKind: 
+  - m_BuildTarget: VisionOS
+    m_Icons:
+    - m_Textures: []
+      m_Width: 1024
+      m_Height: 1024
+      m_Kind: 0
+      m_SubKind: 
   m_BuildTargetBatching:
-  - m_BuildTarget: Standalone
+  - m_BuildTarget: Android
     m_StaticBatching: 1
     m_DynamicBatching: 0
-  - m_BuildTarget: Android
+  - m_BuildTarget: Standalone
     m_StaticBatching: 1
     m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
@@ -546,10 +553,10 @@ PlayerSettings:
     m_APIs: 10000000
     m_Automatic: 1
   - m_BuildTarget: AndroidPlayer
-    m_APIs: 150000000b000000
+    m_APIs: 15000000
     m_Automatic: 0
   - m_BuildTarget: WindowsStandaloneSupport
-    m_APIs: 02000000
+    m_APIs: 0200000012000000
     m_Automatic: 0
   m_BuildTargetVRSettings: []
   m_DefaultShaderChunkSizeInMB: 16
@@ -842,9 +849,22 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;APP_UI_EDITOR_ONLY
-    Standalone: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING
+    Android: ISDK_OPENXR_HAND;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;APP_UI_EDITOR_ONLY
+    EmbeddedLinux: 
+    GameCoreScarlett: 
+    GameCoreXboxOne: 
+    LinuxHeadlessSimulation: 
+    Nintendo Switch: 
+    PS4: 
+    PS5: 
+    QNX: 
+    ReservedCFE: 
+    Standalone: ISDK_OPENXR_HAND;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING
+    VisionOS: 
     Windows Store Apps: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
+    XboxOne: 
+    iPhone: 
+    tvOS: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -865,14 +885,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: My project (2)
+  metroPackageName: Unity-QuestVisionKit
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: My project (2)
+  metroApplicationDescription: Unity-QuestVisionKit
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -940,15 +960,14 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
-  captureStartupLogs:
-    Standalone: 1
-  activeInputHandler: 2
+  captureStartupLogs: {}
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 305bea35-f364-4157-a8b1-f1893413ae69
+  cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: My project (2)
-  organizationId: yanazlatin1999
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
