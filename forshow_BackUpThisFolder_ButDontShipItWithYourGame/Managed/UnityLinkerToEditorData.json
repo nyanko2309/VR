@@ -240,7 +240,7 @@
           {
             "name": "ComputeShader",
             "scenes": [
-              "Assets/Scenes/Login.unity"
+              "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -530,7 +530,7 @@
           {
             "name": "RenderTexture",
             "scenes": [
-              "Assets/Scenes/Login.unity"
+              "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -1139,7 +1139,9 @@
         "dependencies": [
           {
             "name": "BoxCollider",
-            "scenes": [],
+            "scenes": [
+              "Assets/Scenes/HandScanScene.unity"
+            ],
             "dependencyType": 0,
             "icon": null
           },

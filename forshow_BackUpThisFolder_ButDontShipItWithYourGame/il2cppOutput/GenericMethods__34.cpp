@@ -11591,7 +11591,7 @@ IL_0016:
 		return L_5;
 	}
 }
-// Method Definition Index: 128091
+// Method Definition Index: 128090
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ExceptionAggregator_Wrap_TisIl2CppFullySharedGenericAny_m38FDD10EF0DF67D90CE32852A74B200A4D6FA88D_gshared (Func_1_tBB8824FA8746333BFFF3AB3CE4A41B58450AF431* ___0_func, Il2CppFullySharedGenericAny ___1_errorValue, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -20220,7 +20220,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ObjectConstructor_1_t6DD3EABA8E230C0DDF3C7DB2
 		return L_20;
 	}
 }
-// Method Definition Index: 128260
+// Method Definition Index: 128259
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FirebaseEditorDispatcher_PlayModeStateChangedWithArg_TisIl2CppFullySharedGenericAny_m0B69B072F2B557EAA007633D5AB383277E349FED_gshared (Il2CppFullySharedGenericAny ___0_t, const RuntimeMethod* method) 
 {
 	{
@@ -20228,7 +20228,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FirebaseEditorDispatcher_PlayModeStateCh
 		return;
 	}
 }
-// Method Definition Index: 128204
+// Method Definition Index: 128203
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool FirebaseHandler_RunOnMainThread_TisBoolean_t09A6377A54BE2F9E6985A8149F19234FD7DDFE22_mAE5FCABDB6F0D5495736534F2072751B25E840B4_gshared (Func_1_t2BE7F58348C9CC544A8973B3A9E55541DE43C457* ___0_f, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20280,7 +20280,7 @@ IL_0028:
 		return L_8;
 	}
 }
-// Method Definition Index: 128204
+// Method Definition Index: 128203
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* FirebaseHandler_RunOnMainThread_TisRuntimeObject_mAFD03CE3D144923FEEF275BF12B46CBBD81B908C_gshared (Func_1_tD5C081AE11746B200C711DD48DBEB00E3A9276D4* ___0_f, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20332,7 +20332,7 @@ IL_0028:
 		return L_8;
 	}
 }
-// Method Definition Index: 128204
+// Method Definition Index: 128203
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FirebaseHandler_RunOnMainThread_TisIl2CppFullySharedGenericAny_mF11E1A87243C76F8CCDA631B80AD72595F58BEAD_gshared (Func_1_tBB8824FA8746333BFFF3AB3CE4A41B58450AF431* ___0_f, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20390,7 +20390,7 @@ IL_0028:
 		return;
 	}
 }
-// Method Definition Index: 128205
+// Method Definition Index: 128204
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_t824317F4B958F7512E8F7300511752937A6C6043* FirebaseHandler_RunOnMainThreadAsync_TisBoolean_t09A6377A54BE2F9E6985A8149F19234FD7DDFE22_m2DB90C3659BBAC6378BBC1462DF948DE674F58FB_gshared (Func_1_t2BE7F58348C9CC544A8973B3A9E55541DE43C457* ___0_f, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20438,7 +20438,7 @@ IL_0026:
 		return L_7;
 	}
 }
-// Method Definition Index: 128205
+// Method Definition Index: 128204
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_tDF1FF540D7D2248A08580387A39717B7FB7A9CF9* FirebaseHandler_RunOnMainThreadAsync_TisIl2CppFullySharedGenericAny_m8E2FBD55D434931B820C40B227F44331CCC02168_gshared (Func_1_tBB8824FA8746333BFFF3AB3CE4A41B58450AF431* ___0_f, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -28767,7 +28767,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* JValue_get_Value_m
 		return L_0;
 	}
 }
-// Method Definition Index: 128196
+// Method Definition Index: 128195
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Dispatcher_tBD1370511B5D6C10B211FBD3AF8E4F9D6B3CD8C6* FirebaseHandler_get_ThreadDispatcher_m9AC2F2F2B74FC2A06A1C9077D636A5F02919455A_inline (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
