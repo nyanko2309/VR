@@ -32,7 +32,7 @@ public class LegRootFitter : MonoBehaviour
     public float verticalOffset = -0.05f;
     [Tooltip("Minimum gap between legs")]
     public float baseStanceWidth = 0.15f;
-    [Tooltip("Scale multiplier applied on top of computed scale — increase to make avatar bigger")]
+    [Tooltip("Scale multiplier applied on top of computed scale")]
     [Range(1f, 2f)]
     public float sizeMultiplier = 1.15f;
     public bool hideUpperBody = true;
@@ -48,7 +48,6 @@ public class LegRootFitter : MonoBehaviour
     private TwoBoneIKConstraint _activeIK;
     private TwoBoneIKConstraint _mirrorIK;
 
-    // Hip is locked in world space at the moment of selection — not driven by HMD
     private Vector3 _lockedHipWorld;
     private Quaternion _lockedBodyRot = Quaternion.identity;
     private bool _hipLocked = false;
@@ -63,7 +62,8 @@ public class LegRootFitter : MonoBehaviour
 
     void Start()
     {
-        avatarRoot.localScale = Vector3.zero;
+        // Hide avatar initially
+        if (avatarRoot) avatarRoot.localScale = Vector3.zero;
         if (hideUpperBody) HideUpperBodyParts();
     }
 
@@ -71,30 +71,32 @@ public class LegRootFitter : MonoBehaviour
     {
         if (bodyTracker == null || hmdTransform == null || sideSelector == null) return;
 
+        // If side is not locked, keep avatar hidden and reset states
         if (!sideSelector.sideLocked)
         {
             _hasResolvedBones = false;
             _smoothingInitialized = false;
             _hipLocked = false;
-            avatarRoot.localScale = Vector3.zero;
+            if (avatarRoot) avatarRoot.localScale = Vector3.zero;
             DisableBothIKs();
             return;
         }
 
+        // Initialize bones and reference measurements once side is locked
         if (!_hasResolvedBones)
         {
-            avatarRoot.localScale = Vector3.one;
             ResolveIKWeightsOnce();
         }
 
         if (!bodyTracker.KneeValid || !bodyTracker.AnkleValid) return;
 
-        // Get smoothed positions
         Vector3 kneePos, anklePos;
+
         if (bodyEstimator != null)
         {
             kneePos = bodyEstimator.SmoothedKnee;
             anklePos = bodyEstimator.SmoothedAnkle;
+            UpdateActiveIKTargets(kneePos, anklePos);
         }
         else
         {
@@ -111,26 +113,16 @@ public class LegRootFitter : MonoBehaviour
             _smoothedAnkle = Vector3.Lerp(_smoothedAnkle, bodyTracker.AnklePosition, speed * Time.deltaTime);
             _prevAnkle = _smoothedAnkle;
 
-            // Drive active leg ourselves
             UpdateActiveIKTargets(_smoothedKnee, _smoothedAnkle);
-
             kneePos = _smoothedKnee;
             anklePos = _smoothedAnkle;
         }
 
-        // 1. Pin hip — use AI estimator hip if available, else locked world position
         PinHip();
-
-        // 2. Scale
-        ApplyDynamicScaling(kneePos);
-
-        // 3. Mirror leg
+        ApplyDynamicScaling(kneePos); // This uses the tracker distance vs the unscaled bone distance
         UpdateMirrorIKTargets(kneePos, anklePos);
-
-        // 4. Enforce separation
         EnforceMinLegSeparation();
 
-        // 5. Pin head
         if (headBone)
         {
             headBone.position = hmdTransform.position;
@@ -152,20 +144,28 @@ public class LegRootFitter : MonoBehaviour
         if (leftIK) leftIK.weight = 1f;
         if (rightIK) rightIK.weight = 1f;
 
-        if (_activeIK != null)
+        // FIX: Measure the 3D model's leg length in LOCAL space.
+        // This avoids the "Divide by Zero / NaN" error when the avatarRoot is at scale 0.
+        if (_activeIK != null && _activeIK.data.root != null && _activeIK.data.mid != null)
+        {
             _unscaledAvatarThigh = Vector3.Distance(
-                _activeIK.data.root.position,
-                _activeIK.data.mid.position);
+                _activeIK.data.root.localPosition,
+                _activeIK.data.mid.localPosition
+            );
+        }
 
-        // Lock hip position AND rotation at selection moment
+        // Engineering Fallback: If local distance is somehow 0, use a standard human thigh length (45cm)
+        if (_unscaledAvatarThigh < 0.01f)
+        {
+            Debug.LogWarning("[body] Bone distance too small! Using 0.45m fallback.");
+            _unscaledAvatarThigh = 0.45f;
+        }
+
         if (bodyEstimator != null && bodyEstimator.HasAIHip)
             _lockedHipWorld = bodyEstimator.AIHipPosition;
         else
-            _lockedHipWorld = hmdTransform.position
-                            + Vector3.down * hipHeightBelowHMD
-                            + Vector3.up * verticalOffset;
+            _lockedHipWorld = hmdTransform.position + Vector3.down * hipHeightBelowHMD + Vector3.up * verticalOffset;
 
-        // Lock the avatar forward direction from HMD at this moment — never update again
         Vector3 lockedForward = hmdTransform.forward;
         lockedForward.y = 0f;
         if (lockedForward.sqrMagnitude < 0.001f) lockedForward = Vector3.forward;
@@ -173,7 +173,7 @@ public class LegRootFitter : MonoBehaviour
         _hipLocked = true;
 
         _hasResolvedBones = true;
-        Debug.Log($"[body] IK: {_sideLabel} | Thigh: {_unscaledAvatarThigh:F3}m | Hip: {_lockedHipWorld:F2}");
+        Debug.Log($"[body] Resolved IK: {_sideLabel} | Bone Ref: {_unscaledAvatarThigh:F3}m");
     }
 
     void DisableBothIKs()
@@ -188,11 +188,9 @@ public class LegRootFitter : MonoBehaviour
         Vector3 hipPos = _hipLocked ? _lockedHipWorld
                        : hmdTransform.position + Vector3.down * hipHeightBelowHMD + Vector3.up * verticalOffset;
 
-        // Only update Y from AI estimator — XZ stays locked
         if (bodyEstimator != null && bodyEstimator.HasAIHip)
             hipPos = new Vector3(_lockedHipWorld.x, bodyEstimator.AIHipPosition.y, _lockedHipWorld.z);
 
-        // Always use the rotation locked at selection time — never follow HMD rotation
         Quaternion rot = _hipLocked ? _lockedBodyRot : Quaternion.identity;
 
         Vector3 pelvisOffset = avatarRoot.InverseTransformPoint(pelvisBone.position);
@@ -202,16 +200,19 @@ public class LegRootFitter : MonoBehaviour
 
     void ApplyDynamicScaling(Vector3 kneePos)
     {
-        if (_unscaledAvatarThigh < 0.05f) return;
+        if (_unscaledAvatarThigh < 0.01f) return;
 
         Vector3 hipPos = _hipLocked ? _lockedHipWorld :
                          hmdTransform.position + Vector3.down * hipHeightBelowHMD;
 
-        float target = Vector3.Distance(hipPos, kneePos);
-        if (target < 0.05f) return;
+        // This is the distance between your real-world stickers (Hip to Knee)
+        float currentTrackerDistance = Vector3.Distance(hipPos, kneePos);
 
-        // Apply size multiplier to make avatar slightly bigger than detected
-        avatarRoot.localScale = Vector3.one * (target / _unscaledAvatarThigh) * sizeMultiplier;
+        if (currentTrackerDistance < 0.05f) return;
+
+        // Final Scale = (Your Real Leg / 3D Model Leg) * Manual Multiplier
+        float finalScale = (currentTrackerDistance / _unscaledAvatarThigh) * sizeMultiplier;
+        avatarRoot.localScale = Vector3.one * finalScale;
     }
 
     void UpdateActiveIKTargets(Vector3 kneePos, Vector3 anklePos)
@@ -241,7 +242,6 @@ public class LegRootFitter : MonoBehaviour
         localAnkle.x += sideShift;
         localKnee.x += sideShift;
 
-        // Hard clamp — mirror leg never crosses centre
         if (mirrorIsLeft)
         {
             localAnkle.x = Mathf.Min(localAnkle.x, -0.01f);
@@ -321,8 +321,8 @@ public class LegRootFitter : MonoBehaviour
         _activeIK = null;
         _mirrorIK = null;
         _unscaledAvatarThigh = 0f;
-        avatarRoot.localScale = Vector3.zero;
-       
+        if (avatarRoot) avatarRoot.localScale = Vector3.zero;
+
         DisableBothIKs();
 
         if (bodyEstimator != null) bodyEstimator.Reset();
