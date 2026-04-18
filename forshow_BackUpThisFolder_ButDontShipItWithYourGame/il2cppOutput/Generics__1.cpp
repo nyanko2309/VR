@@ -7420,7 +7420,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DynamicMetaObject_tD1405F56818181F9ED29E520D4
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 128105
+// Method Definition Index: 128107
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1__ctor_m37645232631A52125C502FA58EB02A0F03D12463_gshared (U3CU3Ec__DisplayClass5_0_1_tA38E11BE16198B9B2C982848D5919D6BDE72D5AD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -7428,7 +7428,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1__ctor_m376452
 		return;
 	}
 }
-// Method Definition Index: 128106
+// Method Definition Index: 128108
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1_U3CRunAsyncU3Eb__0_m3451A2E72CBD645E87ACB0CE76A2687243C7CEA7_gshared (U3CU3Ec__DisplayClass5_0_1_tA38E11BE16198B9B2C982848D5919D6BDE72D5AD* __this, const RuntimeMethod* method) 
 {
 	Exception_t* V_0 = NULL;
@@ -7518,7 +7518,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CU3Ec__DisplayClass5_0_1_U3C
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 128105
+// Method Definition Index: 128107
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1__ctor_mFEDDF271645600FA6F0114D43424C264ED18FC5D_gshared (U3CU3Ec__DisplayClass5_0_1_tBD393BEF34E5F64BB0545114C602FAC45A089BBB* __this, const RuntimeMethod* method) 
 {
 	{
@@ -7526,7 +7526,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1__ctor_mFEDDF2
 		return;
 	}
 }
-// Method Definition Index: 128106
+// Method Definition Index: 128108
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1_U3CRunAsyncU3Eb__0_m0CA8281797D6DDB3E731D182595F7B4574F32F6F_gshared (U3CU3Ec__DisplayClass5_0_1_tBD393BEF34E5F64BB0545114C602FAC45A089BBB* __this, const RuntimeMethod* method) 
 {
 	const uint32_t SizeOf_TResult_tD627021530836545CE0F37ECCB5D46C6D70EAECE = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 4));
@@ -7625,7 +7625,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_1_U3CCreateDefa
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 129623
+// Method Definition Index: 129625
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_2__ctor_m60231CBFC3793C663EDDF5CF8CB9A932F8035667_gshared (U3CU3Ec__DisplayClass5_0_2_t59CCAFA099CD9E7D48674CEE57503962E0E4C8F0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -7633,7 +7633,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_0_2__ctor_m60231C
 		return;
 	}
 }
-// Method Definition Index: 129624
+// Method Definition Index: 129626
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_tDF1FF540D7D2248A08580387A39717B7FB7A9CF9* U3CU3Ec__DisplayClass5_0_2_U3CContinueWithOnMainThreadU3Eb__0_m780456DD39758D85D302D6E656EBDF3C7A1ACD00_gshared (U3CU3Ec__DisplayClass5_0_2_t59CCAFA099CD9E7D48674CEE57503962E0E4C8F0* __this, Task_1_tDF1FF540D7D2248A08580387A39717B7FB7A9CF9* ___0_t, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -7681,7 +7681,7 @@ IL_0029:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 129625
+// Method Definition Index: 129627
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_1_2__ctor_m70647E3B0CCB9A7E61937ACE0170D2F36F01D67D_gshared (U3CU3Ec__DisplayClass5_1_2_t82F6827644E9DCEA0A5A891AF0528AEA8A0AA928* __this, const RuntimeMethod* method) 
 {
 	{
@@ -7689,7 +7689,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_1_2__ctor_m70647E
 		return;
 	}
 }
-// Method Definition Index: 129626
+// Method Definition Index: 129628
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass5_1_2_U3CContinueWithOnMainThreadU3Eb__1_m18DCD17A09B8CE86412E1B1A6AB443FFADDDEEBC_gshared (U3CU3Ec__DisplayClass5_1_2_t82F6827644E9DCEA0A5A891AF0528AEA8A0AA928* __this, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	const uint32_t SizeOf_TResult_t1847CCC738E410918414D3039F4E1A002BD63233 = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5));
