@@ -34,6 +34,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -54,6 +55,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -65,6 +67,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -76,6 +79,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -93,6 +97,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -145,6 +150,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -166,6 +172,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -225,6 +232,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -240,7 +248,7 @@
           {
             "name": "ComputeShader",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/Login 1.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -251,6 +259,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -275,6 +284,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -293,6 +303,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -329,6 +340,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -370,6 +382,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -380,6 +393,7 @@
             "name": "LineRenderer",
             "scenes": [
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity"
             ],
             "dependencyType": 0,
@@ -397,6 +411,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -408,6 +423,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -438,6 +454,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -456,6 +473,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -468,6 +486,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -503,6 +522,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -521,6 +541,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -530,7 +551,7 @@
           {
             "name": "RenderTexture",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/Login 1.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -559,6 +580,7 @@
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -576,6 +598,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/LegScene.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -587,6 +610,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
@@ -597,6 +621,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -1628,6 +1653,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -1674,6 +1700,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
@@ -1691,6 +1718,7 @@
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
+              "Assets/Scenes/Login 1.unity",
               "Assets/Scenes/Login.unity",
               "Assets/Scenes/Menu.unity"
             ],
