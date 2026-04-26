@@ -1,69 +1,61 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.EventSystems;
 using Microsoft.MixedReality.Toolkit.Experimental.UI;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class LoginKeyboardManager : MonoBehaviour
 {
+    private const string TAG = "[keyboard] ";
+
+    [Header("Input Fields")]
     [SerializeField] private TMP_InputField emailInput;
     [SerializeField] private TMP_InputField passwordInput;
 
     private TMP_InputField activeField;
-    private NonNativeKeyboard keyboard;
+
+    private string savedEmailText = "";
+    private string savedPasswordText = "";
+
+    private int savedEmailCaretPosition = 0;
+    private int savedPasswordCaretPosition = 0;
 
     private void Start()
     {
-        keyboard = NonNativeKeyboard.Instance;
+        Debug.Log(TAG + "LoginKeyboardManager started");
 
-        if (keyboard == null)
-            keyboard = FindObjectOfType<NonNativeKeyboard>(true);
-
-        if (keyboard == null)
+        if (emailInput == null)
         {
-            Debug.LogError("NonNativeKeyboard not found in scene.");
+            Debug.LogError(TAG + "emailInput is not assigned");
             return;
         }
 
-        keyboard.OnTextUpdated -= HandleTextUpdated;
-        keyboard.OnClosed -= HandleKeyboardClosed;
-
-        keyboard.OnTextUpdated += HandleTextUpdated;
-        keyboard.OnClosed += HandleKeyboardClosed;
-
-        if (keyboard.gameObject.activeSelf)
-            keyboard.Close();
-
-        keyboard.gameObject.SetActive(false);
-
-        if (EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(null);
-
-        RegisterField(emailInput);
-        RegisterField(passwordInput);
-    }
-
-    private void RegisterField(TMP_InputField field)
-    {
-        if (field == null)
+        if (passwordInput == null)
+        {
+            Debug.LogError(TAG + "passwordInput is not assigned");
             return;
+        }
 
-        field.onSelect.AddListener(_ => OpenKeyboard(field));
-        AddPointerClickTrigger(field, () => OpenKeyboard(field));
+        emailInput.onSelect.AddListener(_ => OpenKeyboard(emailInput));
+        passwordInput.onSelect.AddListener(_ => OpenKeyboard(passwordInput));
+
+        AddPointerClickTrigger(emailInput, () => OpenKeyboard(emailInput));
+        AddPointerClickTrigger(passwordInput, () => OpenKeyboard(passwordInput));
     }
 
     private void AddPointerClickTrigger(TMP_InputField field, System.Action callback)
     {
         EventTrigger trigger = field.gameObject.GetComponent<EventTrigger>();
+
         if (trigger == null)
             trigger = field.gameObject.AddComponent<EventTrigger>();
-
-        if (trigger.triggers == null)
-            trigger.triggers = new System.Collections.Generic.List<EventTrigger.Entry>();
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(_ => callback());
+
         trigger.triggers.Add(entry);
+
+        Debug.Log(TAG + "Pointer click trigger added for: " + field.name);
     }
 
     public void OpenEmailKeyboard()
@@ -78,47 +70,110 @@ public class LoginKeyboardManager : MonoBehaviour
 
     private void OpenKeyboard(TMP_InputField field)
     {
-        if (field == null || keyboard == null)
+        if (field == null)
+        {
+            Debug.LogError(TAG + "Tried to open keyboard for null field");
             return;
+        }
+
+        if (NonNativeKeyboard.Instance == null)
+        {
+            Debug.LogError(TAG + "NonNativeKeyboard.Instance is null");
+            return;
+        }
+
+        SaveCurrentFieldText();
 
         activeField = field;
 
-        field.Select();
-        field.ActivateInputField();
+        string textToShow = GetSavedTextForField(field);
+        int caretPosition = GetSavedCaretForField(field);
 
-        if (!keyboard.gameObject.activeSelf)
-            keyboard.gameObject.SetActive(true);
+        field.text = textToShow;
+        field.caretPosition = Mathf.Clamp(caretPosition, 0, field.text.Length);
+        field.selectionAnchorPosition = field.caretPosition;
+        field.selectionFocusPosition = field.caretPosition;
 
-        keyboard.InputField = field;
-        keyboard.PresentKeyboard(field.text);
+        NonNativeKeyboard.Instance.OnTextUpdated -= UpdateField;
+        NonNativeKeyboard.Instance.OnClosed -= OnKeyboardClosed;
+
+        NonNativeKeyboard.Instance.InputField = field;
+        NonNativeKeyboard.Instance.PresentKeyboard(field.text);
+
+        NonNativeKeyboard.Instance.OnTextUpdated += UpdateField;
+        NonNativeKeyboard.Instance.OnClosed += OnKeyboardClosed;
+
+        Debug.Log(TAG + "Keyboard opened for: " + field.name + " | text: " + field.text);
     }
 
-    private void HandleTextUpdated(string text)
+    private void UpdateField(string text)
     {
         if (activeField == null)
             return;
 
         activeField.text = text;
+
         activeField.caretPosition = activeField.text.Length;
-        activeField.selectionAnchorPosition = activeField.text.Length;
-        activeField.selectionFocusPosition = activeField.text.Length;
-        activeField.ForceLabelUpdate();
+        activeField.selectionAnchorPosition = activeField.caretPosition;
+        activeField.selectionFocusPosition = activeField.caretPosition;
+
+        SaveCurrentFieldText();
+
+        Debug.Log(TAG + "Updated field: " + activeField.name + " | text: " + text);
     }
 
-    private void HandleKeyboardClosed(object sender, System.EventArgs e)
+    private void SaveCurrentFieldText()
     {
-        activeField = null;
+        if (activeField == null)
+            return;
 
-        if (EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(null);
-    }
-
-    private void OnDestroy()
-    {
-        if (keyboard != null)
+        if (activeField == emailInput)
         {
-            keyboard.OnTextUpdated -= HandleTextUpdated;
-            keyboard.OnClosed -= HandleKeyboardClosed;
+            savedEmailText = emailInput.text;
+            savedEmailCaretPosition = emailInput.caretPosition;
+
+            Debug.Log(TAG + "Saved email text: " + savedEmailText);
         }
+        else if (activeField == passwordInput)
+        {
+            savedPasswordText = passwordInput.text;
+            savedPasswordCaretPosition = passwordInput.caretPosition;
+
+            Debug.Log(TAG + "Saved password text");
+        }
+    }
+
+    private string GetSavedTextForField(TMP_InputField field)
+    {
+        if (field == emailInput)
+            return savedEmailText;
+
+        if (field == passwordInput)
+            return savedPasswordText;
+
+        return field.text;
+    }
+
+    private int GetSavedCaretForField(TMP_InputField field)
+    {
+        if (field == emailInput)
+            return savedEmailCaretPosition;
+
+        if (field == passwordInput)
+            return savedPasswordCaretPosition;
+
+        return field.caretPosition;
+    }
+
+    private void OnKeyboardClosed(object sender, System.EventArgs e)
+    {
+        SaveCurrentFieldText();
+
+        NonNativeKeyboard.Instance.OnTextUpdated -= UpdateField;
+        NonNativeKeyboard.Instance.OnClosed -= OnKeyboardClosed;
+
+        Debug.Log(TAG + "Keyboard closed");
+
+        activeField = null;
     }
 }

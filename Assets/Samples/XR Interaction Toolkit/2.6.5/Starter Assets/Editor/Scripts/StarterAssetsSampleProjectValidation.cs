@@ -22,6 +22,8 @@ namespace UnityEditor.XR.Interaction.Toolkit.Samples
         const string k_StarterAssetsSampleName = "Starter Assets";
         const string k_TeleportLayerName = "Teleport";
         const int k_TeleportLayerIndex = 31;
+        const string k_ProjectValidationSettingsPath = "Project/XR Plug-in Management/Project Validation";
+        const string k_ShaderGraphPackageName = "com.unity.shadergraph";
 #if UNITY_INPUT_SYSTEM_PROJECT_WIDE_ACTIONS
         const string k_InputSystemPackageName = "com.unity.inputsystem";
         static readonly PackageVersion s_RecommendedPackageVersion = new PackageVersion("1.11.0");
@@ -34,6 +36,7 @@ namespace UnityEditor.XR.Interaction.Toolkit.Samples
 
         static readonly List<BuildValidationRule> s_BuildValidationRules = new List<BuildValidationRule>();
 
+        static AddRequest s_ShaderGraphPackageAddRequest;
 #if UNITY_INPUT_SYSTEM_PROJECT_WIDE_ACTIONS
         static AddRequest s_InputSystemPackageAddRequest;
 #endif
@@ -43,10 +46,10 @@ namespace UnityEditor.XR.Interaction.Toolkit.Samples
         {
             // In the Player Settings UI we have to delay the call one frame to let the settings provider get initialized
             // since we need to access the settings asset to set the rule's non-delegate properties (FixItAutomatic).
-            EditorApplication.delayCall += AddRules;
+            EditorApplication.delayCall += AddRulesAndRunCheck;
         }
 
-        static void AddRules()
+        static void AddRulesAndRunCheck()
         {
             if (s_BuildValidationRules.Count == 0)
             {
@@ -67,6 +70,25 @@ namespace UnityEditor.XR.Interaction.Toolkit.Samples
                             else
                                 SettingsService.OpenProjectSettings(XRInteractionToolkitSettingsProvider.k_SettingsPath);
                         },
+                    });
+
+                s_BuildValidationRules.Add(
+                    new BuildValidationRule
+                    {
+                        IsRuleEnabled = () => s_ShaderGraphPackageAddRequest == null || s_ShaderGraphPackageAddRequest.IsCompleted,
+                        Message = $"[{k_StarterAssetsSampleName}] Shader Graph ({k_ShaderGraphPackageName}) package must be installed for materials used in this sample.",
+                        Category = k_Category,
+                        CheckPredicate = () => PackageVersionUtility.IsPackageInstalled(k_ShaderGraphPackageName),
+                        FixIt = () =>
+                        {
+                            s_ShaderGraphPackageAddRequest = Client.Add(k_ShaderGraphPackageName);
+                            if (s_ShaderGraphPackageAddRequest.Error != null)
+                            {
+                                Debug.LogError($"Package installation error: {s_ShaderGraphPackageAddRequest.Error}: {s_ShaderGraphPackageAddRequest.Error.message}");
+                            }
+                        },
+                        FixItAutomatic = true,
+                        Error = false,
                     });
 
 #if UNITY_INPUT_SYSTEM_PROJECT_WIDE_ACTIONS
@@ -93,6 +115,30 @@ namespace UnityEditor.XR.Interaction.Toolkit.Samples
             {
                 BuildValidator.AddRules(buildTargetGroup, s_BuildValidationRules);
             }
+
+            ShowWindowIfIssuesExist();
+        }
+
+        static void ShowWindowIfIssuesExist()
+        {
+            foreach (var validation in s_BuildValidationRules)
+            {
+                if (validation.CheckPredicate == null || !validation.CheckPredicate.Invoke())
+                {
+                    ShowWindow();
+                    return;
+                }
+            }
+        }
+
+        internal static void ShowWindow()
+        {
+            // Delay opening the window since sometimes other settings in the player settings provider redirect to the
+            // project validation window causing serialized objects to be nullified.
+            EditorApplication.delayCall += () =>
+            {
+                SettingsService.OpenProjectSettings(k_ProjectValidationSettingsPath);
+            };
         }
 
         static bool IsInteractionLayerTeleport()

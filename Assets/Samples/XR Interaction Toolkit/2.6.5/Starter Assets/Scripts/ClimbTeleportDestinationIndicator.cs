@@ -124,7 +124,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
                 return;
 
             m_PointerInstance = Instantiate(m_PointerPrefab).transform;
-            var cameraTrans = teleportVolume.teleportationProvider.system.xrOrigin.Camera.transform;
+            var cameraTrans = teleportVolume.teleportationProvider.mediator.xrOrigin.Camera.transform;
             var cameraPosition = cameraTrans.position;
             var destinationPosition = destinationAnchor.position;
             var destinationDirectionInScreenSpace = cameraTrans.InverseTransformDirection(destinationPosition - cameraPosition);
