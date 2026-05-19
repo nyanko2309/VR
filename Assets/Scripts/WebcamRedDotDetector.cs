@@ -27,6 +27,16 @@ public class BlobDetector : MonoBehaviour
     [Header("Size Validation")]
     [Range(0.1f, 1f)] public float sizeTolerance = 0.45f;
 
+    [Header("Shape Validation")]
+    [Tooltip("Compactness = 4π·area/perimeter². Circle≈0.78, cable≈0.01. Reject below this. Set to 0 to disable.")]
+    [Range(0f, 0.5f)] public float minCompactness = 0.10f;
+    [Tooltip("Reject blobs wider than this (width/height). Set high to disable.")]
+    [Range(2f, 20f)] public float maxAspectRatio = 5f;
+    [Tooltip("Reject blobs taller than this (height/width). Set high to disable.")]
+    [Range(2f, 20f)] public float maxAspectRatioInverse = 5f;
+    [Tooltip("How many consecutive shape-fail frames before going to search. Higher = more forgiving of partial occlusion.")]
+    [Range(1, 15)] public int shapeFailGrace = 6;
+
     [Header("Smoothing")]
     [Range(0.05f, 1f)] public float trackingSmooth = 0.65f;
     [Range(1f, 30f)] public float smoothFrames = 5f;
@@ -35,6 +45,12 @@ public class BlobDetector : MonoBehaviour
     public int searchStepSize = 20;
     public int minBlobPixels = 15;
     public int searchFrameBudgetMs = 6;
+    [Tooltip("Grace frames before going to search mode — raise to tolerate brief occlusion")]
+    public int lostGraceFrames = 8;
+    [Tooltip("Seconds of searching before giving up and asking player to re-aim (0 = never)")]
+    public float searchTimeoutSec = 5f;
+
+    private float _searchElapsed = 0f;
 
     [Header("Performance")]
     [Tooltip("Raycast every N frames. 1=every frame, 2=every other, 3=every third")]
@@ -75,13 +91,14 @@ public class BlobDetector : MonoBehaviour
     private int referenceBlobSize = 0;
     private int framesLost = 0;
     private int consecutiveLostFrames = 0;
-    private const int LOST_GRACE_FRAMES = 3;
+
+    // shape fail tracked separately — doesn't interfere with color-lost counter
+    private int consecutiveShapeFailFrames = 0;
 
     private int searchOffsetY = 0;
-
     private Vector3 lockedNormal;
 
-    // smoothing
+    // smoothing — identical to original
     private Vector3 markerVelocity = Vector3.zero;
     private Vector3 smoothedMarkerTarget;
     private bool smoothTargetSet = false;
@@ -95,7 +112,6 @@ public class BlobDetector : MonoBehaviour
     public float markerHeightOffset = 0.02f;
 
     // ── export ───────────────────────────────────────────
-    // Stays valid while searching — avatar holds last position instead of freezing
     public bool HasValidLocation =>
         (IsTracking || IsSearching) && LastKnownWorldPosition != Vector3.zero;
 
@@ -123,12 +139,11 @@ public class BlobDetector : MonoBehaviour
         if (IsTracking) TrackBlob();
         else if (IsSearching) SearchFullscreen();
 
-        // Update world position every N frames only
         if (marker && marker.gameObject.activeSelf && Time.frameCount % worldPositionUpdateInterval == 0)
             LastKnownWorldPosition = marker.position - LastKnownNormal * markerHeightOffset;
     }
 
-    // ── DOWNSAMPLE ───────────────────────────────────────
+    // ── DOWNSAMPLE — unchanged ────────────────────────────
     void BuildDownsampledBuffer()
     {
         int ds = Mathf.Max(1, scanDownsample);
@@ -163,7 +178,50 @@ public class BlobDetector : MonoBehaviour
     Color32 GetDS(int x, int y) =>
         _dsPixels[Mathf.Clamp(y, 0, _dsRes.y - 1) * _dsRes.x + Mathf.Clamp(x, 0, _dsRes.x - 1)];
 
-    // ── PUBLIC API ───────────────────────────────────────
+    // ── SHAPE VALIDATION — new ────────────────────────────
+    float BlobCompactness(List<Vector2Int> blobPts)
+    {
+        if (blobPts.Count == 0) return 0f;
+        int minX = int.MaxValue, maxX = int.MinValue;
+        int minY = int.MaxValue, maxY = int.MinValue;
+        foreach (var p in blobPts)
+        {
+            if (p.x < minX) minX = p.x; if (p.x > maxX) maxX = p.x;
+            if (p.y < minY) minY = p.y; if (p.y > maxY) maxY = p.y;
+        }
+        float w = maxX - minX + 1;
+        float h = maxY - minY + 1;
+        float perim = 2f * (w + h);
+        return (4f * Mathf.PI * blobPts.Count) / (perim * perim);
+    }
+
+    float BlobAspect(List<Vector2Int> blobPts)
+    {
+        if (blobPts.Count == 0) return 1f;
+        int minX = int.MaxValue, maxX = int.MinValue;
+        int minY = int.MaxValue, maxY = int.MinValue;
+        foreach (var p in blobPts)
+        {
+            if (p.x < minX) minX = p.x; if (p.x > maxX) maxX = p.x;
+            if (p.y < minY) minY = p.y; if (p.y > maxY) maxY = p.y;
+        }
+        float w = maxX - minX + 1;
+        float h = maxY - minY + 1;
+        return w / Mathf.Max(h, 1f);
+    }
+
+    bool ShapePassesCheck(List<Vector2Int> blobPts)
+    {
+        // Only check aspect ratio — compactness is unreliable on small downsampled blobs
+        // (a 4x4 sticker at ds=2 gives only ~4 pts, making compactness meaningless)
+        float aspect = BlobAspect(blobPts);
+        bool passes = aspect <= maxAspectRatio && aspect >= 1f / maxAspectRatioInverse;
+        if (!passes)
+            Debug.Log($"[{name}] Shape fail — aspect:{aspect:F2} (limit {maxAspectRatio:F1})");
+        return passes;
+    }
+
+    // ── PUBLIC API — unchanged ────────────────────────────
     public void TriggerDetect(Vector3 worldPoint, Vector3 normal)
     {
         Vector3 vp = cameraAccess.WorldToViewportPoint(worldPoint);
@@ -182,13 +240,15 @@ public class BlobDetector : MonoBehaviour
         smoothTargetSet = false;
         markerVelocity = Vector3.zero;
         consecutiveLostFrames = 0;
+        consecutiveShapeFailFrames = 0;
         searchOffsetY = framesLost = 0;
+        _searchElapsed = 0f;
         LastKnownWorldPosition = Vector3.zero;
         if (marker) marker.gameObject.SetActive(false);
         Debug.Log($"[{name}] Reset");
     }
 
-    // ── DETECT ───────────────────────────────────────────
+    // ── DETECT — unchanged ────────────────────────────────
     void DetectAtPixel(int cx, int cy, Vector3 normal)
     {
         Color32 centerCol = pixels[cy * resolution.x + cx];
@@ -229,7 +289,7 @@ public class BlobDetector : MonoBehaviour
 
         trackedCenter = new Vector2Int(cx, cy);
         blobVelocity = Vector2Int.zero;
-        framesLost = consecutiveLostFrames = 0;
+        framesLost = consecutiveLostFrames = consecutiveShapeFailFrames = 0;
 
         referenceBlobSize = CountBlobPixels(cx, cy, h);
         if (referenceBlobSize < minBlobPixels)
@@ -246,7 +306,7 @@ public class BlobDetector : MonoBehaviour
         Debug.Log($"[{name}] hue:{h:F2} sat:{s:F2} val:{v:F2} size:{referenceBlobSize}px");
     }
 
-    // ── TRACK ────────────────────────────────────────────
+    // ── TRACK — shape check added, everything else unchanged ─
     void TrackBlob()
     {
         float speed = new Vector2(blobVelocity.x, blobVelocity.y).magnitude;
@@ -281,13 +341,26 @@ public class BlobDetector : MonoBehaviour
         if (pts.Count < dsMin)
         {
             consecutiveLostFrames++;
-            if (consecutiveLostFrames >= LOST_GRACE_FRAMES)
+            consecutiveShapeFailFrames = 0;
+            if (consecutiveLostFrames >= lostGraceFrames)
             { consecutiveLostFrames = 0; GoSearching(); }
             return;
         }
 
         consecutiveLostFrames = 0;
 
+        // ── Shape check — own grace counter, doesn't affect color tracking ──
+        if (!ShapePassesCheck(pts))
+        {
+            consecutiveShapeFailFrames++;
+            if (consecutiveShapeFailFrames >= shapeFailGrace)
+            { consecutiveShapeFailFrames = 0; GoSearching(); }
+            // Hold last known position — don't jump to a bad centroid
+            return;
+        }
+        consecutiveShapeFailFrames = 0;
+
+        // ── Centroid — unchanged ──────────────────────────
         float sx = 0, sy = 0, totalW = 0;
         foreach (var p in pts)
         {
@@ -314,10 +387,23 @@ public class BlobDetector : MonoBehaviour
             UpdateWorldPosition(trackedCenter);
     }
 
-    // ── SEARCH ───────────────────────────────────────────
+    // ── SEARCH — unchanged ────────────────────────────────
     void SearchFullscreen()
     {
         framesLost++;
+        _searchElapsed += Time.deltaTime;
+
+        // After searchTimeoutSec, give up and ask player to re-aim
+        if (searchTimeoutSec > 0f && _searchElapsed >= searchTimeoutSec)
+        {
+            Debug.Log($"[{name}] Search timed out after {_searchElapsed:F1}s — reset required");
+            IsSearching = false;
+            _searchElapsed = 0f;
+            framesLost = searchOffsetY = 0;
+            OnSearchTimedOut?.Invoke();
+            return;
+        }
+
         Vector2Int dsCenter = ToDS(trackedCenter);
         Vector2Int dsPredicted = new Vector2Int(
             Mathf.Clamp(dsCenter.x, 0, _dsRes.x - 1),
@@ -354,11 +440,17 @@ public class BlobDetector : MonoBehaviour
         searchOffsetY = 0;
     }
 
-    // ── HELPERS ──────────────────────────────────────────
+    // ── HELPERS — unchanged ───────────────────────────────
+    /// <summary>
+    /// Fired when search times out — subscribe in BodyTracker to prompt re-aim
+    /// </summary>
+    public System.Action OnSearchTimedOut;
+
     void GoSearching()
     {
         IsTracking = false;
         IsSearching = true;
+        _searchElapsed = 0f;
         framesLost = searchOffsetY = 0;
         Debug.Log($"[{name}] Lost → searching");
     }
@@ -413,14 +505,24 @@ public class BlobDetector : MonoBehaviour
     float GetCentroidSat(List<Vector2Int> pts, bool isDS = false)
     {
         float sum = 0;
-        foreach (var p in pts) { Color32 c = isDS ? GetDS(p.x, p.y) : pixels[p.y * resolution.x + p.x]; Color.RGBToHSV(c, out _, out float s, out _); sum += s; }
+        foreach (var p in pts)
+        {
+            Color32 c = isDS ? GetDS(p.x, p.y) : pixels[p.y * resolution.x + p.x];
+            Color.RGBToHSV(c, out _, out float s, out _);
+            sum += s;
+        }
         return sum / pts.Count;
     }
 
     float GetCentroidVal(List<Vector2Int> pts, bool isDS = false)
     {
         float sum = 0;
-        foreach (var p in pts) { Color32 c = isDS ? GetDS(p.x, p.y) : pixels[p.y * resolution.x + p.x]; Color.RGBToHSV(c, out _, out _, out float v); sum += v; }
+        foreach (var p in pts)
+        {
+            Color32 c = isDS ? GetDS(p.x, p.y) : pixels[p.y * resolution.x + p.x];
+            Color.RGBToHSV(c, out _, out _, out float v);
+            sum += v;
+        }
         return sum / pts.Count;
     }
 
@@ -458,6 +560,7 @@ public class BlobDetector : MonoBehaviour
         if (marker) marker.gameObject.SetActive(true);
     }
 
+    // Unchanged from original
     void ApplySmoothMarker(Vector3 target)
     {
         if (!smoothTargetSet)

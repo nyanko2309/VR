@@ -1,16 +1,23 @@
 ﻿using UnityEngine;
-using Debug = UnityEngine.Debug;   // Fixes ambiguity with System.Diagnostics.Debug
+using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// Attach to the ball/cube prefab root.
-/// Requires: any Collider with "Is Trigger" ticked, plus a Rigidbody with "Is Kinematic" ticked.
-/// Both are confirmed present in the Inspector screenshots.
+/// Requires: Collider (Is Trigger = true) + Rigidbody (Is Kinematic = true).
+///
+/// Spawn immunity: ignores hits for the first 0.25s after spawning.
+/// Prevents the leg collider already overlapping the spawn area from
+/// instantly triggering a hit.
 /// </summary>
 public class PhysioBall : MonoBehaviour
 {
-    private PhysioBallGenerator _manager;
+    [Tooltip("Seconds after spawn during which hits are ignored")]
+    public float immunityDuration = 0.25f;
 
-    /// <summary>Called by PhysioBallGenerator immediately after Instantiate.</summary>
+    private PhysioBallGenerator _manager;
+    private bool _immune = true;
+    private bool _hit = false; // prevent double-fire
+
     public void Setup(PhysioBallGenerator manager)
     {
         _manager = manager;
@@ -18,30 +25,40 @@ public class PhysioBall : MonoBehaviour
             Debug.LogError("[PhysioBall] Setup() called with null manager!");
     }
 
+    void Start()
+    {
+        Invoke(nameof(ClearImmunity), immunityDuration);
+    }
+
+    void ClearImmunity() => _immune = false;
+
     private void OnTriggerEnter(Collider other)
     {
-        // Accept hits from avatar limbs or anything tagged "Player"
-        bool isAvatarLimb = other.GetComponentInParent<LegRootFitter>() != null;
-        //bool isPlayerTag = other.CompareTag("Player");
-        Debug.Log($"[game] OnTriggerEnter hit by: {other.gameObject.name} hasLegRoot={other.GetComponentInParent<LegRootFitter>() != null}");
+        if (_immune || _hit) return;
+
+        bool isLimb = other.GetComponentInParent<LegRootFitter>() != null;
+        Debug.Log($"[PhysioBall] hit by {other.gameObject.name} isLimb={isLimb}");
+
+        if (!isLimb) return;
 
         if (_manager == null)
         {
-            Debug.LogWarning("[PhysioBall] Hit detected but _manager is null. Was Setup() called?");
+            Debug.LogWarning("[PhysioBall] _manager is null — was Setup() called?");
             return;
         }
 
+        _hit = true; // lock out further hits on this ball
         _manager.HandleBallHit(gameObject);
     }
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    void OnValidate()
     {
         Collider col = GetComponent<Collider>();
-        if (col == null)       { Debug.LogWarning("[PhysioBall] No Collider on root!", this); return; }
-        if (!col.isTrigger)      Debug.LogWarning("[PhysioBall] Collider 'Is Trigger' must be ticked.", this);
+        if (col == null)     { Debug.LogWarning("[PhysioBall] No Collider!", this); return; }
+        if (!col.isTrigger)    Debug.LogWarning("[PhysioBall] Set Collider Is Trigger = true", this);
         if (GetComponent<Rigidbody>() == null)
-                                 Debug.LogWarning("[PhysioBall] Add a Rigidbody (Is Kinematic = true).", this);
+                               Debug.LogWarning("[PhysioBall] Add Rigidbody (Is Kinematic = true)", this);
     }
 #endif
 }

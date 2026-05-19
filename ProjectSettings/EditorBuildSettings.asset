@@ -5,12 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Login 1.unity
     guid: 962ab3b891019e04d96138c8955e6091
   - enabled: 1
-    path: Assets/Menu.unity
-    guid: 4f1dfa7faa5814140bafae5645399eee
+    path: Assets/Scenes/Menu.unity
+    guid: 5eb5a55dd0403ad4c8eb3bde1263e29d
   - enabled: 1
     path: Assets/Scenes/HandScanScene.unity
     guid: 1ca99a4e58272f04896a4a3127f8d1d6
@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/History.unity
     guid: 1b5d0e3f8b40b5547afee3d58d50411d
   - enabled: 1
-    path: Assets/ColorPicker.unity
+    path: Assets/Scenes/ColorPicker.unity
     guid: 4297271dc2b40744bb71161efead075b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9c2a67cbfddc63647843c706168fe7d5, type: 2}

@@ -3,10 +3,16 @@ using TMPro;
 
 public class HandScanManager : MonoBehaviour
 {
+    public enum ImpairedSide
+    {
+        Left,
+        Right
+    }
     [Header("UI")]
     public GameObject scanUI;
     public GameObject virtualHand;
     public TMP_Text instructionText;
+    public TMP_Text scoreText;
 
     [Header("Targets")]
     public GameObject targetLeft;
@@ -24,6 +30,7 @@ public class HandScanManager : MonoBehaviour
     public float touchDistance = 0.20f;
     public int maxMoves = 5;
     public float instructionDuration = 4f;
+    public ImpairedSide impairedSide = ImpairedSide.Left;
 
     private float timer = 0f;
     private bool scanComplete = false;
@@ -35,6 +42,10 @@ public class HandScanManager : MonoBehaviour
 
     void Start()
     {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: 0 / " + maxMoves;
+        }
         if (targetLeft != null)
             targetLeft.SetActive(false);
 
@@ -75,10 +86,10 @@ public class HandScanManager : MonoBehaviour
                         virtualHand.SetActive(true);
 
                     if (targetLeft != null)
-                        targetLeft.SetActive(true);
+                        targetLeft.SetActive(impairedSide == ImpairedSide.Left);
 
                     if (targetRight != null)
-                        targetRight.SetActive(true);
+                        targetRight.SetActive(impairedSide == ImpairedSide.Right);
 
                     if (instructionText != null)
                     {
@@ -132,11 +143,12 @@ public class HandScanManager : MonoBehaviour
         if (activeRealHand == null || targetLeft == null || targetRight == null || virtualHand == null)
             return;
 
+        GameObject activeTarget = GetActiveTarget();
+
+        if (activeTarget == null)
+            return;
         bool touchedAnyTarget =
-            Vector3.Distance(activeRealHand.position, targetLeft.transform.position) <= touchDistance ||
-            Vector3.Distance(activeRealHand.position, targetRight.transform.position) <= touchDistance ||
-            Vector3.Distance(virtualHand.transform.position, targetLeft.transform.position) <= touchDistance ||
-            Vector3.Distance(virtualHand.transform.position, targetRight.transform.position) <= touchDistance;
+             Vector3.Distance(virtualHand.transform.position, activeTarget.transform.position) <= touchDistance;
 
         if (touchedAnyTarget)
         {
@@ -144,6 +156,7 @@ public class HandScanManager : MonoBehaviour
             {
                 moveCount++;
                 canTriggerNextMove = false;
+                UpdateScoreText();
 
                 if (moveCount < maxMoves)
                 {
@@ -182,10 +195,36 @@ public class HandScanManager : MonoBehaviour
         Vector3 centerPoint = cam.position + cam.forward * randomDepth + cam.up * randomHeight;
         Vector3 sideOffset = cam.right * randomSide;
 
-        targetLeft.transform.position = centerPoint - sideOffset;
-        targetRight.transform.position = centerPoint + sideOffset;
+        GameObject activeTarget = GetActiveTarget();
 
-        targetLeft.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
-        targetRight.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
+        if (activeTarget == null)
+            return;
+
+        if (impairedSide == ImpairedSide.Left)
+        {
+            activeTarget.transform.position = centerPoint - sideOffset;
+        }
+        else
+        {
+            activeTarget.transform.position = centerPoint + sideOffset;
+        }
+
+        activeTarget.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
+    }
+    private GameObject GetActiveTarget()
+    {
+        if (impairedSide == ImpairedSide.Left)
+        {
+            return targetLeft;
+        }
+
+        return targetRight;
+    }
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + moveCount + " / " + maxMoves;
+        }
     }
 }

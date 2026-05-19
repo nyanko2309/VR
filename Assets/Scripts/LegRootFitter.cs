@@ -1,23 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Debug = UnityEngine.Debug;
 
-/// <summary>
-/// Positions the avatar root and drives all IK targets.
-///
-/// FIX: This script is now the SINGLE owner of all IK target driving.
-/// UpdateActiveIKTargets() is always called after PinHip() and ApplyDynamicScaling()
-/// so that targets are written in the correct world space after avatarRoot has moved.
-/// 
-/// When bodyEstimator is assigned it reads SmoothedKnee/SmoothedAnkle from it,
-/// then drives active + mirror IK targets itself.
-/// SittingBodyEstimator no longer calls DriveIKTargets().
-///
-/// EXECUTION ORDER: Must run AFTER SittingBodyEstimator.
-/// Set in Edit > Project Settings > Script Execution Order:
-///   SittingBodyEstimator = -100
-///   LegRootFitter        = 0 (default)
-/// </summary>
 public class LegRootFitter : MonoBehaviour
 {
     [Header("Hardware & Decision")]
@@ -40,10 +25,22 @@ public class LegRootFitter : MonoBehaviour
     [Header("IK Target Transforms")]
     public Transform leftAnkleTarget;
     public Transform leftKneeHint;
+    public Transform leftToeTarget;
     public Transform rightAnkleTarget;
     public Transform rightKneeHint;
+    public Transform rightToeTarget;
 
-    [Header("Settings")]
+    [Header("Invisible Foot IK Targets")]
+    public Transform leftFootTarget;
+    public Transform rightFootTarget;
+    [Tooltip("Fix Mixamo foot axis if needed")]
+    public Vector3 footTargetRotationOffset = Vector3.zero;
+
+    [Header("Offsets")]
+    public float ankleForwardOffset = 0.05f;
+    [Tooltip("Toes pushed forward by this fraction of the ankle forward offset (0.5 = half)")]
+    [Range(0f, 2f)]
+    public float toeForwardFraction = 0.5f;
     public float hipHeightBelowHMD = 0.55f;
     public float verticalOffset = -0.05f;
     [Tooltip("Minimum gap between legs")]
@@ -51,26 +48,50 @@ public class LegRootFitter : MonoBehaviour
     [Tooltip("Scale multiplier applied on top of computed scale")]
     [Range(1f, 2f)]
     public float sizeMultiplier = 1.15f;
+    [Tooltip("Shin bone scaled to this fraction of real knee→ankle")]
+    [Range(0.5f, 1.2f)]
+    public float shinLengthFraction = 0.85f;
+
+    [Header("Flip Guards")]
+    [Tooltip("Min ankle→toe distance — skip toe update if closer (sticker lost/flipped)")]
+    public float minAnkleToeToeDistance = 0.05f;
+    [Tooltip("Max ankle→toe distance — clamp if exceeded")]
+    public float maxAnkleToeToeDistance = 0.5f;
+
+    [Header("Toe Smoothing")]
+    public float toeSmoothing = 10f;
+
     public bool hideUpperBody = true;
     public int printEveryNFrames = 30;
 
-    [Header("Smoothing (used when bodyEstimator is null)")]
+    [Header("Smoothing")]
     public float smoothSpeedFast = 15f;
     public float smoothSpeedSlow = 4f;
     public float slowVelocityThreshold = 0.05f;
 
+    // ── Public output for other systems ──────────────────────────────────────
+    /// <summary>
+    /// The computed hip world position this frame. Updated every LateUpdate.
+    /// Used by PhysioBallGenerator to anchor cube spawning and sliding.
+    /// </summary>
+    public Vector3 HipWorldPosition { get; private set; }
+
+    // Private state
     private bool _hasResolvedBones = false;
     private string _sideLabel = "None";
     private TwoBoneIKConstraint _activeIK;
     private TwoBoneIKConstraint _mirrorIK;
-
     private Vector3 _lockedHipWorld;
     private Quaternion _lockedBodyRot = Quaternion.identity;
     private bool _hipLocked = false;
-
     private float _unscaledAvatarThigh = 0f;
-
-    // Fallback smoothing when no estimator is assigned
+    private float _measuredShinWorld = 0f;
+    private bool _shinMeasured = false;
+    private Transform _activeShinBone = null;
+    private Vector3 _smoothedActiveToe;
+    private Vector3 _lastGoodActiveToe;
+    private bool _toeInitialized = false;
+    private bool _hasLastGoodToe = false;
     private Vector3 _smoothedKnee;
     private Vector3 _smoothedAnkle;
     private Vector3 _prevAnkle;
@@ -90,8 +111,12 @@ public class LegRootFitter : MonoBehaviour
         {
             _hasResolvedBones = false;
             _smoothingInitialized = false;
+            _toeInitialized = false;
+            _hasLastGoodToe = false;
             _hipLocked = false;
             avatarRoot.localScale = Vector3.zero;
+            // Reset shin scale to avoid flash on re-lock
+            if (_activeShinBone != null) _activeShinBone.localScale = Vector3.one;
             DisableBothIKs();
             return;
         }
@@ -104,19 +129,15 @@ public class LegRootFitter : MonoBehaviour
 
         if (!bodyTracker.KneeValid || !bodyTracker.AnkleValid) return;
 
-        // ── Gather smoothed positions ─────────────────────────────────────────
         Vector3 kneePos, anklePos;
 
         if (bodyEstimator != null)
         {
-            // Estimator has already run its LateUpdate (earlier execution order)
-            // and populated SmoothedKnee / SmoothedAnkle. Just read them.
             kneePos = bodyEstimator.SmoothedKnee;
             anklePos = bodyEstimator.SmoothedAnkle;
         }
         else
         {
-            // Fallback: smooth raw tracker positions here
             if (!_smoothingInitialized)
             {
                 _smoothedKnee = bodyTracker.KneePosition;
@@ -131,29 +152,18 @@ public class LegRootFitter : MonoBehaviour
             _smoothedKnee = Vector3.Lerp(_smoothedKnee, bodyTracker.KneePosition, speed * Time.deltaTime);
             _smoothedAnkle = Vector3.Lerp(_smoothedAnkle, bodyTracker.AnklePosition, speed * Time.deltaTime);
             _prevAnkle = _smoothedAnkle;
-
             kneePos = _smoothedKnee;
             anklePos = _smoothedAnkle;
         }
 
-        // ── 1. Pin hip (moves avatarRoot) ─────────────────────────────────────
         PinHip();
-
-        // ── 2. Scale avatar to match real thigh length ────────────────────────
         ApplyDynamicScaling(kneePos);
-
-        // ── 3. Drive active leg IK targets ────────────────────────────────────
-        // MUST happen after PinHip + ApplyDynamicScaling so avatarRoot is in
-        // its final position before we write world-space target positions.
+        ApplyShinScaling(kneePos, anklePos);
         UpdateActiveIKTargets(kneePos, anklePos);
-
-        // ── 4. Mirror leg IK targets ──────────────────────────────────────────
         UpdateMirrorIKTargets(kneePos, anklePos);
-
-        // ── 5. Enforce minimum separation between legs ────────────────────────
+        UpdateFootTargets();
         EnforceMinLegSeparation();
 
-        // ── 6. Pin head to HMD ────────────────────────────────────────────────
         if (headBone)
         {
             headBone.position = hmdTransform.position;
@@ -164,124 +174,102 @@ public class LegRootFitter : MonoBehaviour
             PrintBodyDebug(kneePos, anklePos);
     }
 
-    void ResolveIKWeightsOnce()
+    // ── Foot plane target ─────────────────────────────────────────────────
+
+    void UpdateFootTargets()
     {
-        bool isLeft = sideSelector.currentSide == LegSideSelector.LegSide.Left;
-        _sideLabel = isLeft ? "Left" : "Right";
+        Transform activeAnkleT = (_activeIK == leftIK) ? leftAnkleTarget : rightAnkleTarget;
+        Transform activeToeT = (_activeIK == leftIK) ? leftToeTarget : rightToeTarget;
+        Transform activeFootT = (_activeIK == leftIK) ? leftFootTarget : rightFootTarget;
 
-        _activeIK = isLeft ? leftIK : rightIK;
-        _mirrorIK = isLeft ? rightIK : leftIK;
+        Transform mirrorAnkleT = (_mirrorIK == leftIK) ? leftAnkleTarget : rightAnkleTarget;
+        Transform mirrorToeT = (_mirrorIK == leftIK) ? leftToeTarget : rightToeTarget;
+        Transform mirrorFootT = (_mirrorIK == leftIK) ? leftFootTarget : rightFootTarget;
 
-        if (leftIK) leftIK.weight = 1f;
-        if (rightIK) rightIK.weight = 1f;
-
-        if (_activeIK != null)
-            _unscaledAvatarThigh = Vector3.Distance(
-                _activeIK.data.root.position,
-                _activeIK.data.mid.position);
-
-        // Lock hip position at selection moment
-        if (bodyEstimator != null && bodyEstimator.HasAIHip)
-            _lockedHipWorld = bodyEstimator.AIHipPosition;
-        else
-            _lockedHipWorld = hmdTransform.position
-                            + Vector3.down * hipHeightBelowHMD
-                            + Vector3.up * verticalOffset;
-
-        // Lock avatar forward direction from HMD — never update again
-        Vector3 lockedForward = hmdTransform.forward;
-        lockedForward.y = 0f;
-        if (lockedForward.sqrMagnitude < 0.001f) lockedForward = Vector3.forward;
-        _lockedBodyRot = Quaternion.LookRotation(lockedForward.normalized, Vector3.up);
-        _hipLocked = true;
-
-        _hasResolvedBones = true;
-        Debug.Log($"[body] IK: {_sideLabel} | Thigh: {_unscaledAvatarThigh:F3}m | Hip: {_lockedHipWorld:F2}");
+        UpdateSingleFootTarget(activeFootT, activeAnkleT, activeToeT);
+        UpdateSingleFootTarget(mirrorFootT, mirrorAnkleT, mirrorToeT);
     }
 
-    void DisableBothIKs()
+    void UpdateSingleFootTarget(Transform footTarget, Transform ankleTarget, Transform toeTarget)
     {
-        if (leftIK) leftIK.weight = 0f;
-        if (rightIK) rightIK.weight = 0f;
-        _sideLabel = "None";
-    }
+        if (footTarget == null || ankleTarget == null || toeTarget == null) return;
 
-    void PinHip()
-    {
-        // 1. Calculate the 'Perfect Center' (Directly under HMD)
-        Vector3 currentHMD = hmdTransform.position;
-        Vector3 centerUnderHMD = new Vector3(currentHMD.x, currentHMD.y - hipHeightBelowHMD + verticalOffset, currentHMD.z);
+        // 1. Keep the position locked to the ankle
+        footTarget.position = ankleTarget.position;
 
-        Vector3 finalHipPos = centerUnderHMD;
+        // 2. Toe offset in avatar local space
+        Vector3 toeOffset = toeTarget.position - ankleTarget.position;
+        Vector3 localToePos = avatarRoot.InverseTransformDirection(toeOffset);
 
-        // 2. Apply AI 'Lean' as an offset
-        if (bodyEstimator != null && bodyEstimator.HasAIHip)
+        // 3. Position-based clamp — only apply if toe is in front of ankle
+        if (localToePos.z > 0.001f)
         {
-            // Calculate how far the AI hip is from the AI head/skeleton root
-            // If your AI skeleton is offset from your HMD, we capture that 'lean' vector
-            Vector3 aiHip = bodyEstimator.AIHipPosition;
-
-            // We only care about the horizontal leaning (X and Z)
-            // We calculate the delta between the AI hip and the HMD
-            float leanX = aiHip.x - currentHMD.x;
-            float leanZ = aiHip.z - currentHMD.z;
-
-            // Apply a multiplier to the lean. 
-            // 1.0f = full AI lean, 0.5f = dampened/conservative lean
-            float leanSensitivity = 0.6f;
-
-            finalHipPos.x += (leanX * leanSensitivity);
-            finalHipPos.z += (leanZ * leanSensitivity);
-
-            // Vertical: Always trust the AI for sitting height if available
-            finalHipPos.y = aiHip.y;
+            float minX = localToePos.z * -0.6f;  // ≈ -30°
+            float maxX = localToePos.z * 1.8f;   // ≈ +60°
+            localToePos.x = Mathf.Clamp(localToePos.x, minX, maxX);
         }
 
-        // 3. Position the Avatar
-        Quaternion rot = _hipLocked ? _lockedBodyRot : Quaternion.identity;
+        // 4. Rebuild world direction from clamped local position
+        Vector3 cleanLocalDir = -localToePos;
+        Vector3 worldDir = avatarRoot.TransformDirection(cleanLocalDir);
 
-        // This part ensures the 'Pelvis' bone specifically ends up at finalHipPos
-        Vector3 pelvisOffset = avatarRoot.InverseTransformPoint(pelvisBone.position);
-        avatarRoot.position = finalHipPos - (rot * pelvisOffset);
-        avatarRoot.rotation = rot;
+        if (worldDir.sqrMagnitude < 0.0001f) return;
+
+        // 5. Compute foot rotation from ankle→toe direction + up
+        Quaternion targetRot = Quaternion.LookRotation(worldDir.normalized, Vector3.up);
+        targetRot *= Quaternion.Euler(footTargetRotationOffset);
+        footTarget.rotation = targetRot;
     }
 
-    void ApplyDynamicScaling(Vector3 kneePos)
-    {
-        if (_unscaledAvatarThigh < 0.05f) return;
+    // ── IK target drivers ─────────────────────────────────────────────────
 
-        Vector3 hipPos = _hipLocked
-            ? _lockedHipWorld
-            : hmdTransform.position + Vector3.down * hipHeightBelowHMD;
-
-        float target = Vector3.Distance(hipPos, kneePos);
-        if (target < 0.05f) return;
-
-        avatarRoot.localScale = Vector3.one * (target / _unscaledAvatarThigh) * sizeMultiplier;
-    }
-
-    /// <summary>
-    /// Drives the active (tracked) leg IK targets.
-    /// Always called after PinHip + ApplyDynamicScaling so avatarRoot is settled.
-    /// Also applies AI foot rotation from bodyEstimator if available.
-    /// </summary>
     void UpdateActiveIKTargets(Vector3 kneePos, Vector3 anklePos)
     {
+        if (_activeIK == null) return;
+
         Transform ankleT = (_activeIK == leftIK) ? leftAnkleTarget : rightAnkleTarget;
         Transform kneeT = (_activeIK == leftIK) ? leftKneeHint : rightKneeHint;
+        Transform toeT = (_activeIK == leftIK) ? leftToeTarget : rightToeTarget;
 
-        if (ankleT != null)
+        if (ankleT) ankleT.position = anklePos + _pairFwdForToe * ankleForwardOffset;
+        if (kneeT) kneeT.position = kneePos;
+
+        // Toe target
+        if (toeT != null && bodyTracker.ToesValid)
         {
-            ankleT.position = anklePos;
+            Vector3 rawToe = bodyTracker.ToesPosition;
+            float dist = Vector3.Distance(rawToe, anklePos);
 
-            // Apply AI foot rotation if estimator has it
-            if (bodyEstimator != null && bodyEstimator.HasAIRotation)
-                ankleT.rotation = bodyEstimator.AIFootRotation;
+            if (dist >= minAnkleToeToeDistance && dist <= maxAnkleToeToeDistance)
+            {
+                _lastGoodActiveToe = rawToe;
+                _hasLastGoodToe = true;
+            }
+
+            Vector3 goalToe = _hasLastGoodToe ? _lastGoodActiveToe : anklePos + _pairFwdForToe * 0.15f;
+
+            if (!_toeInitialized)
+            {
+                _smoothedActiveToe = goalToe;
+                _toeInitialized = true;
+            }
+            else
+            {
+                _smoothedActiveToe = Vector3.Lerp(_smoothedActiveToe, goalToe, toeSmoothing * Time.deltaTime);
+            }
+
+            toeT.position = _smoothedActiveToe;
         }
-
-        if (kneeT != null)
-            kneeT.position = kneePos;
+        else if (toeT != null)
+        {
+            toeT.position = anklePos + _pairFwdForToe * 0.15f;
+        }
     }
+
+    // Cached forward for toe offset (avatar facing direction, flat)
+    private Vector3 _pairFwdForToe => avatarRoot != null
+        ? Vector3.ProjectOnPlane(avatarRoot.forward, Vector3.up).normalized
+        : Vector3.forward;
 
     void UpdateMirrorIKTargets(Vector3 kneePos, Vector3 anklePos)
     {
@@ -289,10 +277,12 @@ public class LegRootFitter : MonoBehaviour
 
         Transform ankleT = (_mirrorIK == leftIK) ? leftAnkleTarget : rightAnkleTarget;
         Transform kneeT = (_mirrorIK == leftIK) ? leftKneeHint : rightKneeHint;
+        Transform toeT = (_mirrorIK == leftIK) ? leftToeTarget : rightToeTarget;
+        Transform activeToeT = (_activeIK == leftIK) ? leftToeTarget : rightToeTarget;
 
+        // Mirror in avatar local space
         Vector3 localAnkle = avatarRoot.InverseTransformPoint(anklePos);
         Vector3 localKnee = avatarRoot.InverseTransformPoint(kneePos);
-
         localAnkle.x = -localAnkle.x;
         localKnee.x = -localKnee.x;
 
@@ -301,21 +291,19 @@ public class LegRootFitter : MonoBehaviour
         localAnkle.x += sideShift;
         localKnee.x += sideShift;
 
-        // Hard clamp — mirror leg never crosses centre
-        if (mirrorIsLeft)
-        {
-            localAnkle.x = Mathf.Min(localAnkle.x, -0.01f);
-            localKnee.x = Mathf.Min(localKnee.x, -0.01f);
-        }
-        else
-        {
-            localAnkle.x = Mathf.Max(localAnkle.x, 0.01f);
-            localKnee.x = Mathf.Max(localKnee.x, 0.01f);
-        }
-
         if (ankleT) ankleT.position = avatarRoot.TransformPoint(localAnkle);
         if (kneeT) kneeT.position = avatarRoot.TransformPoint(localKnee);
+
+        // Mirror toe — use smoothed active toe so guard/clamp carry over
+        if (toeT != null && activeToeT != null)
+        {
+            Vector3 localToe = avatarRoot.InverseTransformPoint(activeToeT.position);
+            localToe.x = -localToe.x + sideShift;
+            toeT.position = avatarRoot.TransformPoint(localToe);
+        }
     }
+
+    // ── Leg separation ────────────────────────────────────────────────────
 
     void EnforceMinLegSeparation()
     {
@@ -333,7 +321,6 @@ public class LegRootFitter : MonoBehaviour
         {
             float half = baseStanceWidth * 0.5f;
             bool activeIsLeft = (_activeIK == leftIK);
-
             activeLocal.x = activeIsLeft ? -half : half;
             mirrorLocal.x = activeIsLeft ? half : -half;
 
@@ -355,36 +342,154 @@ public class LegRootFitter : MonoBehaviour
         }
     }
 
+    // ── Scaling ───────────────────────────────────────────────────────────
+
+    void ApplyDynamicScaling(Vector3 kneePos)
+    {
+        if (_unscaledAvatarThigh < 0.05f) return;
+
+        Vector3 hipPos = _hipLocked ? _lockedHipWorld : hmdTransform.position + Vector3.down * hipHeightBelowHMD;
+        float target = Vector3.Distance(hipPos, kneePos);
+        if (target < 0.05f) return;
+
+        avatarRoot.localScale = Vector3.one * (target / _unscaledAvatarThigh) * sizeMultiplier;
+
+        if (!_shinMeasured && _activeShinBone != null && _activeIK?.data.tip != null)
+        {
+            _measuredShinWorld = Vector3.Distance(_activeShinBone.position, _activeIK.data.tip.position);
+            if (_measuredShinWorld > 0.01f)
+            {
+                _shinMeasured = true;
+                Debug.Log($"[body] Shin:{_measuredShinWorld:F3}m");
+            }
+        }
+    }
+
+    void ApplyShinScaling(Vector3 kneePos, Vector3 anklePos)
+    {
+        if (!_shinMeasured || _activeShinBone == null) return;
+        float realShin = Vector3.Distance(kneePos, anklePos) * shinLengthFraction;
+        if (realShin < 0.02f) return;
+        _activeShinBone.localScale = Vector3.one * (realShin / _measuredShinWorld);
+    }
+
+    // ── Hip ───────────────────────────────────────────────────────────────
+
+    void PinHip()
+    {
+        Vector3 currentHMD = hmdTransform.position;
+        Vector3 finalHipPos = new Vector3(currentHMD.x, currentHMD.y - hipHeightBelowHMD + verticalOffset, currentHMD.z);
+
+        if (bodyEstimator != null && bodyEstimator.HasAIHip)
+        {
+            Vector3 aiHip = bodyEstimator.AIHipPosition;
+            float sensitivity = 0.6f;
+            finalHipPos.x += (aiHip.x - currentHMD.x) * sensitivity;
+            finalHipPos.z += (aiHip.z - currentHMD.z) * sensitivity;
+            finalHipPos.y = aiHip.y;
+        }
+
+        // Expose for other systems (e.g. PhysioBallGenerator cube spawning)
+        HipWorldPosition = finalHipPos;
+
+        Quaternion rot = _hipLocked ? _lockedBodyRot : Quaternion.identity;
+        Vector3 pelvisOffset = avatarRoot.InverseTransformPoint(pelvisBone.position);
+        avatarRoot.position = finalHipPos - (rot * pelvisOffset);
+        avatarRoot.rotation = rot;
+    }
+
+    // ── Setup ─────────────────────────────────────────────────────────────
+
+    void ResolveIKWeightsOnce()
+    {
+        bool isLeft = sideSelector.currentSide == LegSideSelector.LegSide.Left;
+        _sideLabel = isLeft ? "Left" : "Right";
+        _activeIK = isLeft ? leftIK : rightIK;
+        _mirrorIK = isLeft ? rightIK : leftIK;
+
+        if (leftIK) leftIK.weight = 1f;
+        if (rightIK) rightIK.weight = 1f;
+
+        if (_activeIK != null)
+        {
+            _unscaledAvatarThigh = Vector3.Distance(
+                _activeIK.data.root.position,
+                _activeIK.data.mid.position);
+            _activeShinBone = _activeIK.data.mid;
+        }
+
+        _lockedHipWorld = (bodyEstimator != null && bodyEstimator.HasAIHip)
+            ? bodyEstimator.AIHipPosition
+            : hmdTransform.position + Vector3.down * hipHeightBelowHMD + Vector3.up * verticalOffset;
+
+        Vector3 lockedForward = hmdTransform.forward;
+        lockedForward.y = 0f;
+        if (lockedForward.sqrMagnitude < 0.001f) lockedForward = Vector3.forward;
+        _lockedBodyRot = Quaternion.LookRotation(lockedForward.normalized, Vector3.up);
+        _hipLocked = true;
+        _hasResolvedBones = true;
+
+        Debug.Log($"[body] IK:{_sideLabel} Thigh:{_unscaledAvatarThigh:F3}m Hip:{_lockedHipWorld:F2}");
+    }
+
+    void DisableBothIKs()
+    {
+        if (leftIK) leftIK.weight = 0f;
+        if (rightIK) rightIK.weight = 0f;
+        _sideLabel = "None";
+    }
+
+    // ── Utilities ─────────────────────────────────────────────────────────
+
     void HideUpperBodyParts()
     {
         foreach (Transform t in avatarRoot.GetComponentsInChildren<Transform>())
         {
             string n = t.name.ToLower();
-            if (n.Contains("head") || n.Contains("neck") ||
-                n.Contains("hand") || n.Contains("finger"))
+            if (n.Contains("head") || n.Contains("neck") || n.Contains("hand") || n.Contains("finger"))
                 t.localScale = Vector3.zero;
         }
     }
 
     void PrintBodyDebug(Vector3 kneePos, Vector3 anklePos)
     {
-        string metrics = bodyEstimator != null ? bodyEstimator.GetMetricsSummary() : "";
-        Debug.Log($"[body] Side:{_sideLabel} Scale:{avatarRoot.localScale.x:F2} {metrics}");
+        Debug.Log($"[body] Side:{_sideLabel} Scale:{avatarRoot.localScale.x:F2} Hip:{HipWorldPosition:F2}");
+        if (_activeIK == null) return;
+
+        Transform tip = _activeIK.data.tip;
+        Transform ankleT = (_activeIK == leftIK) ? leftAnkleTarget : rightAnkleTarget;
+        Transform toeT = (_activeIK == leftIK) ? leftToeTarget : rightToeTarget;
+
+        if (ankleT != null)
+            Debug.Log($"[foot] ANKLE TARGET    pos:{ankleT.position:F3}  rot:{ankleT.eulerAngles:F1}");
+        if (toeT != null)
+            Debug.Log($"[foot] TOE   TARGET    pos:{toeT.position:F3}  rot:{toeT.eulerAngles:F1}");
+        if (tip != null)
+            Debug.Log($"[foot] ANKLE BONE      pos:{tip.position:F3}  world:{tip.eulerAngles:F1}  local:{tip.localEulerAngles:F1}");
+        if (tip != null)
+            foreach (Transform child in tip)
+                Debug.Log($"[foot] TOE   BONE      pos:{child.position:F3}  world:{child.eulerAngles:F1}  local:{child.localEulerAngles:F1}");
     }
 
     public void ResetFitter()
     {
         _hasResolvedBones = false;
         _smoothingInitialized = false;
+        _toeInitialized = false;
+        _hasLastGoodToe = false;
         _hipLocked = false;
         _lockedBodyRot = Quaternion.identity;
         _activeIK = null;
         _mirrorIK = null;
         _unscaledAvatarThigh = 0f;
+        _measuredShinWorld = 0f;
+        _shinMeasured = false;
+        if (_activeShinBone != null) _activeShinBone.localScale = Vector3.one;
+        _activeShinBone = null;
         avatarRoot.localScale = Vector3.zero;
+        HipWorldPosition = Vector3.zero;
 
         DisableBothIKs();
-
         if (bodyEstimator != null) bodyEstimator.Reset();
         if (sideSelector != null) sideSelector.ResetSide();
 

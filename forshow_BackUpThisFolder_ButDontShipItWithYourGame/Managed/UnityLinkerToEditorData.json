@@ -31,9 +31,10 @@
           {
             "name": "NavMeshSettings",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
             "icon": null
@@ -50,7 +51,9 @@
           {
             "name": "AnimationClip",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/HandScanScene.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -58,8 +61,10 @@
           {
             "name": "Animator",
             "scenes": [
-              "Assets/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/HandScanScene.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -67,7 +72,9 @@
           {
             "name": "AnimatorController",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/HandScanScene.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
             "icon": null
@@ -81,8 +88,10 @@
           {
             "name": "Avatar",
             "scenes": [
-              "Assets/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/HandScanScene.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -140,9 +149,10 @@
           {
             "name": "AudioBehaviour",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -150,6 +160,7 @@
           {
             "name": "AudioClip",
             "scenes": [
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -158,9 +169,10 @@
           {
             "name": "AudioListener",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -174,6 +186,7 @@
           {
             "name": "AudioResource",
             "scenes": [
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -213,9 +226,10 @@
           {
             "name": "Camera",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -229,7 +243,7 @@
           {
             "name": "ComputeShader",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -237,9 +251,10 @@
           {
             "name": "Cubemap",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -259,9 +274,10 @@
           {
             "name": "EditorExtension",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
             "icon": null
@@ -275,9 +291,10 @@
           {
             "name": "GameObject",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -309,9 +326,10 @@
           {
             "name": "LevelGameManager",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
             "icon": null
@@ -319,9 +337,8 @@
           {
             "name": "Light",
             "scenes": [
-              "Assets/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -347,9 +364,10 @@
           {
             "name": "LightmapSettings",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -357,8 +375,9 @@
           {
             "name": "LineRenderer",
             "scenes": [
-              "Assets/ColorPicker.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -372,9 +391,10 @@
           {
             "name": "Material",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -382,8 +402,10 @@
           {
             "name": "Mesh",
             "scenes": [
-              "Assets/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/HandScanScene.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -391,7 +413,7 @@
           {
             "name": "MeshFilter",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -400,7 +422,7 @@
           {
             "name": "MeshRenderer",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -409,9 +431,10 @@
           {
             "name": "MonoBehaviour",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -425,9 +448,10 @@
           {
             "name": "MonoScript",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
             "icon": null
@@ -435,9 +459,10 @@
           {
             "name": "NamedObject",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 1,
             "icon": null
@@ -475,9 +500,10 @@
           {
             "name": "RectTransform",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -491,9 +517,10 @@
           {
             "name": "RenderSettings",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -501,7 +528,7 @@
           {
             "name": "RenderTexture",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -527,9 +554,10 @@
           {
             "name": "Shader",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -543,8 +571,10 @@
           {
             "name": "SkinnedMeshRenderer",
             "scenes": [
-              "Assets/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity"
+              "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/HandScanScene.unity",
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -553,7 +583,8 @@
             "name": "SortingGroup",
             "scenes": [
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -561,8 +592,8 @@
           {
             "name": "Sprite",
             "scenes": [
-              "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -1107,7 +1138,7 @@
           {
             "name": "BoxCollider",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -1116,7 +1147,7 @@
           {
             "name": "CapsuleCollider",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -1173,7 +1204,7 @@
           {
             "name": "Rigidbody",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -1182,7 +1213,7 @@
           {
             "name": "SphereCollider",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
@@ -1600,8 +1631,10 @@
           {
             "name": "Font",
             "scenes": [
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -1644,9 +1677,10 @@
           {
             "name": "Canvas",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -1660,9 +1694,10 @@
           {
             "name": "CanvasRenderer",
             "scenes": [
-              "Assets/ColorPicker.unity",
+              "Assets/Scenes/ColorPicker.unity",
               "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/History.unity",
+              "Assets/Scenes/Menu.unity"
             ],
             "dependencyType": 0,
             "icon": null
