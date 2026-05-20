@@ -1,488 +1,560 @@
 ﻿using Firebase;
 using Firebase.Auth;
-using Firebase.Firestore;
 using Firebase.Extensions;
+using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UIImage = UnityEngine.UI.Image;
 using Debug = UnityEngine.Debug;
 
 public class SessionHistoryDisplay : MonoBehaviour
 {
-    [Header("Test User")]
-    [Tooltip("Fallback test user ID — used only if no Firebase user is logged in")]
+    [Header("Firestore")]
+    public string sessionsCollectionName = "sessions";
+    public int maxSessionsToLoad = 20;
+
+    [Header("Testing")]
+    public bool useTestUserIfNoLogin = true;
     public string testUserId = "ampcTUbGF3edyN95CG7UrEq3Ask2";
 
-    [Header("How many sessions to load")]
-    public int maxSessions = 10;
+    [Header("UI - Status")]
+    public TMP_Text statusText;
 
-    [Header("Session Card List")]
-    [Tooltip("Parent RectTransform that holds the session card prefabs")]
-    public RectTransform cardContainer;
-
+    [Header("UI - Session List")]
+    public Transform sessionListContent;
     public GameObject sessionCardPrefab;
 
-    [Header("Graph Bars")]
-    [Tooltip("Parent that holds bar GameObjects")]
-    public RectTransform graphContainer;
+    [Header("UI - Graph")]
+    public Transform graphContent;
+    public GameObject graphBarPrefab;
+    public float maxBarHeight = 220f;
 
-    public GameObject barPrefab;
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
 
-    [Tooltip("Max bar height in pixels")]
-    public float maxBarHeight = 200f;
-
-    [Tooltip("Color for vertical ROM bars")]
-    public Color romBarColor = new Color(0.20f, 0.85f, 0.40f);
-
-    public Color successBarColor = new Color(0.20f, 0.60f, 1.00f);
-
-    [Header("Summary Text")]
-    public TextMeshProUGUI summaryText;
-    public TextMeshProUGUI loadingText;
-
-    private FirebaseFirestore _db;
-    private List<SessionSummary> _sessions = new List<SessionSummary>();
-
-    private class SessionSummary
+    private void Start()
     {
-        public string date;
-        public float vertRomCm;
-        public float latRomCm;
-        public float successRate;
-        public int totalReps;
-        public int successfulReps;
-        public string formGrade;
-        public long timestampMs;
-    }
-
-    void Start()
-    {
-        SetLoading(true);
-
-        Debug.Log("[history] Starting Firebase dependency check...");
+        SetStatus("Initializing Firebase...");
 
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
-            if (task.IsFaulted)
+            if (task.Result == DependencyStatus.Available)
             {
-                string error = task.Exception != null
-                    ? task.Exception.GetBaseException().Message
-                    : "Unknown Firebase dependency error";
+                db = FirebaseFirestore.DefaultInstance;
+                auth = FirebaseAuth.DefaultInstance;
 
-                ShowError("Firebase dependency check failed:\n" + error);
-                return;
-            }
-
-            DependencyStatus status = task.Result;
-
-            Debug.Log("[history] Firebase dependency status: " + status);
-
-            if (status != DependencyStatus.Available)
-            {
-                ShowError("Firebase unavailable:\n" + status);
-                return;
-            }
-
-            try
-            {
-                _db = FirebaseFirestore.DefaultInstance;
-            }
-            catch (Exception e)
-            {
-                ShowError("Firestore initialization failed:\n" + e.Message);
-                return;
-            }
-
-            FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
-
-            if (user != null)
-            {
-                testUserId = user.UserId;
-                Debug.Log("[history] Using logged-in user ID: " + testUserId);
+                SetStatus("Firebase ready");
+                LoadHistory();
             }
             else
             {
-                Debug.LogWarning("[history] No logged-in user found. Using fallback testUserId: " + testUserId);
+                SetStatus("Firebase error: " + task.Result);
+                Debug.LogError("Firebase dependency error: " + task.Result);
             }
-
-            LoadSessions();
         });
     }
 
-    void LoadSessions()
+    public void LoadHistory()
     {
-        if (_db == null)
+        if (db == null)
         {
-            ShowError("Firestore database is not initialized.");
+            SetStatus("Firebase is not ready");
             return;
         }
 
-        Debug.Log("[history] Loading sessions for user: " + testUserId);
+        string userId = GetCurrentUserId();
 
-        _db.Collection("sessions")
-           .WhereEqualTo("userId", testUserId)
-           .GetSnapshotAsync()
-           .ContinueWithOnMainThread(task =>
-           {
-               if (task.IsFaulted)
-               {
-                   string error = task.Exception != null
-                       ? task.Exception.GetBaseException().Message
-                       : "Unknown Firestore load error";
-
-                   ShowError("Load failed:\n" + error);
-                   return;
-               }
-
-               if (task.IsCanceled)
-               {
-                   ShowError("Load canceled.");
-                   return;
-               }
-
-               if (task.Result == null)
-               {
-                   ShowError("Firestore returned null result.");
-                   return;
-               }
-
-               _sessions.Clear();
-
-               foreach (DocumentSnapshot doc in task.Result.Documents)
-               {
-                   try
-                   {
-                       SessionSummary s = new SessionSummary();
-
-                       s.date = GetStringSafe(doc, "date", "—");
-                       s.successRate = GetFloatSafe(doc, "overallSuccessRate", 0f);
-                       s.totalReps = GetIntSafe(doc, "totalReps", 0);
-                       s.successfulReps = GetIntSafe(doc, "successfulReps", 0);
-                       s.formGrade = GetStringSafe(doc, "formGrade", "—");
-                       s.timestampMs = GetLongSafe(doc, "startTimestampMs", 0);
-
-                       float peak = GetFloatSafe(doc, "peakRomUtilization", 0f);
-                       float wide = GetFloatSafe(doc, "wideSpreadRate", 0f);
-
-                       s.vertRomCm = peak * 100f;
-                       s.latRomCm = wide * 100f;
-
-                       _sessions.Add(s);
-                   }
-                   catch (Exception e)
-                   {
-                       Debug.LogWarning("[history] Failed to parse session doc: " + e.Message);
-                   }
-               }
-
-               _sessions = _sessions
-                   .OrderByDescending(s => s.timestampMs)
-                   .Take(maxSessions)
-                   .ToList();
-
-               SetLoading(false);
-
-               if (_sessions.Count == 0)
-               {
-                   if (loadingText != null)
-                   {
-                       loadingText.text = "No sessions found yet.\nComplete a game session first!";
-                       loadingText.gameObject.SetActive(true);
-                   }
-
-                   return;
-               }
-
-               BuildCards();
-               BuildGraph();
-               BuildSummary();
-           });
-    }
-
-    void BuildCards()
-    {
-        if (cardContainer == null || sessionCardPrefab == null)
+        if (string.IsNullOrWhiteSpace(userId))
         {
-            Debug.LogWarning("[history] Missing cardContainer or sessionCardPrefab.");
+            SetStatus("No user id found");
+            Debug.LogWarning("[History] No user id found");
             return;
         }
 
-        foreach (Transform child in cardContainer)
-        {
-            Destroy(child.gameObject);
-        }
+        SetStatus("Loading history...");
 
-        foreach (SessionSummary s in _sessions)
-        {
-            GameObject card = Instantiate(sessionCardPrefab, cardContainer);
-
-            SetChildText(card, "DateText", s.date);
-            SetChildText(card, "ScoreText", "Grade: " + s.formGrade + "   Hit: " + s.successfulReps + "/" + s.totalReps + " (" + FormatPercent(s.successRate) + ")");
-            SetChildText(card, "RomText", "ROM  ↕ " + s.vertRomCm.ToString("F0") + " cm   ↔ " + s.latRomCm.ToString("F0") + " cm");
-        }
-    }
-
-    void BuildGraph()
-    {
-        if (graphContainer == null || barPrefab == null)
-        {
-            Debug.LogWarning("[history] Missing graphContainer or barPrefab.");
-            return;
-        }
-
-        foreach (Transform child in graphContainer)
-        {
-            Destroy(child.gameObject);
-        }
-
-        List<SessionSummary> ordered = _sessions.OrderBy(s => s.timestampMs).ToList();
-
-        if (ordered.Count == 0)
-            return;
-
-        float maxRom = ordered.Max(s => s.vertRomCm);
-
-        if (maxRom <= 0f)
-            maxRom = 1f;
-
-        foreach (SessionSummary s in ordered)
-        {
-            GameObject bar = Instantiate(barPrefab, graphContainer);
-
-            UIImage img = bar.GetComponent<UIImage>();
-
-            if (img != null)
+        db.Collection(sessionsCollectionName)
+            .WhereEqualTo("userId", userId)
+            .Limit(maxSessionsToLoad)
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(task =>
             {
-                img.color = romBarColor;
-            }
+                if (task.IsCanceled)
+                {
+                    SetStatus("History loading canceled");
+                    return;
+                }
 
-            float heightFraction = Mathf.Clamp01(s.vertRomCm / maxRom);
+                if (task.IsFaulted)
+                {
+                    SetStatus("Failed to load history");
+                    Debug.LogError(task.Exception);
+                    return;
+                }
 
-            RectTransform rt = bar.GetComponent<RectTransform>();
+                QuerySnapshot snapshot = task.Result;
 
-            if (rt != null)
-            {
-                rt.sizeDelta = new Vector2(rt.sizeDelta.x, maxBarHeight * heightFraction);
-                rt.anchorMin = new Vector2(rt.anchorMin.x, 0f);
-                rt.anchorMax = new Vector2(rt.anchorMax.x, 0f);
-                rt.pivot = new Vector2(0.5f, 0f);
-            }
+                List<HistorySessionData> sessions = new List<HistorySessionData>();
 
-            SetChildText(bar, "DateLabel", GetShortDate(s.date));
+                foreach (DocumentSnapshot document in snapshot.Documents)
+                {
+                    if (!document.Exists)
+                        continue;
+
+                    Dictionary<string, object> data = document.ToDictionary();
+
+                    HistorySessionData session = ConvertToSession(document.Id, data);
+                    sessions.Add(session);
+                }
+
+                sessions = sessions
+                    .OrderByDescending(s => s.timestampMs)
+                    .Take(maxSessionsToLoad)
+                    .ToList();
+
+                DisplaySessions(sessions);
+                DisplayGraph(sessions);
+
+                SetStatus("Loaded " + sessions.Count + " sessions");
+            });
+    }
+
+    private string GetCurrentUserId()
+    {
+        FirebaseUser currentUser = FirebaseAuth.DefaultInstance.CurrentUser;
+
+        if (currentUser != null)
+        {
+            PlayerPrefs.SetString("LoggedInUserId", currentUser.UserId);
+            PlayerPrefs.SetString("LoggedInUserEmail", currentUser.Email ?? "");
+            PlayerPrefs.Save();
+
+            Debug.Log("[History] Using real logged-in user id: " + currentUser.UserId);
+            return currentUser.UserId;
+        }
+
+        string savedUserId = PlayerPrefs.GetString("LoggedInUserId", "");
+
+        if (!string.IsNullOrWhiteSpace(savedUserId))
+        {
+            Debug.Log("[History] Using saved user id: " + savedUserId);
+            return savedUserId;
+        }
+
+        if (useTestUserIfNoLogin && !string.IsNullOrWhiteSpace(testUserId))
+        {
+            PlayerPrefs.SetString("LoggedInUserId", testUserId);
+            PlayerPrefs.SetString("LoggedInUserEmail", "test-user");
+            PlayerPrefs.Save();
+
+            Debug.LogWarning("[History] No logged-in user. Using test user id: " + testUserId);
+            return testUserId;
+        }
+
+        return "";
+    }
+
+    private HistorySessionData ConvertToSession(string documentId, Dictionary<string, object> data)
+    {
+        HistorySessionData session = new HistorySessionData();
+
+        session.sessionId = GetString(data, "sessionId", documentId);
+        session.userId = GetString(data, "userId", "Unknown user");
+        session.date = GetString(data, "date", "");
+
+        session.startTimestampMs = GetLong(data, "startTimestampMs", 0);
+        session.endTimestampMs = GetLong(data, "endTimestampMs", 0);
+
+        session.timestampMs = session.startTimestampMs;
+
+        if (session.timestampMs == 0)
+            session.timestampMs = session.endTimestampMs;
+
+        session.durationMs = GetLong(data, "durationMs", 0);
+
+        session.totalPhrases = GetInt(data, "totalPhrases", 0);
+        session.totalReps = GetInt(data, "totalReps", 0);
+        session.successfulReps = GetInt(data, "successfulReps", 0);
+
+        session.overallSuccessRate = GetFloat(data, "overallSuccessRate", 0f);
+        session.longestSuccessStreak = GetInt(data, "longestSuccessStreak", 0);
+
+        session.peakRomUtilization = GetFloat(data, "peakRomUtilization", 0f);
+        session.averageRomUtilization = GetFloat(data, "averageRomUtilization", 0f);
+
+        session.formScore = GetFloat(data, "formScore", 0f);
+        session.formGrade = GetString(data, "formGrade", "N/A");
+
+        session.difficultyLevel = GetInt(data, "difficultyLevel", 0);
+
+        session.highReachAttempts = GetInt(data, "highReachAttempts", 0);
+        session.highReachSuccesses = GetInt(data, "highReachSuccesses", 0);
+
+        session.wideSpreadAttempts = GetInt(data, "wideSpreadAttempts", 0);
+        session.wideSpreadSuccesses = GetInt(data, "wideSpreadSuccesses", 0);
+
+        session.highReachRate = GetFloat(data, "highReachRate", 0f);
+        session.wideSpreadRate = GetFloat(data, "wideSpreadRate", 0f);
+
+        session.calibVertRangeM = GetFloat(data, "calibVertRangeM", 0f);
+        session.calibLatRangeM = GetFloat(data, "calibLatRangeM", 0f);
+
+        session.vertRomHitM = GetFloat(data, "vertRomHitM", 0f);
+        session.latRomHitM = GetFloat(data, "latRomHitM", 0f);
+
+        if (string.IsNullOrWhiteSpace(session.date))
+            session.date = FormatDate(session.timestampMs);
+
+        return session;
+    }
+
+    private void DisplaySessions(List<HistorySessionData> sessions)
+    {
+        ClearChildren(sessionListContent);
+
+        if (sessions.Count == 0)
+        {
+            SetStatus("No history found for this user");
+            return;
+        }
+
+        foreach (HistorySessionData session in sessions)
+        {
+            GameObject card = CreateSessionCard(session);
+            card.transform.SetParent(sessionListContent, false);
         }
     }
 
-    void BuildSummary()
+    private GameObject CreateSessionCard(HistorySessionData session)
     {
-        if (summaryText == null || _sessions.Count == 0)
+        GameObject card;
+
+        if (sessionCardPrefab != null)
+        {
+            card = Instantiate(sessionCardPrefab);
+        }
+        else
+        {
+            card = new GameObject("SessionCard", typeof(RectTransform), typeof(Image));
+
+            Image bg = card.GetComponent<Image>();
+            bg.color = new Color(0.12f, 0.12f, 0.12f, 0.9f);
+
+            RectTransform cardRect = card.GetComponent<RectTransform>();
+            cardRect.sizeDelta = new Vector2(900f, 260f);
+
+            GameObject textObj = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+            textObj.transform.SetParent(card.transform, false);
+
+            RectTransform textRect = textObj.GetComponent<RectTransform>();
+            textRect.anchorMin = new Vector2(0f, 0f);
+            textRect.anchorMax = new Vector2(1f, 1f);
+            textRect.offsetMin = new Vector2(20f, 10f);
+            textRect.offsetMax = new Vector2(-20f, -10f);
+
+            TextMeshProUGUI tmp = textObj.GetComponent<TextMeshProUGUI>();
+            tmp.fontSize = 24;
+            tmp.enableWordWrapping = true;
+            tmp.color = Color.white;
+        }
+
+        TMP_Text text = card.GetComponentInChildren<TMP_Text>();
+
+        if (text != null)
+        {
+            text.text =
+                "Session: " + session.sessionId + "\n" +
+                "Date: " + session.date + "\n" +
+                "User ID: " + session.userId + "\n" +
+                "Reps: " + session.successfulReps + " / " + session.totalReps + "\n" +
+                "Success Rate: " + ToPercent(session.overallSuccessRate) + "\n" +
+                "Peak ROM: " + ToPercent(session.peakRomUtilization) + "\n" +
+                "Average ROM: " + ToPercent(session.averageRomUtilization) + "\n" +
+                "Vertical ROM Hit: " + session.vertRomHitM.ToString("0.00") + " m\n" +
+                "Lateral ROM Hit: " + session.latRomHitM.ToString("0.00") + " m\n" +
+                "Form Score: " + session.formScore.ToString("0.0") + " | Grade: " + session.formGrade;
+        }
+
+        return card;
+    }
+
+    private void DisplayGraph(List<HistorySessionData> sessions)
+    {
+        ClearChildren(graphContent);
+
+        if (graphContent == null)
             return;
 
-        float avgSuccess = _sessions.Average(s => s.successRate);
-        float avgRom = _sessions.Average(s => s.vertRomCm);
-        float peakRom = _sessions.Max(s => s.vertRomCm);
-        int total = _sessions.Count;
+        if (sessions.Count == 0)
+            return;
 
-        string trend = "—";
+        float maxValue = sessions.Max(s => s.vertRomHitM);
 
-        if (total >= 4)
+        if (maxValue <= 0f)
+            maxValue = sessions.Max(s => s.peakRomUtilization);
+
+        if (maxValue <= 0f)
+            maxValue = 1f;
+
+        foreach (HistorySessionData session in sessions)
         {
-            List<SessionSummary> newestFirst = _sessions.OrderByDescending(s => s.timestampMs).ToList();
-
-            int half = total / 2;
-
-            float recentAvg = newestFirst.Take(half).Average(s => s.vertRomCm);
-            float olderAvg = newestFirst.Skip(half).Take(half).Average(s => s.vertRomCm);
-
-            float change = recentAvg - olderAvg;
-
-            if (change > 2f)
-                trend = "Improving";
-            else if (change < -2f)
-                trend = "Declining";
-            else
-                trend = "Stable";
+            GameObject bar = CreateGraphBar(session, maxValue);
+            bar.transform.SetParent(graphContent, false);
         }
-
-        summaryText.text =
-            "Last " + total + " sessions\n\n" +
-            "Avg success rate:  " + FormatPercent(avgSuccess) + "\n" +
-            "Avg vertical ROM:  " + avgRom.ToString("F0") + " cm\n" +
-            "Peak vertical ROM: " + peakRom.ToString("F0") + " cm\n\n" +
-            "Trend: " + trend;
     }
 
-    void SetChildText(GameObject parent, string childName, string text)
+    private GameObject CreateGraphBar(HistorySessionData session, float maxValue)
+    {
+        GameObject barRoot;
+
+        if (graphBarPrefab != null)
+        {
+            barRoot = Instantiate(graphBarPrefab);
+        }
+        else
+        {
+            barRoot = new GameObject("GraphBar", typeof(RectTransform));
+
+            RectTransform rootRect = barRoot.GetComponent<RectTransform>();
+            rootRect.sizeDelta = new Vector2(70f, maxBarHeight + 80f);
+
+            GameObject barObj = new GameObject("Bar", typeof(RectTransform), typeof(Image));
+            barObj.transform.SetParent(barRoot.transform, false);
+
+            Image img = barObj.GetComponent<Image>();
+            img.color = new Color(0.25f, 0.65f, 1f, 1f);
+
+            RectTransform barRect = barObj.GetComponent<RectTransform>();
+            barRect.anchorMin = new Vector2(0.5f, 0f);
+            barRect.anchorMax = new Vector2(0.5f, 0f);
+            barRect.pivot = new Vector2(0.5f, 0f);
+            barRect.anchoredPosition = new Vector2(0f, 40f);
+            barRect.sizeDelta = new Vector2(45f, 100f);
+
+            GameObject labelObj = new GameObject("Label", typeof(RectTransform), typeof(TextMeshProUGUI));
+            labelObj.transform.SetParent(barRoot.transform, false);
+
+            TextMeshProUGUI label = labelObj.GetComponent<TextMeshProUGUI>();
+            label.fontSize = 16;
+            label.alignment = TextAlignmentOptions.Center;
+            label.color = Color.white;
+
+            RectTransform labelRect = labelObj.GetComponent<RectTransform>();
+            labelRect.anchorMin = new Vector2(0f, 0f);
+            labelRect.anchorMax = new Vector2(1f, 0f);
+            labelRect.pivot = new Vector2(0.5f, 0f);
+            labelRect.anchoredPosition = new Vector2(0f, 0f);
+            labelRect.sizeDelta = new Vector2(70f, 40f);
+        }
+
+        float value = session.vertRomHitM;
+
+        if (value <= 0f)
+            value = session.peakRomUtilization;
+
+        float normalized = Mathf.Clamp01(value / maxValue);
+        float height = Mathf.Max(10f, normalized * maxBarHeight);
+
+        Transform barTransform = barRoot.transform.Find("Bar");
+
+        if (barTransform != null)
+        {
+            RectTransform rect = barTransform.GetComponent<RectTransform>();
+
+            if (rect != null)
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, height);
+        }
+
+        TMP_Text labelText = barRoot.GetComponentInChildren<TMP_Text>();
+
+        if (labelText != null)
+            labelText.text = value.ToString("0.00");
+
+        return barRoot;
+    }
+
+    private void ClearChildren(Transform parent)
     {
         if (parent == null)
             return;
 
-        Transform t = parent.transform.Find(childName);
-
-        if (t == null)
+        for (int i = parent.childCount - 1; i >= 0; i--)
         {
-            Debug.LogWarning("[history] Missing child text object: " + childName);
-            return;
-        }
-
-        TextMeshProUGUI tmp = t.GetComponent<TextMeshProUGUI>();
-
-        if (tmp != null)
-        {
-            tmp.text = text;
+            Destroy(parent.GetChild(i).gameObject);
         }
     }
 
-    void SetLoading(bool on)
+    private string FormatDate(long timestampMs)
     {
-        if (loadingText != null)
-        {
-            loadingText.gameObject.SetActive(on);
-
-            if (on)
-            {
-                loadingText.text = "Loading sessions...";
-            }
-        }
-
-        if (cardContainer != null)
-            cardContainer.gameObject.SetActive(!on);
-
-        if (graphContainer != null)
-            graphContainer.gameObject.SetActive(!on);
-
-        if (summaryText != null)
-            summaryText.gameObject.SetActive(!on);
-    }
-
-    void ShowError(string msg)
-    {
-        SetLoading(false);
-
-        if (loadingText != null)
-        {
-            loadingText.gameObject.SetActive(true);
-            loadingText.text = msg;
-        }
-
-        Debug.LogError("[history] " + msg);
-    }
-
-    private string GetStringSafe(DocumentSnapshot doc, string field, string fallback)
-    {
-        if (doc == null || !doc.ContainsField(field))
-            return fallback;
+        if (timestampMs <= 0)
+            return "Unknown date";
 
         try
         {
-            return doc.GetValue<string>(field);
+            DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestampMs);
+            DateTime localTime = dateTimeOffset.LocalDateTime;
+            return localTime.ToString("dd/MM/yyyy HH:mm");
         }
         catch
         {
-            return fallback;
+            return "Unknown date";
         }
     }
 
-    private int GetIntSafe(DocumentSnapshot doc, string field, int fallback)
+    private string ToPercent(float value)
     {
-        if (doc == null || !doc.ContainsField(field))
-            return fallback;
+        if (value <= 1f)
+            return (value * 100f).ToString("0.0") + "%";
+
+        return value.ToString("0.0") + "%";
+    }
+
+    private string GetString(Dictionary<string, object> data, string key, string defaultValue)
+    {
+        if (data == null || !data.ContainsKey(key) || data[key] == null)
+            return defaultValue;
+
+        return data[key].ToString();
+    }
+
+    private int GetInt(Dictionary<string, object> data, string key, int defaultValue)
+    {
+        if (data == null || !data.ContainsKey(key) || data[key] == null)
+            return defaultValue;
 
         try
         {
-            object value = doc.GetValue<object>(field);
+            object value = data[key];
 
-            if (value is int)
-                return (int)value;
+            if (value is int i)
+                return i;
 
-            if (value is long)
-                return Convert.ToInt32((long)value);
+            if (value is long l)
+                return (int)l;
 
-            if (value is double)
-                return Convert.ToInt32((double)value);
+            if (value is double d)
+                return Mathf.RoundToInt((float)d);
 
-            return fallback;
+            if (value is float f)
+                return Mathf.RoundToInt(f);
+
+            return Convert.ToInt32(value);
         }
         catch
         {
-            return fallback;
+            return defaultValue;
         }
     }
 
-    private long GetLongSafe(DocumentSnapshot doc, string field, long fallback)
+    private long GetLong(Dictionary<string, object> data, string key, long defaultValue)
     {
-        if (doc == null || !doc.ContainsField(field))
-            return fallback;
+        if (data == null || !data.ContainsKey(key) || data[key] == null)
+            return defaultValue;
 
         try
         {
-            object value = doc.GetValue<object>(field);
+            object value = data[key];
 
-            if (value is long)
-                return (long)value;
+            if (value is long l)
+                return l;
 
-            if (value is int)
-                return (int)value;
+            if (value is int i)
+                return i;
 
-            if (value is double)
-                return Convert.ToInt64((double)value);
+            if (value is double d)
+                return (long)d;
 
-            return fallback;
+            if (value is float f)
+                return (long)f;
+
+            return Convert.ToInt64(value);
         }
         catch
         {
-            return fallback;
+            return defaultValue;
         }
     }
 
-    private float GetFloatSafe(DocumentSnapshot doc, string field, float fallback)
+    private float GetFloat(Dictionary<string, object> data, string key, float defaultValue)
     {
-        if (doc == null || !doc.ContainsField(field))
-            return fallback;
+        if (data == null || !data.ContainsKey(key) || data[key] == null)
+            return defaultValue;
 
         try
         {
-            object value = doc.GetValue<object>(field);
+            object value = data[key];
 
-            if (value is float)
-                return (float)value;
+            if (value is float f)
+                return f;
 
-            if (value is double)
-                return Convert.ToSingle((double)value);
+            if (value is double d)
+                return (float)d;
 
-            if (value is int)
-                return (int)value;
+            if (value is int i)
+                return i;
 
-            if (value is long)
-                return Convert.ToSingle((long)value);
+            if (value is long l)
+                return l;
 
-            return fallback;
+            return Convert.ToSingle(value);
         }
         catch
         {
-            return fallback;
+            return defaultValue;
         }
     }
 
-    private string GetShortDate(string date)
+    private void SetStatus(string message)
     {
-        if (string.IsNullOrEmpty(date))
-            return "—";
+        if (statusText != null)
+            statusText.text = message;
 
-        if (date.Length >= 10)
-            return date.Substring(5, 5);
-
-        if (date.Length >= 5)
-            return date.Substring(date.Length - 5);
-
-        return date;
+        Debug.Log("[History] " + message);
     }
+}
 
-    private string FormatPercent(float value)
-    {
-        return (value * 100f).ToString("F0") + "%";
-    }
+[Serializable]
+public class HistorySessionData
+{
+    public string sessionId;
+    public string userId;
+    public string date;
+
+    public long timestampMs;
+    public long startTimestampMs;
+    public long endTimestampMs;
+    public long durationMs;
+
+    public int totalPhrases;
+    public int totalReps;
+    public int successfulReps;
+
+    public float overallSuccessRate;
+    public int longestSuccessStreak;
+
+    public float peakRomUtilization;
+    public float averageRomUtilization;
+
+    public float formScore;
+    public string formGrade;
+
+    public int difficultyLevel;
+
+    public int highReachAttempts;
+    public int highReachSuccesses;
+
+    public int wideSpreadAttempts;
+    public int wideSpreadSuccesses;
+
+    public float highReachRate;
+    public float wideSpreadRate;
+
+    public float calibVertRangeM;
+    public float calibLatRangeM;
+
+    public float vertRomHitM;
+    public float latRomHitM;
 }

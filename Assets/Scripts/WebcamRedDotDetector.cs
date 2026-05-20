@@ -118,6 +118,19 @@ public class BlobDetector : MonoBehaviour
     public Vector3 LastKnownWorldPosition { get; private set; }
     public Vector3 LastKnownNormal { get; private set; }
 
+    // ── [model] performance metrics ───────────────────────
+    private float _trackingStartTime = -1f;  // Time.time when IsTracking became true
+    private float _searchStartTime = -1f;  // Time.time when GoSearching() was called
+    private int _searchAttempts = 0;    // colour-passing candidates tested this search
+    private int _searchFrames = 0;    // frames spent in current search pass
+
+    /// <summary>
+    /// Optional validator wired up by BodyTracker.
+    /// Given a candidate world-space hit point, returns true if safe to accept.
+    /// Used to reject positions that would cause a dramatic avatar scale change.
+    /// </summary>
+    public System.Func<Vector3, bool> WorldPositionValidator;
+
     // ─────────────────────────────────────────────────────
     void Start()
     {
@@ -217,7 +230,7 @@ public class BlobDetector : MonoBehaviour
         float aspect = BlobAspect(blobPts);
         bool passes = aspect <= maxAspectRatio && aspect >= 1f / maxAspectRatioInverse;
         if (!passes)
-            Debug.Log($"[{name}] Shape fail — aspect:{aspect:F2} (limit {maxAspectRatio:F1})");
+            Debug.Log($"[model] {name} Shape fail — aspect:{aspect:F2} (limit {maxAspectRatio:F1})");
         return passes;
     }
 
@@ -226,7 +239,7 @@ public class BlobDetector : MonoBehaviour
     {
         Vector3 vp = cameraAccess.WorldToViewportPoint(worldPoint);
         if (vp.x < 0 || vp.x > 1 || vp.y < 0 || vp.y > 1)
-        { Debug.Log($"[{name}] out of viewport"); return; }
+        { Debug.Log($"[model] {name} out of viewport"); return; }
 
         int cx = Mathf.Clamp((int)(vp.x * resolution.x), 0, resolution.x - 1);
         int cy = Mathf.Clamp((int)(vp.y * resolution.y), 0, resolution.y - 1);
@@ -243,9 +256,11 @@ public class BlobDetector : MonoBehaviour
         consecutiveShapeFailFrames = 0;
         searchOffsetY = framesLost = 0;
         _searchElapsed = 0f;
+        _trackingStartTime = _searchStartTime = -1f;
+        _searchAttempts = _searchFrames = 0;
         LastKnownWorldPosition = Vector3.zero;
         if (marker) marker.gameObject.SetActive(false);
-        Debug.Log($"[{name}] Reset");
+        Debug.Log($"[model] {name} Reset");
     }
 
     // ── DETECT — unchanged ────────────────────────────────
@@ -253,7 +268,7 @@ public class BlobDetector : MonoBehaviour
     {
         Color32 centerCol = pixels[cy * resolution.x + cx];
         Color.RGBToHSV(centerCol, out float h, out float s, out float v);
-        if (s < 0.30f || v < 0.15f) { Debug.Log($"[{name}] Bad color s:{s:F2} v:{v:F2}"); return; }
+        if (s < 0.30f || v < 0.15f) { Debug.Log($"[model] {name} Bad color s:{s:F2} v:{v:F2}"); return; }
 
         refHue = h; refSat = s; refVal = v; trackedHue = h;
 
@@ -293,7 +308,7 @@ public class BlobDetector : MonoBehaviour
 
         referenceBlobSize = CountBlobPixels(cx, cy, h);
         if (referenceBlobSize < minBlobPixels)
-        { Debug.Log($"[{name}] Too small:{referenceBlobSize}"); return; }
+        { Debug.Log($"[model] {name} Too small:{referenceBlobSize}"); return; }
 
         lockedNormal = normal;
         LastKnownNormal = normal;
@@ -303,7 +318,18 @@ public class BlobDetector : MonoBehaviour
         IsSearching = false;
         if (marker) marker.gameObject.SetActive(true);
 
-        Debug.Log($"[{name}] hue:{h:F2} sat:{s:F2} val:{v:F2} size:{referenceBlobSize}px");
+        // ── [model] acquisition log ───────────────────────
+        float reacquireTime = _searchStartTime >= 0f ? Time.time - _searchStartTime : 0f;
+        if (_searchStartTime >= 0f)
+            Debug.Log($"[model] {name} REACQUIRED — search took {reacquireTime:F2}s " +
+                      $"| {_searchFrames} frames | {_searchAttempts} candidates tested");
+        else
+            Debug.Log($"[model] {name} ACQUIRED — hue:{h:F2} sat:{s:F2} val:{v:F2} size:{referenceBlobSize}px");
+
+        _trackingStartTime = Time.time;
+        _searchStartTime = -1f;
+        _searchAttempts = 0;
+        _searchFrames = 0;
     }
 
     // ── TRACK — shape check added, everything else unchanged ─
@@ -392,11 +418,13 @@ public class BlobDetector : MonoBehaviour
     {
         framesLost++;
         _searchElapsed += Time.deltaTime;
+        _searchFrames++;
 
         // After searchTimeoutSec, give up and ask player to re-aim
         if (searchTimeoutSec > 0f && _searchElapsed >= searchTimeoutSec)
         {
-            Debug.Log($"[{name}] Search timed out after {_searchElapsed:F1}s — reset required");
+            Debug.Log($"[model] {name} SEARCH TIMEOUT after {_searchElapsed:F1}s " +
+                      $"| {_searchFrames} frames | {_searchAttempts} candidates tested — reset required");
             IsSearching = false;
             _searchElapsed = 0f;
             framesLost = searchOffsetY = 0;
@@ -427,12 +455,14 @@ public class BlobDetector : MonoBehaviour
                 Color32 col = GetDS(sx, sy);
                 if (!FastColorMatch(col)) continue;
 
+                _searchAttempts++;  // [model] count every candidate that passes colour pre-filter
+
                 Vector2Int seed = ToFull(new Vector2Int(sx, sy));
                 Vector2Int refined = RefineBlobCenter(seed);
                 if (refined == Vector2Int.zero) continue;
 
                 searchOffsetY = 0;
-                Debug.Log($"[{name}] Reacquired at {refined}");
+                // [model] reacquire log is printed inside DetectAtPixel
                 DetectAtPixel(refined.x, refined.y, LastKnownNormal);
                 return;
             }
@@ -448,11 +478,18 @@ public class BlobDetector : MonoBehaviour
 
     void GoSearching()
     {
+        // ── [model] on-track duration log ────────────────
+        float onTrackTime = _trackingStartTime >= 0f ? Time.time - _trackingStartTime : 0f;
+        Debug.Log($"[model] {name} LOST → searching — was on-track for {onTrackTime:F2}s");
+
         IsTracking = false;
         IsSearching = true;
         _searchElapsed = 0f;
+        _searchStartTime = Time.time;
+        _searchAttempts = 0;
+        _searchFrames = 0;
+        _trackingStartTime = -1f;
         framesLost = searchOffsetY = 0;
-        Debug.Log($"[{name}] Lost → searching");
     }
 
     bool FastColorMatch(Color32 c)
@@ -554,6 +591,17 @@ public class BlobDetector : MonoBehaviour
         try { ray = cameraAccess.ViewportPointToRay(new Vector3(nx, ny, 0)); }
         catch { ray = vrCamera.ViewportPointToRay(new Vector3(nx, ny, 0)); }
         if (!raycastManager.Raycast(ray, out var hit)) return;
+
+        // ── Model size guard ──────────────────────────────
+        // If BodyTracker wired up a validator, ask it whether this world position
+        // would cause a dramatic avatar scale spike. Silently hold the last good
+        // position if rejected — don't snap the marker.
+        if (WorldPositionValidator != null && !WorldPositionValidator(hit.point))
+        {
+            Debug.Log($"[model] {name} Position rejected by size guard at {hit.point:F3}");
+            return;
+        }
+
         lockedNormal = hit.normal;
         LastKnownNormal = hit.normal;
         ApplySmoothMarker(hit.point + hit.normal * markerHeightOffset);

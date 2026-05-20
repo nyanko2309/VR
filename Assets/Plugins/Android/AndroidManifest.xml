@@ -25,4 +25,6 @@
   <uses-permission android:name="android.permission.VIBRATE" />
   <horizonos:uses-horizonos-sdk horizonos:minSdkVersion="60" horizonos:targetSdkVersion="81" />
   <uses-permission android:name="horizonos.permission.HEADSET_CAMERA" />
+  <uses-feature android:name="com.oculus.software.body_tracking" android:required="false" />
+  <uses-permission android:name="com.oculus.permission.BODY_TRACKING" />
 </manifest>

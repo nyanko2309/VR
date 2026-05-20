@@ -28,10 +28,17 @@ public class BodyTracker : MonoBehaviour
     public LegSideSelector legSideSelector;
     public PhysioBallGenerator ballGenerator;
 
-
     [Header("Laser")]
     public LineRenderer laser;
     public float laserLength = 5f;
+
+    [Header("Model Size Guard")]
+    [Tooltip("Max fractional avatar scale change a new knee position may cause before being rejected. 0 = disabled.")]
+    [Range(0f, 1f)]
+    public float maxScaleChangeFraction = 0.25f;
+    [Tooltip("Max fractional shin scale change a new ankle position may cause before being rejected. 0 = disabled.")]
+    [Range(0f, 1f)]
+    public float maxShinChangeFraction = 0.25f;
 
     public enum SetupStep { Idle, WaitingKnee, WaitingAnkle, WaitingToes, AllTracking }
     public SetupStep CurrentStep { get; private set; } = SetupStep.Idle;
@@ -50,7 +57,7 @@ public class BodyTracker : MonoBehaviour
     {
         if (laser) laser.positionCount = 2;
         CurrentStep = SetupStep.Idle;
-        Debug.Log("[start] Press trigger to detect KNEE sticker");
+        Debug.Log("[model] Press trigger to detect KNEE sticker");
         if (instructionsText != null) instructionsText.text = "▶ Point at KNEE sticker → squeeze trigger";
         if (instructionsCanvas != null) instructionsCanvas.SetActive(true);
 
@@ -58,31 +65,103 @@ public class BodyTracker : MonoBehaviour
         if (kneeDetector != null) kneeDetector.OnSearchTimedOut += () => OnDetectorTimedOut("KNEE");
         if (ankleDetector != null) ankleDetector.OnSearchTimedOut += () => OnDetectorTimedOut("ANKLE");
         if (toeDetector != null) toeDetector.OnSearchTimedOut += () => OnDetectorTimedOut("TOES");
+
+        // Wire size guards. Knee drives avatar body scale; ankle drives shin bone scale.
+        // Each validator receives the candidate hit.point and returns false to reject it.
+        if (kneeDetector != null)
+            kneeDetector.WorldPositionValidator = ValidateKneePosition;
+        if (ankleDetector != null)
+            ankleDetector.WorldPositionValidator = ValidateAnklePosition;
+    }
+
+    /// <summary>
+    /// Called by kneeDetector before accepting a new world position.
+    /// Returns false (reject) if the position would shift avatar scale by more
+    /// than maxScaleChangeFraction relative to the current scale.
+    /// </summary>
+    bool ValidateKneePosition(Vector3 candidateKneeWorld)
+    {
+        if (legRootFitter == null || maxScaleChangeFraction <= 0f) return true;
+
+        float currentScale = legRootFitter.avatarRoot != null
+            ? legRootFitter.avatarRoot.localScale.x
+            : 0f;
+
+        // Can't validate before the avatar has a real scale — let it through.
+        if (currentScale < 0.01f) return true;
+
+        // Replicate LegRootFitter.ApplyDynamicScaling's scale formula:
+        // scale = (hip→knee / unscaledThigh) * sizeMultiplier
+        // We expose HipWorldPosition from LegRootFitter for this.
+        Vector3 hipPos = legRootFitter.HipWorldPosition;
+        if (hipPos == Vector3.zero) return true;
+
+        float unscaledThigh = legRootFitter.avatarRoot.localScale.x > 0.01f
+            ? currentScale / legRootFitter.sizeMultiplier  // back-compute: scale/mult = dist/thigh
+            : 0f;
+
+        // We don't have direct access to _unscaledAvatarThigh, so derive candidate scale
+        // from the ratio of new hip→knee vs current hip→knee.
+        // No baseline yet — knee has never had a valid position, let the first one through.
+        if (kneeDetector.LastKnownWorldPosition == Vector3.zero) return true;
+
+        float currentHipToKnee = Vector3.Distance(hipPos, kneeDetector.LastKnownWorldPosition);
+        float candidateHipToKnee = Vector3.Distance(hipPos, candidateKneeWorld);
+
+        float scaleRatio = candidateHipToKnee / currentHipToKnee;
+        float fractionalChange = Mathf.Abs(scaleRatio - 1f);
+
+        if (fractionalChange > maxScaleChangeFraction)
+        {
+            Debug.Log($"[model] kneeDetector Size guard REJECTED — scale would shift " +
+                      $"{fractionalChange * 100f:F1}% (limit {maxScaleChangeFraction * 100f:F0}%) " +
+                      $"hipToKnee: {currentHipToKnee:F3}→{candidateHipToKnee:F3}");
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Called by ankleDetector before accepting a new world position.
+    /// Returns false (reject) if the position would shift the shin bone scale by more
+    /// than maxShinChangeFraction relative to the current knee→ankle distance.
+    /// ApplyShinScaling drives shinBone.localScale ∝ knee→ankle, so a bad ankle
+    /// position causes the same kind of dramatic pop as a bad knee position does
+    /// for the body scale.
+    /// </summary>
+    bool ValidateAnklePosition(Vector3 candidateAnkleWorld)
+    {
+        if (legRootFitter == null || maxShinChangeFraction <= 0f) return true;
+
+        // Need a stable knee position to measure against.
+        Vector3 kneePos = kneeDetector != null ? kneeDetector.LastKnownWorldPosition : Vector3.zero;
+        if (kneePos == Vector3.zero) return true;
+
+        // No baseline yet — ankle has never had a valid position, let the first one through.
+        if (ankleDetector.LastKnownWorldPosition == Vector3.zero) return true;
+
+        float currentKneeToAnkle = Vector3.Distance(kneePos, ankleDetector.LastKnownWorldPosition);
+
+        float candidateKneeToAnkle = Vector3.Distance(kneePos, candidateAnkleWorld);
+        float shinRatio = candidateKneeToAnkle / currentKneeToAnkle;
+        float fractionalChange = Mathf.Abs(shinRatio - 1f);
+
+        if (fractionalChange > maxShinChangeFraction)
+        {
+            Debug.Log($"[model] ankleDetector Shin guard REJECTED — shin would shift " +
+                      $"{fractionalChange * 100f:F1}% (limit {maxShinChangeFraction * 100f:F0}%) " +
+                      $"kneeToAnkle: {currentKneeToAnkle:F3}→{candidateKneeToAnkle:F3}");
+            return false;
+        }
+
+        return true;
     }
 
     void OnDetectorTimedOut(string stickerName)
     {
-        Debug.Log($"[BodyTracker] {stickerName} sticker lost — resetting to re-aim");
-
-        // Reset whichever detector timed out and go back to its setup step
-        if (stickerName == "KNEE")
-        {
-            kneeDetector.ResetDetector();
-            CurrentStep = SetupStep.Idle;
-        }
-        else if (stickerName == "ANKLE")
-        {
-            ankleDetector.ResetDetector();
-            CurrentStep = SetupStep.WaitingAnkle;
-        }
-        else if (stickerName == "TOES")
-        {
-            toeDetector?.ResetDetector();
-            CurrentStep = SetupStep.WaitingToes;
-        }
-
-        LogStep();
-        if (instructionsCanvas != null) instructionsCanvas.SetActive(true);
+        Debug.Log($"[model] {stickerName} sticker lost too long — triggering full game reset");
+        ResetAll();
     }
 
     void Update()
@@ -117,7 +196,7 @@ public class BodyTracker : MonoBehaviour
         if (triggerDown && !_triggerWasDown)
         {
             HandleButton(hitSurface, hit);
-            Debug.Log("[button] pressed");
+            Debug.Log("[model] Trigger pressed");
         }
         _triggerWasDown = triggerDown;
 
@@ -144,14 +223,14 @@ public class BodyTracker : MonoBehaviour
 
         if (!hitSurface)
         {
-            Debug.Log("[BodyTracker] No surface hit — point at sticker");
+            Debug.Log("[model] No surface hit — point at sticker");
             return;
         }
 
         // Press 1 — detect knee
         if (CurrentStep == SetupStep.Idle)
         {
-            if (kneeDetector == null) { Debug.LogError("[BodyTracker] kneeDetector not assigned!"); return; }
+            if (kneeDetector == null) { Debug.LogError("[model] kneeDetector not assigned!"); return; }
             CurrentStep = SetupStep.WaitingKnee;
             kneeDetector.TriggerDetect(hit.point, hit.normal);
             if (kneeDetector.IsTracking)
@@ -160,14 +239,14 @@ public class BodyTracker : MonoBehaviour
                 LogStep();
             }
             else
-                Debug.Log("[BodyTracker] Knee detect failed — try again");
+                Debug.Log("[model] Knee detect failed — try again");
             return;
         }
 
         // Press 2 — detect ankle
         if (CurrentStep == SetupStep.WaitingAnkle)
         {
-            if (ankleDetector == null) { Debug.LogError("[BodyTracker] ankleDetector not assigned!"); return; }
+            if (ankleDetector == null) { Debug.LogError("[model] ankleDetector not assigned!"); return; }
             ankleDetector.TriggerDetect(hit.point, hit.normal);
             if (ankleDetector.IsTracking)
             {
@@ -175,14 +254,14 @@ public class BodyTracker : MonoBehaviour
                 LogStep();
             }
             else
-                Debug.Log("[BodyTracker] Ankle detect failed — try again");
+                Debug.Log("[model] Ankle detect failed — try again");
             return;
         }
 
         // Press 3 — detect toes
         if (CurrentStep == SetupStep.WaitingToes)
         {
-            if (toeDetector == null) { Debug.LogError("[BodyTracker] toeDetector not assigned!"); return; }
+            if (toeDetector == null) { Debug.LogError("[model] toeDetector not assigned!"); return; }
             toeDetector.TriggerDetect(hit.point, hit.normal);
             if (toeDetector.IsTracking)
             {
@@ -190,7 +269,7 @@ public class BodyTracker : MonoBehaviour
                 LogStep();
             }
             else
-                Debug.Log("[BodyTracker] Toes detect failed — try again");
+                Debug.Log("[model] Toes detect failed — try again");
         }
     }
 
@@ -218,7 +297,7 @@ public class BodyTracker : MonoBehaviour
             _ => ""
         };
 
-        Debug.Log(msg);
+        Debug.Log($"[model] Step: {msg}");
 
         if (instructionsText != null)
             instructionsText.text = msg;

@@ -376,6 +376,7 @@
             "name": "LineRenderer",
             "scenes": [
               "Assets/Scenes/ColorPicker.unity",
+              "Assets/Scenes/HandScanScene.unity",
               "Assets/Scenes/History.unity",
               "Assets/Scenes/Menu.unity"
             ],

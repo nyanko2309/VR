@@ -1,7 +1,9 @@
 using Microsoft.MixedReality.Toolkit.Experimental.UI;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Debug = UnityEngine.Debug;   // Fixes ambiguity with System.Diagnostics.Debug
 
 public class LoginKeyboardManager : MonoBehaviour
 {
@@ -12,30 +14,22 @@ public class LoginKeyboardManager : MonoBehaviour
 
     void Start()
     {
-        if (emailInput != null)
-        {
-            emailInput.onSelect.AddListener(_ => OpenKeyboard(emailInput));
-            AddPointerClickTrigger(emailInput, () => OpenKeyboard(emailInput));
-        }
+        Debug.Log("[keyboard] Opening keyboard");
+        emailInput.onSelect.AddListener(_ => OpenKeyboard(emailInput));
+        passwordInput.onSelect.AddListener(_ => OpenKeyboard(passwordInput));
 
-        if (passwordInput != null)
-        {
-            passwordInput.onSelect.AddListener(_ => OpenKeyboard(passwordInput));
-            AddPointerClickTrigger(passwordInput, () => OpenKeyboard(passwordInput));
-        }
+        AddPointerClickTrigger(emailInput, () => OpenKeyboard(emailInput));
+        AddPointerClickTrigger(passwordInput, () => OpenKeyboard(passwordInput));
     }
 
     private void AddPointerClickTrigger(TMP_InputField field, System.Action callback)
     {
-        EventTrigger trigger = field.gameObject.GetComponent<EventTrigger>();
-
-        if (trigger == null)
-            trigger = field.gameObject.AddComponent<EventTrigger>();
-
-        EventTrigger.Entry entry = new EventTrigger.Entry();
+        var trigger = field.gameObject.GetComponent<EventTrigger>()
+                      ?? field.gameObject.AddComponent<EventTrigger>();
+        Debug.Log($"[keyboard] Opening for: {field.name}");
+        var entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(_ => callback());
-
         trigger.triggers.Add(entry);
     }
 
@@ -51,42 +45,32 @@ public class LoginKeyboardManager : MonoBehaviour
 
     private void OpenKeyboard(TMP_InputField field)
     {
-        if (field == null || NonNativeKeyboard.Instance == null)
-            return;
+        activeField = field;
 
         NonNativeKeyboard.Instance.OnTextUpdated -= UpdateField;
         NonNativeKeyboard.Instance.OnClosed -= OnKeyboardClosed;
 
-        activeField = field;
-
-        string currentText = field.text;
-
-        field.caretPosition = field.text.Length;
-        field.ForceLabelUpdate();
+        // Force close first if already open
+        if (NonNativeKeyboard.Instance.gameObject.activeSelf)
+            NonNativeKeyboard.Instance.Close();
 
         NonNativeKeyboard.Instance.InputField = field;
+        NonNativeKeyboard.Instance.PresentKeyboard(field.text);
 
         NonNativeKeyboard.Instance.OnTextUpdated += UpdateField;
         NonNativeKeyboard.Instance.OnClosed += OnKeyboardClosed;
-
-        NonNativeKeyboard.Instance.PresentKeyboard(currentText);
     }
 
     private void UpdateField(string text)
     {
-        if (activeField == null)
-            return;
-
-        activeField.SetTextWithoutNotify(text);
-        activeField.caretPosition = activeField.text.Length;
-        activeField.ForceLabelUpdate();
+        if (activeField != null)
+            activeField.text = text;
     }
 
     private void OnKeyboardClosed(object sender, System.EventArgs e)
     {
         NonNativeKeyboard.Instance.OnTextUpdated -= UpdateField;
         NonNativeKeyboard.Instance.OnClosed -= OnKeyboardClosed;
-
         activeField = null;
     }
 }

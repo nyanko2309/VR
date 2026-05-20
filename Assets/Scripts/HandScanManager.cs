@@ -1,13 +1,13 @@
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class HandScanManager : MonoBehaviour
 {
-    public enum ImpairedSide
-    {
-        Left,
-        Right
-    }
+    public enum ImpairedSide { Left, Right }
+
     [Header("UI")]
     public GameObject scanUI;
     public GameObject virtualHand;
@@ -25,41 +25,116 @@ public class HandScanManager : MonoBehaviour
     public Transform rightHandTransform;
 
     [Header("Settings")]
-    public float mirrorOffset = 0.3f;
+    public float mirrorOffset = 0.15f;
     public float scanDuration = 3f;
-    public float touchDistance = 0.20f;
-    public int maxMoves = 5;
+    public int maxRounds = 10;
     public float instructionDuration = 4f;
-    public ImpairedSide impairedSide = ImpairedSide.Left;
 
-    private float timer = 0f;
-    private bool scanComplete = false;
-    private int moveCount = 0;
-    private bool canTriggerNextMove = true;
+    [Header("Touch Tuning")]
+    public float ballRadius = 0.08f;
+    public float handRadius = 0.10f;
 
-    private float instructionTimer = 0f;
-    private bool instructionVisible = false;
+    [Header("Spawn Grace Period")]
+    public float spawnGracePeriod = 0.5f;
+
+    [Header("Tempo")]
+    [Tooltip("BPM — balls wait 7 beats then reposition")]
+    public float bpm = 84f;
+
+    [Header("Sound")]
+    public AudioClip bgMusicClip;
+    public AudioClip popSoundClip;
+
+    private AudioSource _bgMusic;
+    private AudioSource _popSound;
+
+    private float TouchThreshold => ballRadius + handRadius;
+    private const int BeatsPerRound = 7;
+
+    private float _beatInterval;
+    private float _beatAccum = 0f;
+    private int _beatCount = 0;
+
+    private enum Phase { Scanning, WaitingToSpawn, BallsActive, GameOver }
+    private Phase _phase = Phase.Scanning;
+
+    private float _scanTimer = 0f;
+
+    private float _graceTimer = 0f;
+    private bool _inGrace = false;
+
+    private int _round = 0;
+    private bool _roundTouched = false;
+    private int _successfulTouches = 0;
+    private long _sessionStartMs;
+
+    private float _instructionTimer = 0f;
+    private bool _instructionVisible = false;
+
+    private Vector3 _leftBasePos;
+    private Vector3 _rightBasePos;
+    private float _floatTime = 0f;
+
+    private float _leftSpawnT = 0f;
+    private float _rightSpawnT = 0f;
+    private bool _leftSpawning = false;
+    private bool _rightSpawning = false;
+
+    private Material _leftMat;
+    private Material _rightMat;
+    private Color _leftBaseColor;
+    private Color _rightBaseColor;
+
+    void Awake()
+    {
+        _bgMusic = gameObject.AddComponent<AudioSource>();
+        _bgMusic.clip = bgMusicClip;
+        _bgMusic.loop = true;
+        _bgMusic.playOnAwake = false;
+        _bgMusic.spatialBlend = 0f;
+        _bgMusic.volume = 0.4f;
+
+        _popSound = gameObject.AddComponent<AudioSource>();
+        _popSound.clip = popSoundClip;
+        _popSound.loop = false;
+        _popSound.playOnAwake = false;
+        _popSound.spatialBlend = 0f;
+        _popSound.volume = 1f;
+    }
 
     void Start()
     {
+        _beatInterval = 60f / bpm;
+        _sessionStartMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
         if (scoreText != null)
-        {
-            scoreText.text = "Score: 0 / " + maxMoves;
-        }
-        if (targetLeft != null)
-            targetLeft.SetActive(false);
+            scoreText.text = $"Score: 0 / {maxRounds}";
 
-        if (targetRight != null)
-            targetRight.SetActive(false);
+        SetupBallMaterial(targetLeft, ref _leftMat, ref _leftBaseColor);
+        SetupBallMaterial(targetRight, ref _rightMat, ref _rightBaseColor);
 
-        if (virtualHand != null)
-            virtualHand.SetActive(false);
+        if (targetLeft != null) targetLeft.SetActive(false);
+        if (targetRight != null) targetRight.SetActive(false);
+        if (virtualHand != null) virtualHand.SetActive(false);
 
         if (instructionText != null)
         {
             instructionText.gameObject.SetActive(false);
             instructionText.text = "Reach the glowing balls and touch them";
         }
+
+        if (_bgMusic != null && bgMusicClip != null)
+            _bgMusic.Play();
+    }
+
+    void SetupBallMaterial(GameObject ball, ref Material mat, ref Color baseColor)
+    {
+        if (ball == null) return;
+        Renderer r = ball.GetComponent<Renderer>();
+        if (r == null) return;
+        mat = r.material;
+        baseColor = mat.color;
+        mat.EnableKeyword("_EMISSION");
     }
 
     void Update()
@@ -67,164 +142,446 @@ public class HandScanManager : MonoBehaviour
         bool leftTracked = leftHand != null && leftHand.IsTracked;
         bool rightTracked = rightHand != null && rightHand.IsTracked;
 
-        if (!scanComplete)
+        MirrorHand(leftTracked, rightTracked);
+
+        switch (_phase)
         {
-            bool handDetected = leftTracked || rightTracked;
+            case Phase.Scanning: UpdateScanning(leftTracked, rightTracked); break;
+            case Phase.WaitingToSpawn: UpdateWaitingToSpawn(); break;
+            case Phase.BallsActive: UpdateBallsActive(); break;
+            case Phase.GameOver: break;
+        }
 
-            if (handDetected)
+        UpdateInstructionTimer();
+        UpdateSpawnAnimation();
+    }
+
+    void UpdateScanning(bool leftTracked, bool rightTracked)
+    {
+        if (leftTracked || rightTracked)
+        {
+            _scanTimer += Time.deltaTime;
+            if (_scanTimer >= scanDuration)
             {
-                timer += Time.deltaTime;
+                if (scanUI != null) scanUI.SetActive(false);
+                if (virtualHand != null) virtualHand.SetActive(true);
 
-                if (timer >= scanDuration)
+                if (instructionText != null)
                 {
-                    scanComplete = true;
-
-                    if (scanUI != null)
-                        scanUI.SetActive(false);
-
-                    if (virtualHand != null)
-                        virtualHand.SetActive(true);
-
-                    if (targetLeft != null)
-                        targetLeft.SetActive(impairedSide == ImpairedSide.Left);
-
-                    if (targetRight != null)
-                        targetRight.SetActive(impairedSide == ImpairedSide.Right);
-
-                    if (instructionText != null)
-                    {
-                        instructionText.text = "Reach the glowing balls and touch them";
-                        instructionText.gameObject.SetActive(true);
-                        instructionTimer = 0f;
-                        instructionVisible = true;
-                    }
-
-                    PlaceMirroredTargets();
+                    instructionText.text = "Reach the glowing balls and touch them";
+                    instructionText.gameObject.SetActive(true);
+                    _instructionTimer = 0f;
+                    _instructionVisible = true;
                 }
-            }
-            else
-            {
-                timer = 0f;
-            }
 
-            return;
-        }
-
-        if (instructionVisible && instructionText != null)
-        {
-            instructionTimer += Time.deltaTime;
-
-            if (instructionTimer >= instructionDuration)
-            {
-                instructionText.gameObject.SetActive(false);
-                instructionVisible = false;
-            }
-        }
-
-        Transform activeRealHand = null;
-
-        if (rightTracked && rightHandTransform != null && virtualHand != null)
-        {
-            activeRealHand = rightHandTransform;
-
-            Vector3 pos = rightHandTransform.position;
-            Vector3 mirroredPos = new Vector3(-pos.x - mirrorOffset, pos.y, pos.z);
-            virtualHand.transform.position = mirroredPos;
-        }
-        else if (leftTracked && leftHandTransform != null && virtualHand != null)
-        {
-            activeRealHand = leftHandTransform;
-
-            Vector3 pos = leftHandTransform.position;
-            Vector3 mirroredPos = new Vector3(-pos.x + mirrorOffset, pos.y, pos.z);
-            virtualHand.transform.position = mirroredPos;
-        }
-
-        if (activeRealHand == null || targetLeft == null || targetRight == null || virtualHand == null)
-            return;
-
-        GameObject activeTarget = GetActiveTarget();
-
-        if (activeTarget == null)
-            return;
-        bool touchedAnyTarget =
-             Vector3.Distance(virtualHand.transform.position, activeTarget.transform.position) <= touchDistance;
-
-        if (touchedAnyTarget)
-        {
-            if (canTriggerNextMove)
-            {
-                moveCount++;
-                canTriggerNextMove = false;
-                UpdateScoreText();
-
-                if (moveCount < maxMoves)
-                {
-                    PlaceMirroredTargets();
-                }
-                else
-                {
-                    if (targetLeft != null) targetLeft.SetActive(false);
-                    if (targetRight != null) targetRight.SetActive(false);
-
-                    if (instructionText != null)
-                    {
-                        instructionText.gameObject.SetActive(true);
-                        instructionText.text = "Good Job!";
-                    }
-                }
+                _beatAccum = 0f;
+                _phase = Phase.WaitingToSpawn;
+                Debug.Log("[Game] Scan complete");
             }
         }
         else
         {
-            canTriggerNextMove = true;
+            _scanTimer = 0f;
         }
     }
 
-    private void PlaceMirroredTargets()
+    void UpdateWaitingToSpawn()
     {
-        if (Camera.main == null || targetLeft == null || targetRight == null)
-            return;
+        _beatAccum += Time.deltaTime;
+        if (_beatAccum >= _beatInterval)
+        {
+            _beatAccum = 0f;
+            SpawnBalls();
+        }
+    }
+
+    void UpdateBallsActive()
+    {
+        // Beat counter
+        _beatAccum += Time.deltaTime;
+        if (_beatAccum >= _beatInterval)
+        {
+            _beatAccum -= _beatInterval;
+            _beatCount++;
+            Debug.Log($"[Game] Beat {_beatCount}/{BeatsPerRound} round={_round + 1}/{maxRounds}");
+
+            if (_beatCount >= BeatsPerRound)
+            {
+                MissRound();
+                return;
+            }
+        }
+
+        // Grace period
+        if (_inGrace)
+        {
+            _graceTimer += Time.deltaTime;
+            if (_graceTimer >= spawnGracePeriod)
+            {
+                _inGrace = false;
+                Debug.Log("[Game] Grace over — touch enabled");
+            }
+        }
+
+        // Float + glow
+        _floatTime += Time.deltaTime;
+        float urgency = Mathf.Clamp01((float)_beatCount / BeatsPerRound);
+        AnimateBalls(urgency);
+
+        // Touch detection
+        if (_inGrace || _roundTouched) return;
+
+        Vector3 vhPos = virtualHand != null ? virtualHand.transform.position : Vector3.zero;
+        Vector3 rhPos = rightHandTransform != null ? rightHandTransform.position : Vector3.zero;
+        Vector3 lhPos = leftHandTransform != null ? leftHandTransform.position : Vector3.zero;
+
+        bool leftTouched =
+            targetLeft != null && targetLeft.activeSelf &&
+            (Vector3.Distance(vhPos, targetLeft.transform.position) < TouchThreshold ||
+             Vector3.Distance(rhPos, targetLeft.transform.position) < TouchThreshold ||
+             Vector3.Distance(lhPos, targetLeft.transform.position) < TouchThreshold);
+
+        bool rightTouched =
+            targetRight != null && targetRight.activeSelf &&
+            (Vector3.Distance(vhPos, targetRight.transform.position) < TouchThreshold ||
+             Vector3.Distance(rhPos, targetRight.transform.position) < TouchThreshold ||
+             Vector3.Distance(lhPos, targetRight.transform.position) < TouchThreshold);
+
+        if (Time.frameCount % 30 == 0 && targetLeft != null)
+            Debug.Log(
+                $"[Touch] " +
+                $"VH→L={Vector3.Distance(vhPos, targetLeft.transform.position):F3} " +
+                $"RH→L={Vector3.Distance(rhPos, targetLeft.transform.position):F3} " +
+                $"LH→L={Vector3.Distance(lhPos, targetLeft.transform.position):F3} " +
+                $"threshold={TouchThreshold:F3} beat={_beatCount}"
+            );
+
+        if (leftTouched || rightTouched)
+            HitRound();
+    }
+
+    void HitRound()
+    {
+        _roundTouched = true;
+        _successfulTouches++;
+
+        Debug.Log($"[Game] HIT — round={_round + 1} score={_successfulTouches}");
+
+        SpawnPopEffect(targetLeft != null ? targetLeft.transform.position : Vector3.zero, GetBallColor(targetLeft));
+        SpawnPopEffect(targetRight != null ? targetRight.transform.position : Vector3.zero, GetBallColor(targetRight));
+
+        if (_popSound != null && popSoundClip != null)
+            _popSound.PlayOneShot(popSoundClip);
+
+        HideBalls();
+        EndRound();
+    }
+
+    void MissRound()
+    {
+        Debug.Log($"[Game] MISS — round={_round + 1}");
+        HideBalls();
+        EndRound();
+    }
+
+    void EndRound()
+    {
+        _round++;
+        UpdateScoreText();
+
+        if (_round >= maxRounds)
+            EndGame();
+        else
+        {
+            _phase = Phase.WaitingToSpawn;
+            _beatAccum = 0f;
+        }
+    }
+
+    void SpawnBalls()
+    {
+        if (Camera.main == null) return;
+
+        _roundTouched = false;
+        _beatCount = 0;
+        _beatAccum = 0f;
+        _floatTime = 0f;
+        _graceTimer = 0f;
+        _inGrace = true;
 
         Transform cam = Camera.main.transform;
 
-        float randomSide = Random.Range(0.10f, 0.18f);
-        float randomHeight = Random.Range(-0.10f, 0.02f);
-        float randomDepth = Random.Range(0.45f, 0.65f);
+        float randomHeight = UnityEngine.Random.Range(-0.10f, 0.10f);
+        float randomDepth = UnityEngine.Random.Range(0.45f, 0.65f);
+        float spread = UnityEngine.Random.Range(0.12f, 0.22f);
 
-        Vector3 centerPoint = cam.position + cam.forward * randomDepth + cam.up * randomHeight;
-        Vector3 sideOffset = cam.right * randomSide;
+        Vector3 center = cam.position + cam.forward * randomDepth + cam.up * randomHeight;
+        Vector3 sideOffset = cam.right * spread;
 
-        GameObject activeTarget = GetActiveTarget();
+        _leftBasePos = center - sideOffset;
+        _rightBasePos = center + sideOffset;
 
-        if (activeTarget == null)
-            return;
-
-        if (impairedSide == ImpairedSide.Left)
+        if (targetLeft != null)
         {
-            activeTarget.transform.position = centerPoint - sideOffset;
-        }
-        else
-        {
-            activeTarget.transform.position = centerPoint + sideOffset;
+            targetLeft.transform.position = _leftBasePos;
+            targetLeft.transform.localScale = Vector3.zero;
+            targetLeft.SetActive(true);
+            _leftSpawnT = 0f;
+            _leftSpawning = true;
         }
 
-        activeTarget.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
+        if (targetRight != null)
+        {
+            targetRight.transform.position = _rightBasePos;
+            targetRight.transform.localScale = Vector3.zero;
+            targetRight.SetActive(true);
+            _rightSpawnT = 0f;
+            _rightSpawning = true;
+        }
+
+        _phase = Phase.BallsActive;
+        Debug.Log($"[Game] Balls spawned — round {_round + 1}/{maxRounds}");
     }
-    private GameObject GetActiveTarget()
+
+    void HideBalls()
     {
-        if (impairedSide == ImpairedSide.Left)
+        if (targetLeft != null) targetLeft.SetActive(false);
+        if (targetRight != null) targetRight.SetActive(false);
+        ResetBallColors();
+    }
+
+    void AnimateBalls(float urgency)
+    {
+        if (targetLeft != null && targetLeft.activeSelf)
         {
-            return targetLeft;
+            float floatY = Mathf.Sin(_floatTime * 1.8f) * 0.018f;
+            float floatX = Mathf.Sin(_floatTime * 1.1f) * 0.006f;
+            targetLeft.transform.position = _leftBasePos + new Vector3(floatX, floatY, 0f);
         }
 
-        return targetRight;
+        if (targetRight != null && targetRight.activeSelf)
+        {
+            float floatY = Mathf.Sin(_floatTime * 1.8f + 1f) * 0.018f;
+            float floatX = Mathf.Sin(_floatTime * 1.1f + 0.5f) * 0.006f;
+            targetRight.transform.position = _rightBasePos + new Vector3(floatX, floatY, 0f);
+        }
+
+        float pulseSpeed = Mathf.Lerp(2f, 10f, urgency);
+        float pulse = (Mathf.Sin(_floatTime * pulseSpeed) + 1f) * 0.5f;
+        float glowMin = Mathf.Lerp(0.3f, 2.0f, urgency);
+        float glowMax = Mathf.Lerp(1.2f, 5.0f, urgency);
+
+        Color leftColor = Color.Lerp(_leftBaseColor, Color.white, urgency);
+        Color rightColor = Color.Lerp(_rightBaseColor, Color.white, urgency);
+
+        if (_leftMat != null)
+        {
+            _leftMat.color = leftColor;
+            _leftMat.SetColor("_EmissionColor", leftColor * Mathf.Lerp(glowMin, glowMax, pulse));
+        }
+        if (_rightMat != null)
+        {
+            _rightMat.color = rightColor;
+            _rightMat.SetColor("_EmissionColor", rightColor * Mathf.Lerp(glowMin, glowMax, pulse));
+        }
     }
-    private void UpdateScoreText()
+
+    void MirrorHand(bool leftTracked, bool rightTracked)
+    {
+        if (Camera.main == null || virtualHand == null) return;
+
+        if (rightTracked && rightHandTransform != null)
+        {
+            Vector3 localPos = Camera.main.transform.InverseTransformPoint(rightHandTransform.position);
+            localPos.x = -localPos.x;
+            virtualHand.transform.position = Camera.main.transform.TransformPoint(localPos);
+            virtualHand.transform.rotation = rightHandTransform.rotation;
+        }
+        else if (leftTracked && leftHandTransform != null)
+        {
+            Vector3 localPos = Camera.main.transform.InverseTransformPoint(leftHandTransform.position);
+            localPos.x = -localPos.x;
+            virtualHand.transform.position = Camera.main.transform.TransformPoint(localPos);
+            virtualHand.transform.rotation = leftHandTransform.rotation;
+        }
+    }
+
+    void UpdateInstructionTimer()
+    {
+        if (!_instructionVisible || instructionText == null) return;
+        _instructionTimer += Time.deltaTime;
+        if (_instructionTimer >= instructionDuration)
+        {
+            instructionText.gameObject.SetActive(false);
+            _instructionVisible = false;
+        }
+    }
+
+    void UpdateSpawnAnimation()
+    {
+        if (_leftSpawning)
+        {
+            _leftSpawnT += Time.deltaTime / 0.25f;
+            float s = EaseOutBack(Mathf.Clamp01(_leftSpawnT));
+            if (targetLeft != null)
+                targetLeft.transform.localScale = Vector3.one * Mathf.Lerp(0f, 0.06f, s);
+            if (_leftSpawnT >= 1f) _leftSpawning = false;
+        }
+
+        if (_rightSpawning)
+        {
+            _rightSpawnT += Time.deltaTime / 0.25f;
+            float s = EaseOutBack(Mathf.Clamp01(_rightSpawnT));
+            if (targetRight != null)
+                targetRight.transform.localScale = Vector3.one * Mathf.Lerp(0f, 0.06f, s);
+            if (_rightSpawnT >= 1f) _rightSpawning = false;
+        }
+    }
+
+    void EndGame()
+    {
+        _phase = Phase.GameOver;
+
+        HideBalls();
+        if (_bgMusic != null) _bgMusic.Stop();
+
+        float successRate = maxRounds > 0 ? (float)_successfulTouches / maxRounds * 100f : 0f;
+
+        string result =
+            $"Session Complete!\n" +
+            $"Score: {_successfulTouches} / {maxRounds}\n" +
+            $"Success Rate: {successRate:F0}%";
+
+        Debug.Log($"[Game] {result}");
+
+        if (instructionText != null)
+        {
+            instructionText.gameObject.SetActive(true);
+            instructionText.text = result;
+        }
+
+        SaveSession();
+    }
+
+    void UpdateScoreText()
     {
         if (scoreText != null)
+            scoreText.text = $"Score: {_successfulTouches} / {_round}";
+    }
+
+    void ResetBallColors()
+    {
+        if (_leftMat != null)
         {
-            scoreText.text = "Score: " + moveCount + " / " + maxMoves;
+            _leftMat.color = _leftBaseColor;
+            _leftMat.SetColor("_EmissionColor", _leftBaseColor * 0.3f);
         }
+        if (_rightMat != null)
+        {
+            _rightMat.color = _rightBaseColor;
+            _rightMat.SetColor("_EmissionColor", _rightBaseColor * 0.3f);
+        }
+    }
+
+    Color GetBallColor(GameObject ball)
+    {
+        if (ball == null) return Color.cyan;
+        Renderer r = ball.GetComponent<Renderer>();
+        return r != null ? r.material.color : Color.cyan;
+    }
+
+    float EaseOutBack(float t)
+    {
+        float c1 = 1.70158f;
+        float c3 = c1 + 1f;
+        return 1f + c3 * Mathf.Pow(t - 1f, 3f) + c1 * Mathf.Pow(t - 1f, 2f);
+    }
+
+    void SpawnPopEffect(Vector3 position, Color color)
+    {
+        GameObject go = new GameObject("PopEffect");
+        go.transform.position = position;
+
+        ParticleSystem ps = go.AddComponent<ParticleSystem>();
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        var main = ps.main;
+        main.duration = 0.5f;
+        main.loop = false;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(0.2f, 0.5f);
+        main.startSpeed = new ParticleSystem.MinMaxCurve(0.8f, 2.5f);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.005f, 0.02f);
+        main.startColor = new ParticleSystem.MinMaxGradient(color, Color.white);
+        main.gravityModifier = 0.15f;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.stopAction = ParticleSystemStopAction.Destroy;
+
+        var emission = ps.emission;
+        emission.enabled = false;
+        emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 20) });
+        emission.enabled = true;
+
+        var shape = ps.shape;
+        shape.enabled = true;
+        shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = 0.01f;
+
+        var col = ps.colorOverLifetime;
+        col.enabled = true;
+        Gradient grad = new Gradient();
+        grad.SetKeys(
+            new[] { new GradientColorKey(color, 0f), new GradientColorKey(Color.white, 1f) },
+            new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(0f, 1f) }
+        );
+        col.color = new ParticleSystem.MinMaxGradient(grad);
+
+        var size = ps.sizeOverLifetime;
+        size.enabled = true;
+        size.size = new ParticleSystem.MinMaxCurve(1f,
+            new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f)));
+
+        var rend = go.GetComponent<ParticleSystemRenderer>();
+        rend.material = new Material(Shader.Find("Particles/Standard Unlit"));
+        rend.material.color = color;
+
+        ps.Play();
+    }
+
+    void SaveSession()
+    {
+        if (RehabDataManager.Instance == null)
+        {
+            Debug.LogWarning("[Save] RehabDataManager not found");
+            return;
+        }
+
+        float successRate = maxRounds > 0 ? (float)_successfulTouches / maxRounds : 0f;
+
+        Debug.Log($"[Save] hits={_successfulTouches} rounds={maxRounds} rate={successRate:F2}");
+
+        var session = new SessionResult
+        {
+            sessionId = Guid.NewGuid().ToString(),
+            date = DateTime.Now.ToString("yyyy-MM-dd"),
+            startTimestampMs = _sessionStartMs,
+            endTimestampMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            totalReps = maxRounds,
+            successfulReps = _successfulTouches,
+            overallSuccessRate = successRate,
+            totalPhrases = 1,
+            phrases = new List<PhraseResult>
+            {
+                new PhraseResult
+                {
+                    phraseType     = "HandScan",
+                    totalReps      = maxRounds,
+                    successfulReps = _successfulTouches,
+                    averageScore   = successRate,
+                    timestampMs    = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                }
+            }
+        };
+
+        RehabDataManager.Instance.SaveSession(session);
     }
 }
