@@ -16310,7 +16310,7 @@ IL_002e:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 129352
+// Method Definition Index: 129365
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4__ctor_mA99D6E96007548668F8E05C810CFD27AABC7D02E_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, RuntimeObject* ___0_baseConstraint, const RuntimeMethod* method) 
 {
 	{
@@ -16324,7 +16324,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4__ctor_mA99D6E960
 		return;
 	}
 }
-// Method Definition Index: 129353
+// Method Definition Index: 129366
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* OverrideRigConstraint_4_CreateJob_mB63EA53985E98C45FEFD3A5349F9F2AF0991E69D_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, Animator_t8A52E42AE54F76681838FE9E632683EF3952E883* ___0_animator, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16372,7 +16372,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* OverrideRigConstraint_4_Create
 		return (RuntimeObject*)L_12;
 	}
 }
-// Method Definition Index: 129354
+// Method Definition Index: 129367
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4_DestroyJob_mCF44697F65A28DF1F02B6401998C19C71D08D1E2_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, RuntimeObject* ___0_job, const RuntimeMethod* method) 
 {
 	{
@@ -16385,7 +16385,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4_DestroyJob_mCF44
 		return;
 	}
 }
-// Method Definition Index: 129355
+// Method Definition Index: 129368
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4_UpdateJob_m3C2A6EF103BFABB7A12C51E92F6113F2F2326FA1_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, RuntimeObject* ___0_job, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16411,7 +16411,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4_UpdateJob_m3C2A6
 		return;
 	}
 }
-// Method Definition Index: 129356
+// Method Definition Index: 129369
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool OverrideRigConstraint_4_IsValid_m7E17E93B111DECBA36A2942521921623A3B7D882_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16429,7 +16429,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool OverrideRigConstraint_4_IsValid_m7E17E93
 		return L_1;
 	}
 }
-// Method Definition Index: 129357
+// Method Definition Index: 129370
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* OverrideRigConstraint_4_UnityEngine_Animations_Rigging_IRigConstraint_get_binder_mBE2E423119FDA002D4804115EDC2E7F4BD3B3AC6_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, const RuntimeMethod* method) 
 {
 	{
@@ -16439,7 +16439,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* OverrideRigConstraint_4_UnityE
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 129358
+// Method Definition Index: 129371
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* OverrideRigConstraint_4_UnityEngine_Animations_Rigging_IRigConstraint_get_data_m369D349E9C597C062A6EDCA652908F4542072A92_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16457,7 +16457,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* OverrideRigConstraint_4_UnityE
 		return L_1;
 	}
 }
-// Method Definition Index: 129359
+// Method Definition Index: 129372
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* OverrideRigConstraint_4_UnityEngine_Animations_Rigging_IRigConstraint_get_component_m7C05D62D392D738A8840DB4C64AACE393AA687BA_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16475,7 +16475,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Component_t39FBE53E5EFCF4409111FB22C15FF73717
 		return L_1;
 	}
 }
-// Method Definition Index: 129360
+// Method Definition Index: 129373
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float OverrideRigConstraint_4_get_weight_mED2792E9F2F54A1AF0D56F8063A7F897461551AF_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16493,7 +16493,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float OverrideRigConstraint_4_get_weight_mED2
 		return L_1;
 	}
 }
-// Method Definition Index: 129361
+// Method Definition Index: 129374
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4_set_weight_m4229AF4BCE92D9820EB1BD9A8900C97E7C00DA35_gshared (OverrideRigConstraint_4_t6CFF22FA1276EDAFB0A3CD1312159CF55DC5BE3A* __this, float ___0_value, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16511,7 +16511,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4_set_weight_m4229
 		return;
 	}
 }
-// Method Definition Index: 129362
+// Method Definition Index: 129375
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4__cctor_m15E3867725AB8634015D12519021469C048C26CA_gshared (const RuntimeMethod* method) 
 {
 	{
@@ -16531,7 +16531,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideRigConstraint_4__cctor_m15E38677
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 128976
+// Method Definition Index: 128989
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F OverrideTransformJobBinder_1_Create_m8D337606365521245CA0637C229FCDD2A59705B0_gshared (OverrideTransformJobBinder_1_tF359ABD62B6B76E06955711A9BC21CAFCE580452* __this, Animator_t8A52E42AE54F76681838FE9E632683EF3952E883* ___0_animator, OverrideTransformData_tFE25E4A334E3CF1155B89C87410B2E83D8C4E9DB* ___1_data, Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* ___2_component, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16811,7 +16811,7 @@ IL_01d3:
 		return L_92;
 	}
 }
-// Method Definition Index: 128977
+// Method Definition Index: 128990
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Destroy_m576E0C5435133C2C19367A5478D98676453BC636_gshared (OverrideTransformJobBinder_1_tF359ABD62B6B76E06955711A9BC21CAFCE580452* __this, OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F ___0_job, const RuntimeMethod* method) 
 {
 	{
@@ -16822,7 +16822,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Destroy_m57
 		return;
 	}
 }
-// Method Definition Index: 128978
+// Method Definition Index: 128991
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Update_m76E34F9396640ADD1F51606586FADC86839B39B2_gshared (OverrideTransformJobBinder_1_tF359ABD62B6B76E06955711A9BC21CAFCE580452* __this, OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F ___0_job, OverrideTransformData_tFE25E4A334E3CF1155B89C87410B2E83D8C4E9DB* ___1_data, const RuntimeMethod* method) 
 {
 	{
@@ -16835,7 +16835,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Update_m76E
 		return;
 	}
 }
-// Method Definition Index: 128979
+// Method Definition Index: 128992
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1__ctor_m44237FC00C0A676F3A68941AC808C4C6891C571D_gshared (OverrideTransformJobBinder_1_tF359ABD62B6B76E06955711A9BC21CAFCE580452* __this, const RuntimeMethod* method) 
 {
 	{
@@ -16851,7 +16851,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1__ctor_m4423
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 128976
+// Method Definition Index: 128989
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F OverrideTransformJobBinder_1_Create_m153D6C056EC700D9C09D3F532CFA7976C5ED9D3D_gshared (OverrideTransformJobBinder_1_t5DF587182693AE18D29A35CC3E82108AEDA281D8* __this, Animator_t8A52E42AE54F76681838FE9E632683EF3952E883* ___0_animator, Il2CppFullySharedGenericStruct* ___1_data, Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* ___2_component, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17148,7 +17148,7 @@ IL_01d3:
 		return L_109;
 	}
 }
-// Method Definition Index: 128977
+// Method Definition Index: 128990
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Destroy_mE54E42A47C6CEED0515DAADAB85E484D6B8D5DC6_gshared (OverrideTransformJobBinder_1_t5DF587182693AE18D29A35CC3E82108AEDA281D8* __this, OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F ___0_job, const RuntimeMethod* method) 
 {
 	{
@@ -17159,7 +17159,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Destroy_mE5
 		return;
 	}
 }
-// Method Definition Index: 128978
+// Method Definition Index: 128991
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Update_m8BF78C279CDBFD8F215F0196286D72DC846FE8D3_gshared (OverrideTransformJobBinder_1_t5DF587182693AE18D29A35CC3E82108AEDA281D8* __this, OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F ___0_job, Il2CppFullySharedGenericStruct* ___1_data, const RuntimeMethod* method) 
 {
 	void* L_1 = alloca(Il2CppFakeBoxBuffer::SizeNeededFor(il2cpp_rgctx_data(method->klass->rgctx_data, 1)));
@@ -17173,7 +17173,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1_Update_m8BF
 		return;
 	}
 }
-// Method Definition Index: 128979
+// Method Definition Index: 128992
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void OverrideTransformJobBinder_1__ctor_mE5ED377C9FDCCD8AA3A10BE97973FCF264380761_gshared (OverrideTransformJobBinder_1_t5DF587182693AE18D29A35CC3E82108AEDA281D8* __this, const RuntimeMethod* method) 
 {
 	{
@@ -33462,7 +33462,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_Invoke_m7126A54DACA72
 	typedef void (*FunctionPointerType) (RuntimeObject*, const RuntimeMethod*);
 	((FunctionPointerType)__this->___invoke_impl)((Il2CppObject*)__this->___method_code, reinterpret_cast<RuntimeMethod*>(__this->___method));
 }
-// Method Definition Index: 129257
+// Method Definition Index: 129270
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* OverrideTransformData_get_constrainedObject_m292B93774675A4F3E3839D4F1E2A5CCE86D50675_inline (OverrideTransformData_tFE25E4A334E3CF1155B89C87410B2E83D8C4E9DB* __this, const RuntimeMethod* method) 
 {
 	{
@@ -33471,7 +33471,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Transform_tB27202C6F4E36D225EE28A
 		return L_0;
 	}
 }
-// Method Definition Index: 129259
+// Method Definition Index: 129272
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* OverrideTransformData_get_sourceObject_m65903CE6AF0D55114DFC64BC1C61FA98A7D1C8C0_inline (OverrideTransformData_tFE25E4A334E3CF1155B89C87410B2E83D8C4E9DB* __this, const RuntimeMethod* method) 
 {
 	{
@@ -33480,7 +33480,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Transform_tB27202C6F4E36D225EE28A
 		return L_0;
 	}
 }
-// Method Definition Index: 129271
+// Method Definition Index: 129284
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t OverrideTransformData_UnityEngine_Animations_Rigging_IOverrideTransformData_get_space_mB9F716D4FCD93C858E9DFFD20244B88DF26DBD0F_inline (OverrideTransformData_tFE25E4A334E3CF1155B89C87410B2E83D8C4E9DB* __this, const RuntimeMethod* method) 
 {
 	{
