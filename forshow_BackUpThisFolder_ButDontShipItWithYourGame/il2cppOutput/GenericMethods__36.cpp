@@ -25785,7 +25785,7 @@ IL_0087:
 		return;
 	}
 }
-// Method Definition Index: 132740
+// Method Definition Index: 132738
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DictionaryExtensions_First_TisIl2CppFullySharedGenericAny_TisIl2CppFullySharedGenericAny_m4CCC3E339E7DF3C25DAB6173FC6BB0177CA658E9_gshared (Dictionary_2_t5C32AF17A5801FB3109E5B0E622BA8402A04E08E* ___0_dictionary, KeyValuePair_2_t28EF90BF7804CE5D7F99A364266351E7DC652669* il2cppRetVal, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -25830,7 +25830,7 @@ IL_0020:
 		return;
 	}
 }
-// Method Definition Index: 138109
+// Method Definition Index: 138107
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Dispatcher_Run_TisBoolean_t09A6377A54BE2F9E6985A8149F19234FD7DDFE22_m173BD631D4264F5061AA051BB7938488260DA8D7_gshared (Dispatcher_tBD1370511B5D6C10B211FBD3AF8E4F9D6B3CD8C6* __this, Func_1_t2BE7F58348C9CC544A8973B3A9E55541DE43C457* ___0_callback, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -25984,7 +25984,7 @@ IL_00b7:
 		return L_32;
 	}
 }
-// Method Definition Index: 138109
+// Method Definition Index: 138107
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* Dispatcher_Run_TisRuntimeObject_m6D25E318900933E0CEA5555610CC2DC7C0D82E77_gshared (Dispatcher_tBD1370511B5D6C10B211FBD3AF8E4F9D6B3CD8C6* __this, Func_1_tD5C081AE11746B200C711DD48DBEB00E3A9276D4* ___0_callback, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -26138,7 +26138,7 @@ IL_00b7:
 		return L_32;
 	}
 }
-// Method Definition Index: 138109
+// Method Definition Index: 138107
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Dispatcher_Run_TisIl2CppFullySharedGenericAny_m900336E9B942E680FC1F2585CFA543D7EB5E5076_gshared (Dispatcher_tBD1370511B5D6C10B211FBD3AF8E4F9D6B3CD8C6* __this, Func_1_tBB8824FA8746333BFFF3AB3CE4A41B58450AF431* ___0_callback, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -26296,7 +26296,7 @@ IL_00b7:
 		return;
 	}
 }
-// Method Definition Index: 138110
+// Method Definition Index: 138108
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_t824317F4B958F7512E8F7300511752937A6C6043* Dispatcher_RunAsync_TisBoolean_t09A6377A54BE2F9E6985A8149F19234FD7DDFE22_m25A763B9C89820A04BE6FF68C0BE6500530E45E4_gshared (Dispatcher_tBD1370511B5D6C10B211FBD3AF8E4F9D6B3CD8C6* __this, Func_1_t2BE7F58348C9CC544A8973B3A9E55541DE43C457* ___0_callback, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -26410,7 +26410,7 @@ IL_007b:
 		return L_20;
 	}
 }
-// Method Definition Index: 138110
+// Method Definition Index: 138108
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_tDF1FF540D7D2248A08580387A39717B7FB7A9CF9* Dispatcher_RunAsync_TisIl2CppFullySharedGenericAny_m90A60099F00FB2443E54654753E6A76E705378EA_gshared (Dispatcher_tBD1370511B5D6C10B211FBD3AF8E4F9D6B3CD8C6* __this, Func_1_tBB8824FA8746333BFFF3AB3CE4A41B58450AF431* ___0_callback, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -26524,7 +26524,7 @@ IL_007b:
 		return L_20;
 	}
 }
-// Method Definition Index: 138111
+// Method Definition Index: 138109
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_t824317F4B958F7512E8F7300511752937A6C6043* Dispatcher_RunAsyncNow_TisBoolean_t09A6377A54BE2F9E6985A8149F19234FD7DDFE22_m017567E7D752A1C903B4A9AD6632B6E2F822B287_gshared (Func_1_t2BE7F58348C9CC544A8973B3A9E55541DE43C457* ___0_callback, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -26595,7 +26595,7 @@ IL_002f:
 		return L_11;
 	}
 }
-// Method Definition Index: 138111
+// Method Definition Index: 138109
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Task_1_tDF1FF540D7D2248A08580387A39717B7FB7A9CF9* Dispatcher_RunAsyncNow_TisIl2CppFullySharedGenericAny_m9391FD5502A9F1327A3867DAD76EAD96F3C71761_gshared (Func_1_tBB8824FA8746333BFFF3AB3CE4A41B58450AF431* ___0_callback, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -27186,7 +27186,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool Func_1_Invoke_mBB7F37C468451
 	typedef bool (*FunctionPointerType) (RuntimeObject*, const RuntimeMethod*);
 	return ((FunctionPointerType)__this->___invoke_impl)((Il2CppObject*)__this->___method_code, reinterpret_cast<RuntimeMethod*>(__this->___method));
 }
-// Method Definition Index: 138116
+// Method Definition Index: 138114
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Exception_t* CallbackStorage_1_get_Exception_mDBC3EB60A252F7D022458A5CE2812DFFFEC5871C_gshared_inline (CallbackStorage_1_t29EA4F28015B26816BDAFC97509E553D412741A4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -27194,7 +27194,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Exception_t* CallbackStorage_1_ge
 		return L_0;
 	}
 }
-// Method Definition Index: 138114
+// Method Definition Index: 138112
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool CallbackStorage_1_get_Result_m4D72FEA7A646125C2F8AD9E535163AA8336010B8_gshared_inline (CallbackStorage_1_t29EA4F28015B26816BDAFC97509E553D412741A4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -27208,7 +27208,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* Func_1_Invoke_m141
 	typedef RuntimeObject* (*FunctionPointerType) (RuntimeObject*, const RuntimeMethod*);
 	return ((FunctionPointerType)__this->___invoke_impl)((Il2CppObject*)__this->___method_code, reinterpret_cast<RuntimeMethod*>(__this->___method));
 }
-// Method Definition Index: 138116
+// Method Definition Index: 138114
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Exception_t* CallbackStorage_1_get_Exception_m99600073E740BF08F7B60660F2C64A375F2905A2_gshared_inline (CallbackStorage_1_tE1F9FFA8A0223A7E67F7E84FFDAD5197A60C9142* __this, const RuntimeMethod* method) 
 {
 	{
@@ -27216,7 +27216,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Exception_t* CallbackStorage_1_ge
 		return L_0;
 	}
 }
-// Method Definition Index: 138114
+// Method Definition Index: 138112
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* CallbackStorage_1_get_Result_mB8F291F02690F9095AEF35102844A20CECA54627_gshared_inline (CallbackStorage_1_tE1F9FFA8A0223A7E67F7E84FFDAD5197A60C9142* __this, const RuntimeMethod* method) 
 {
 	{

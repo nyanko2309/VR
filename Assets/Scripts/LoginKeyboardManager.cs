@@ -2,7 +2,6 @@ using Microsoft.MixedReality.Toolkit.Experimental.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Debug = UnityEngine.Debug;
 
 public class LoginKeyboardManager : MonoBehaviour
 {
@@ -10,22 +9,19 @@ public class LoginKeyboardManager : MonoBehaviour
     [SerializeField] private TMP_InputField passwordInput;
 
     private TMP_InputField activeField;
-
-    private string savedEmail = "";
-    private string savedPassword = "";
+    private string savedEmailText = "";
+    private string savedPasswordText = "";
 
     void Start()
     {
         if (emailInput != null)
         {
-            savedEmail = emailInput.text;
             emailInput.onSelect.AddListener(_ => OpenKeyboard(emailInput));
             AddPointerClickTrigger(emailInput, () => OpenKeyboard(emailInput));
         }
 
         if (passwordInput != null)
         {
-            savedPassword = passwordInput.text;
             passwordInput.onSelect.AddListener(_ => OpenKeyboard(passwordInput));
             AddPointerClickTrigger(passwordInput, () => OpenKeyboard(passwordInput));
         }
@@ -34,54 +30,42 @@ public class LoginKeyboardManager : MonoBehaviour
     private void AddPointerClickTrigger(TMP_InputField field, System.Action callback)
     {
         EventTrigger trigger = field.gameObject.GetComponent<EventTrigger>();
-
         if (trigger == null)
             trigger = field.gameObject.AddComponent<EventTrigger>();
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(_ => callback());
-
         trigger.triggers.Add(entry);
     }
 
-    public void OpenEmailKeyboard()
-    {
-        OpenKeyboard(emailInput);
-    }
-
-    public void OpenPasswordKeyboard()
-    {
-        OpenKeyboard(passwordInput);
-    }
+    public void OpenEmailKeyboard() => OpenKeyboard(emailInput);
+    public void OpenPasswordKeyboard() => OpenKeyboard(passwordInput);
 
     private void OpenKeyboard(TMP_InputField field)
     {
         if (field == null || NonNativeKeyboard.Instance == null)
             return;
 
-        SaveCurrentFieldText();
+        // Save both fields before opening
+        savedEmailText = emailInput.text;
+        savedPasswordText = passwordInput.text;
 
         NonNativeKeyboard.Instance.OnTextUpdated -= UpdateField;
         NonNativeKeyboard.Instance.OnClosed -= OnKeyboardClosed;
 
-        if (NonNativeKeyboard.Instance.gameObject.activeSelf)
-            NonNativeKeyboard.Instance.Close();
-
         activeField = field;
 
-        string textToShow = GetSavedTextForField(field);
-
-        field.text = textToShow;
-        field.caretPosition = field.text.Length;
-        field.ForceLabelUpdate();
-
         NonNativeKeyboard.Instance.InputField = field;
-
         NonNativeKeyboard.Instance.OnTextUpdated += UpdateField;
         NonNativeKeyboard.Instance.OnClosed += OnKeyboardClosed;
+        NonNativeKeyboard.Instance.PresentKeyboard(field.text);
 
-        NonNativeKeyboard.Instance.PresentKeyboard(textToShow);
+        // Restore the other field immediately
+        if (field == emailInput)
+            passwordInput.SetTextWithoutNotify(savedPasswordText);
+        else
+            emailInput.SetTextWithoutNotify(savedEmailText);
     }
 
     private void UpdateField(string text)
@@ -89,45 +73,15 @@ public class LoginKeyboardManager : MonoBehaviour
         if (activeField == null)
             return;
 
-        activeField.text = text;
+        activeField.SetTextWithoutNotify(text);
         activeField.caretPosition = activeField.text.Length;
         activeField.ForceLabelUpdate();
-
-        if (activeField == emailInput)
-            savedEmail = text;
-        else if (activeField == passwordInput)
-            savedPassword = text;
     }
 
     private void OnKeyboardClosed(object sender, System.EventArgs e)
     {
-        SaveCurrentFieldText();
-
         NonNativeKeyboard.Instance.OnTextUpdated -= UpdateField;
         NonNativeKeyboard.Instance.OnClosed -= OnKeyboardClosed;
-
         activeField = null;
-    }
-
-    private void SaveCurrentFieldText()
-    {
-        if (activeField == null)
-            return;
-
-        if (activeField == emailInput)
-            savedEmail = emailInput.text;
-        else if (activeField == passwordInput)
-            savedPassword = passwordInput.text;
-    }
-
-    private string GetSavedTextForField(TMP_InputField field)
-    {
-        if (field == emailInput)
-            return savedEmail;
-
-        if (field == passwordInput)
-            return savedPassword;
-
-        return field.text;
     }
 }

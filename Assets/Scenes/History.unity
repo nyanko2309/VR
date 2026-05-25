@@ -9612,10 +9612,10 @@ MonoBehaviour:
   maxSessionsToLoad: 20
   useTestUserIfNoLogin: 1
   testUserId: ampcTUbGF3edyN95CG7UrEq3Ask2
-  statusText: {fileID: 0}
-  sessionListContent: {fileID: 0}
+  statusText: {fileID: 551662155}
+  sessionListContent: {fileID: 1943514865}
   sessionCardPrefab: {fileID: 3162353358723823152, guid: 12ad70347bc7b484dac80901c5bfd550, type: 3}
-  graphContent: {fileID: 0}
+  graphContent: {fileID: 690842170}
   graphBarPrefab: {fileID: 0}
   maxBarHeight: 200
 --- !u!4 &1450987970

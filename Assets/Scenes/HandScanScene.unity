@@ -1467,9 +1467,8 @@ MonoBehaviour:
   scanDuration: 3
   maxRounds: 10
   instructionDuration: 4
-  ballRadius: 0.8
-  handRadius: 0.1
-  spawnGracePeriod: 0.5
+  ballRadius: 0.15
+  handRadius: 0.15
   bpm: 84
   bgMusicClip: {fileID: 8300000, guid: f7be3020f6622504fb950726bc68b682, type: 3}
   popSoundClip: {fileID: 8300000, guid: 9332c50b6fc4e9b44a3c5910076e7ca2, type: 3}

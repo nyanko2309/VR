@@ -234,8 +234,6 @@ extern void LoginKeyboardManager_OpenPasswordKeyboard_m8E9EE8F07208EB45F9AEBFE27
 extern void LoginKeyboardManager_OpenKeyboard_m2275031759AD4FAABFA3BEDACB93B860E1E331EA (void);
 extern void LoginKeyboardManager_UpdateField_m7D40DCA422BBF2CE1B72E7AB46A3C027969BC3C8 (void);
 extern void LoginKeyboardManager_OnKeyboardClosed_m4B8213520D87EE3DE8383FFDF80634CA3ACD7B2F (void);
-extern void LoginKeyboardManager_SaveCurrentFieldText_m68BEF69390F2A1454B10C5C8A4B7896C174D35DD (void);
-extern void LoginKeyboardManager_GetSavedTextForField_m925F46C32EE9F83BC0C4DBD1B9C5234A69541338 (void);
 extern void LoginKeyboardManager__ctor_m9A154BECEFB967E223A360B740C8C487945250E2 (void);
 extern void LoginKeyboardManager_U3CStartU3Eb__5_0_m3EABD79D13AEF05A748EA886CBA3B6B87B33A6C0 (void);
 extern void LoginKeyboardManager_U3CStartU3Eb__5_1_mD42E822425F7F97A9B22D58420FB2E8A1DBC32DC (void);
@@ -695,7 +693,7 @@ extern void U3CU3Ec__DisplayClass5_0_U3Cget_ResultU3Eb__6_m9DDEF005B688BBCB60877
 extern void U3CU3Ec__DisplayClass5_0_U3Cget_ResultU3Eb__7_mD0783088AA1B5B1F825807F640392ABFC3A3E5CA (void);
 extern void SignInHelperObject_get_Instance_mB289E4E5785ECA3877128A2D7E42F73DAEAA2C34 (void);
 extern void SignInHelperObject__ctor_m049CB998CA9E1DA5929BE9CFCEA8C33EE915CDA3 (void);
-static Il2CppMethodPointer s_methodPointers[709] = 
+static Il2CppMethodPointer s_methodPointers[707] = 
 {
 	LegModelConfig__ctor_m4EE6FCC2A1F1C6DDE47CA8A6A1048317B4B9AAE8,
 	CameraGrabberPCA_Update_m6BC896BBAA995796490970FB2D31B7399DDDFB41,
@@ -924,8 +922,6 @@ static Il2CppMethodPointer s_methodPointers[709] =
 	LoginKeyboardManager_OpenKeyboard_m2275031759AD4FAABFA3BEDACB93B860E1E331EA,
 	LoginKeyboardManager_UpdateField_m7D40DCA422BBF2CE1B72E7AB46A3C027969BC3C8,
 	LoginKeyboardManager_OnKeyboardClosed_m4B8213520D87EE3DE8383FFDF80634CA3ACD7B2F,
-	LoginKeyboardManager_SaveCurrentFieldText_m68BEF69390F2A1454B10C5C8A4B7896C174D35DD,
-	LoginKeyboardManager_GetSavedTextForField_m925F46C32EE9F83BC0C4DBD1B9C5234A69541338,
 	LoginKeyboardManager__ctor_m9A154BECEFB967E223A360B740C8C487945250E2,
 	LoginKeyboardManager_U3CStartU3Eb__5_0_m3EABD79D13AEF05A748EA886CBA3B6B87B33A6C0,
 	LoginKeyboardManager_U3CStartU3Eb__5_1_mD42E822425F7F97A9B22D58420FB2E8A1DBC32DC,
@@ -1407,7 +1403,7 @@ static Il2CppMethodPointer s_methodPointers[709] =
 	SignInHelperObject_get_Instance_mB289E4E5785ECA3877128A2D7E42F73DAEAA2C34,
 	SignInHelperObject__ctor_m049CB998CA9E1DA5929BE9CFCEA8C33EE915CDA3,
 };
-static const int32_t s_InvokerIndices[709] = 
+static const int32_t s_InvokerIndices[707] = 
 {
 	20784,
 	20784,
@@ -1636,8 +1632,6 @@ static const int32_t s_InvokerIndices[709] =
 	16176,
 	16176,
 	8536,
-	20784,
-	14048,
 	20784,
 	16176,
 	20784,
@@ -2123,7 +2117,7 @@ static const Il2CppTokenRangePair s_rgctxIndices[3] =
 {
 	{ 0x02000067, { 2, 10 } },
 	{ 0x02000068, { 12, 10 } },
-	{ 0x0600017D, { 0, 2 } },
+	{ 0x0600017B, { 0, 2 } },
 };
 extern const uint32_t g_rgctx_T_t28CB1661FF7BDEDFBEE527928DE91AAF71B0053A;
 extern const uint32_t g_rgctx_GameObject_GetComponent_TisT_t28CB1661FF7BDEDFBEE527928DE91AAF71B0053A_m434819A31A3BA0618593B1C358F484D0D617E3EE;
@@ -2176,7 +2170,7 @@ IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	709,
+	707,
 	s_methodPointers,
 	0,
 	NULL,

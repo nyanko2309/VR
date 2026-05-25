@@ -34,9 +34,6 @@ public class HandScanManager : MonoBehaviour
     public float ballRadius = 0.08f;
     public float handRadius = 0.10f;
 
-    [Header("Spawn Grace Period")]
-    public float spawnGracePeriod = 0.5f;
-
     [Header("Tempo")]
     [Tooltip("BPM — balls wait 7 beats then reposition")]
     public float bpm = 84f;
@@ -59,9 +56,6 @@ public class HandScanManager : MonoBehaviour
     private Phase _phase = Phase.Scanning;
 
     private float _scanTimer = 0f;
-
-    private float _graceTimer = 0f;
-    private bool _inGrace = false;
 
     private int _round = 0;
     private bool _roundTouched = false;
@@ -123,8 +117,7 @@ public class HandScanManager : MonoBehaviour
             instructionText.text = "Reach the glowing balls and touch them";
         }
 
-        if (_bgMusic != null && bgMusicClip != null)
-            _bgMusic.Play();
+        // Music does NOT start here — it starts after scan
     }
 
     void SetupBallMaterial(GameObject ball, ref Material mat, ref Color baseColor)
@@ -174,9 +167,13 @@ public class HandScanManager : MonoBehaviour
                     _instructionVisible = true;
                 }
 
+                // Music starts here, after scan completes
+                if (_bgMusic != null && bgMusicClip != null)
+                    _bgMusic.Play();
+
                 _beatAccum = 0f;
                 _phase = Phase.WaitingToSpawn;
-                Debug.Log("[Game] Scan complete");
+                Debug.Log("[Game] Scan complete — music started");
             }
         }
         else
@@ -197,14 +194,16 @@ public class HandScanManager : MonoBehaviour
 
     void UpdateBallsActive()
     {
-        // Beat counter
+        _floatTime += Time.deltaTime;
+        float urgency = Mathf.Clamp01((float)_beatCount / BeatsPerRound);
+        AnimateBalls(urgency);
+
+        // Beat counter for repositioning if player misses
         _beatAccum += Time.deltaTime;
         if (_beatAccum >= _beatInterval)
         {
             _beatAccum -= _beatInterval;
             _beatCount++;
-            Debug.Log($"[Game] Beat {_beatCount}/{BeatsPerRound} round={_round + 1}/{maxRounds}");
-
             if (_beatCount >= BeatsPerRound)
             {
                 MissRound();
@@ -212,25 +211,7 @@ public class HandScanManager : MonoBehaviour
             }
         }
 
-        // Grace period
-        if (_inGrace)
-        {
-            _graceTimer += Time.deltaTime;
-            if (_graceTimer >= spawnGracePeriod)
-            {
-                _inGrace = false;
-                Debug.Log("[Game] Grace over — touch enabled");
-            }
-        }
-
-        // Float + glow
-        _floatTime += Time.deltaTime;
-        float urgency = Mathf.Clamp01((float)_beatCount / BeatsPerRound);
-        AnimateBalls(urgency);
-
-        // Touch detection
-        if (_inGrace || _roundTouched) return;
-
+        // Touch detection every frame
         Vector3 vhPos = virtualHand != null ? virtualHand.transform.position : Vector3.zero;
         Vector3 rhPos = rightHandTransform != null ? rightHandTransform.position : Vector3.zero;
         Vector3 lhPos = leftHandTransform != null ? leftHandTransform.position : Vector3.zero;
@@ -247,41 +228,45 @@ public class HandScanManager : MonoBehaviour
              Vector3.Distance(rhPos, targetRight.transform.position) < TouchThreshold ||
              Vector3.Distance(lhPos, targetRight.transform.position) < TouchThreshold);
 
-        if (Time.frameCount % 30 == 0 && targetLeft != null)
-            Debug.Log(
-                $"[Touch] " +
-                $"VH→L={Vector3.Distance(vhPos, targetLeft.transform.position):F3} " +
-                $"RH→L={Vector3.Distance(rhPos, targetLeft.transform.position):F3} " +
-                $"LH→L={Vector3.Distance(lhPos, targetLeft.transform.position):F3} " +
-                $"threshold={TouchThreshold:F3} beat={_beatCount}"
-            );
-
-        if (leftTouched || rightTouched)
+        if ((leftTouched || rightTouched) && !_roundTouched)
+        {
+            _roundTouched = true;
             HitRound();
+        }
     }
 
     void HitRound()
     {
-        _roundTouched = true;
         _successfulTouches++;
+        _round++;
+        UpdateScoreText();
 
-        Debug.Log($"[Game] HIT — round={_round + 1} score={_successfulTouches}");
+        Debug.Log($"[Game] HIT — score={_successfulTouches} round={_round}/{maxRounds}");
 
-        SpawnPopEffect(targetLeft != null ? targetLeft.transform.position : Vector3.zero, GetBallColor(targetLeft));
-        SpawnPopEffect(targetRight != null ? targetRight.transform.position : Vector3.zero, GetBallColor(targetRight));
+        if (targetLeft != null)
+            SpawnPopEffect(targetLeft.transform.position, GetBallColor(targetLeft));
+        if (targetRight != null)
+            SpawnPopEffect(targetRight.transform.position, GetBallColor(targetRight));
 
         if (_popSound != null && popSoundClip != null)
             _popSound.PlayOneShot(popSoundClip);
 
-        HideBalls();
-        EndRound();
+        if (_round >= maxRounds)
+            EndGame();
+        else
+            SpawnBalls();
     }
 
     void MissRound()
     {
         Debug.Log($"[Game] MISS — round={_round + 1}");
-        HideBalls();
-        EndRound();
+        _round++;
+        UpdateScoreText();
+
+        if (_round >= maxRounds)
+            EndGame();
+        else
+            SpawnBalls();
     }
 
     void EndRound()
@@ -306,8 +291,6 @@ public class HandScanManager : MonoBehaviour
         _beatCount = 0;
         _beatAccum = 0f;
         _floatTime = 0f;
-        _graceTimer = 0f;
-        _inGrace = true;
 
         Transform cam = Camera.main.transform;
 
@@ -517,9 +500,8 @@ public class HandScanManager : MonoBehaviour
         main.stopAction = ParticleSystemStopAction.Destroy;
 
         var emission = ps.emission;
-        emission.enabled = false;
-        emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 20) });
         emission.enabled = true;
+        emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 20) });
 
         var shape = ps.shape;
         shape.enabled = true;
@@ -541,8 +523,15 @@ public class HandScanManager : MonoBehaviour
             new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f)));
 
         var rend = go.GetComponent<ParticleSystemRenderer>();
-        rend.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        rend.material.color = color;
+        Shader shader = Shader.Find("Universal Render Pipeline/Particles/Unlit")
+                     ?? Shader.Find("Particles/Standard Unlit")
+                     ?? Shader.Find("Sprites/Default");
+
+        if (shader != null)
+        {
+            rend.material = new Material(shader);
+            rend.material.color = color;
+        }
 
         ps.Play();
     }

@@ -46406,7 +46406,6 @@ struct HandScanManager_t76423027303CA44ABCC5067AD6C3B5EC7AFAC504  : public MonoB
 	float ___instructionDuration;
 	float ___ballRadius;
 	float ___handRadius;
-	float ___spawnGracePeriod;
 	float ___bpm;
 	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___bgMusicClip;
 	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___popSoundClip;
@@ -46417,8 +46416,6 @@ struct HandScanManager_t76423027303CA44ABCC5067AD6C3B5EC7AFAC504  : public MonoB
 	int32_t ____beatCount;
 	int32_t ____phase;
 	float ____scanTimer;
-	float ____graceTimer;
-	bool ____inGrace;
 	int32_t ____round;
 	bool ____roundTouched;
 	int32_t ____successfulTouches;
@@ -46736,8 +46733,8 @@ struct LoginKeyboardManager_t7A419EEA387BF1C889811E22C17BE37BF9F85B86  : public 
 	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___emailInput;
 	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___passwordInput;
 	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___activeField;
-	String_t* ___savedEmail;
-	String_t* ___savedPassword;
+	String_t* ___savedEmailText;
+	String_t* ___savedPasswordText;
 };
 struct LookAtTarget_tB093B3119B1ADE3D1656211C079DAA2827A50DD1  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
