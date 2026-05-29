@@ -28795,7 +28795,7 @@ IL_0019:
 		return L_10;
 	}
 }
-// Method Definition Index: 75473
+// Method Definition Index: 75475
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AwaitableAsyncMethodBuilder_1_Start_TisU3CDownloadAsyncU3Ed__27_1_t2495FD02629C274B70B268744E8D4D6B3B134424_mC494F21B5AA5849907500167F7FC08B57482A82D_gshared_inline (AwaitableAsyncMethodBuilder_1_t2E4EB7698FB84AAB7A109AFB5E95B3A5A9F41197* __this, U3CDownloadAsyncU3Ed__27_1_t2495FD02629C274B70B268744E8D4D6B3B134424* ___0_stateMachine, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -29025,7 +29025,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void ReadOnlySpan_1__ctor_mA93F29
 		return;
 	}
 }
-// Method Definition Index: 75483
+// Method Definition Index: 75485
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void StateMachineBox_1_set_StateMachine_mBF92FB04CC3A11F079B920C8A61F74E7B911EEEF_gshared_inline (StateMachineBox_1_t1EB271C35EDB508A9E84D4B5D9191655E4E13D5C* __this, U3CDownloadAsyncU3Ed__27_1_t2495FD02629C274B70B268744E8D4D6B3B134424 ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -29044,7 +29044,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void StateMachineBox_1_set_StateM
 		return;
 	}
 }
-// Method Definition Index: 75484
+// Method Definition Index: 75486
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* StateMachineBox_1_get_MoveNext_mE745AFBAB25520FDC1A7A512CEAAB284A05809E7_gshared_inline (StateMachineBox_1_t1EB271C35EDB508A9E84D4B5D9191655E4E13D5C* __this, const RuntimeMethod* method) 
 {
 	{

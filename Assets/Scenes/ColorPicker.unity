@@ -2088,7 +2088,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1241687696}
   - component: {fileID: 1241687697}
-  - component: {fileID: 1241687698}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -2164,20 +2163,6 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 9332c50b6fc4e9b44a3c5910076e7ca2, type: 3}
   missSound: {fileID: 0}
   hitVolume: 0.6
---- !u!114 &1241687698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241687694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4874361fc0240a4eba03f31af3f1002, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RehabDataManager
-  useTestUserIfNoLogin: 1
-  testUserId: ampcTUbGF3edyN95CG7UrEq3Ask2
 --- !u!1 &1253360152
 GameObject:
   m_ObjectHideFlags: 0

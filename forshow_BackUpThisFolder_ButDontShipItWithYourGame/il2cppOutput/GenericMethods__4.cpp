@@ -18139,7 +18139,7 @@ inline void UnsafeUtility_InternalCopyStructureToPtr_TisTwoBoneIKConstraintJob_t
 {
 	((  void (*) (TwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D*, void*, const RuntimeMethod*))UnsafeUtility_InternalCopyStructureToPtr_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_mE9C4C4C27EF0AD7413E9CBEB3B01872758B9A384_gshared)(___0_input, ___1_ptr, method);
 }
-// Method Definition Index: 130920
+// Method Definition Index: 130951
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__Get_TisIl2CppFullySharedGenericAny_m6AA7C8A5BE069836640026CB6EDA5D93B3246683_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, String_t* ___0_fieldName, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -18171,7 +18171,7 @@ IL_001e:
 		return;
 	}
 }
-// Method Definition Index: 130929
+// Method Definition Index: 130960
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AndroidJavaObject__GetStatic_TisRuntimeObject_mBEC7518E1052FDAA2A7244FEA0BCB2B67B05B90F_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, intptr_t ___0_fieldID, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -18740,7 +18740,7 @@ IL_03d3:
 		return L_171;
 	}
 }
-// Method Definition Index: 130928
+// Method Definition Index: 130959
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AndroidJavaObject__GetStatic_TisRuntimeObject_mFD2921EBDC6092026493462946A3381D5C97FA86_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, String_t* ___0_fieldName, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -18768,7 +18768,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 130929
+// Method Definition Index: 130960
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__GetStatic_TisIl2CppFullySharedGenericAny_m265EB43F18C8FB22DCD571C5E50A76642369551D_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, intptr_t ___0_fieldID, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -19371,7 +19371,7 @@ IL_03d3:
 		return;
 	}
 }
-// Method Definition Index: 130928
+// Method Definition Index: 130959
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__GetStatic_TisIl2CppFullySharedGenericAny_m5FA6F86B221B6AD76DDD71818F721187D59BFC38_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, String_t* ___0_fieldName, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -19403,7 +19403,7 @@ IL_001e:
 		return;
 	}
 }
-// Method Definition Index: 130923
+// Method Definition Index: 130954
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__Set_TisIl2CppFullySharedGenericAny_m84E47B5A5FF416288BF85C7F79F287D6FD90356F_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, intptr_t ___0_fieldID, Il2CppFullySharedGenericAny ___1_val, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20071,7 +20071,7 @@ IL_0428:
 		return;
 	}
 }
-// Method Definition Index: 130922
+// Method Definition Index: 130953
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__Set_TisIl2CppFullySharedGenericAny_m1AF6344C2EF172B8799D007F4BAC3ECDC182BC22_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, String_t* ___0_fieldName, Il2CppFullySharedGenericAny ___1_val, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -20093,7 +20093,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__Set_TisIl2CppFullySha
 		return;
 	}
 }
-// Method Definition Index: 130931
+// Method Definition Index: 130962
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__SetStatic_TisIl2CppFullySharedGenericAny_m07564225CF639F8502927F2D783809867A34367A_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, intptr_t ___0_fieldID, Il2CppFullySharedGenericAny ___1_val, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20761,7 +20761,7 @@ IL_0426:
 		return;
 	}
 }
-// Method Definition Index: 130930
+// Method Definition Index: 130961
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__SetStatic_TisIl2CppFullySharedGenericAny_mA923EF05918D13946E2452B81B496229D8B952FB_gshared (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* __this, String_t* ___0_fieldName, Il2CppFullySharedGenericAny ___1_val, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -20783,7 +20783,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AndroidJavaObject__SetStatic_TisIl2CppFu
 		return;
 	}
 }
-// Method Definition Index: 128785
+// Method Definition Index: 128816
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 AnimationJobCache_Get_TisQuaternion_tDA59F214EF07D7700B26E40E562F267AF7306974_mF1D8E4CFC6FA7170671B240ACF6970F27E96B2B9_gshared (AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684* __this, CacheIndex_t4C1ED2E1A33D86DDC9B48132C2AF6276B74C1A9D ___0_index, int32_t ___1_offset, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20832,7 +20832,7 @@ IL2CPP_EXTERN_C  Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 AnimationJ
 	_returnValue = AnimationJobCache_Get_TisQuaternion_tDA59F214EF07D7700B26E40E562F267AF7306974_mF1D8E4CFC6FA7170671B240ACF6970F27E96B2B9(_thisAdjusted, ___0_index, ___1_offset, method);
 	return _returnValue;
 }
-// Method Definition Index: 128785
+// Method Definition Index: 128816
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationJobCache_Get_TisIl2CppFullySharedGenericStruct_m5F68E4583FFF4A67EBA858BA69C22AEB1BA59702_gshared (AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684* __this, CacheIndex_t4C1ED2E1A33D86DDC9B48132C2AF6276B74C1A9D ___0_index, int32_t ___1_offset, Il2CppFullySharedGenericStruct* il2cppRetVal, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20883,7 +20883,7 @@ IL2CPP_EXTERN_C  void AnimationJobCache_Get_TisIl2CppFullySharedGenericStruct_m5
 	AnimationJobCache_Get_TisIl2CppFullySharedGenericStruct_m5F68E4583FFF4A67EBA858BA69C22AEB1BA59702(_thisAdjusted, ___0_index, ___1_offset, il2cppRetVal, method);
 	return;
 }
-// Method Definition Index: 128786
+// Method Definition Index: 128817
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationJobCache_Set_TisQuaternion_tDA59F214EF07D7700B26E40E562F267AF7306974_m9E05EA915E1957070B26012473522714602AD275_gshared (AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684* __this, Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___0_val, CacheIndex_t4C1ED2E1A33D86DDC9B48132C2AF6276B74C1A9D ___1_index, int32_t ___2_offset, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20925,7 +20925,7 @@ IL2CPP_EXTERN_C  void AnimationJobCache_Set_TisQuaternion_tDA59F214EF07D7700B26E
 	_thisAdjusted = reinterpret_cast<AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684*>(__this + _offset);
 	AnimationJobCache_Set_TisQuaternion_tDA59F214EF07D7700B26E40E562F267AF7306974_m9E05EA915E1957070B26012473522714602AD275(_thisAdjusted, ___0_val, ___1_index, ___2_offset, method);
 }
-// Method Definition Index: 128786
+// Method Definition Index: 128817
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationJobCache_Set_TisIl2CppFullySharedGenericStruct_mA67E234DE3EB5B63B62D9CACE1D91A68590FECAC_gshared (AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684* __this, Il2CppFullySharedGenericStruct ___0_val, CacheIndex_t4C1ED2E1A33D86DDC9B48132C2AF6276B74C1A9D ___1_index, int32_t ___2_offset, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -20967,7 +20967,7 @@ IL2CPP_EXTERN_C  void AnimationJobCache_Set_TisIl2CppFullySharedGenericStruct_mA
 	_thisAdjusted = reinterpret_cast<AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684*>(__this + _offset);
 	AnimationJobCache_Set_TisIl2CppFullySharedGenericStruct_mA67E234DE3EB5B63B62D9CACE1D91A68590FECAC(_thisAdjusted, ___0_val, ___1_index, ___2_offset, method);
 }
-// Method Definition Index: 128787
+// Method Definition Index: 128818
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationJobCache_SetArray_TisIl2CppFullySharedGenericStruct_m2DBE3D63F401B190953472E961A2357BDE919298_gshared (AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684* __this, __Il2CppFullySharedGenericStructTypeU5BU5D_tF3B929B6E80D0A8C109178E11CE8FF9957B014C1* ___0_v, CacheIndex_t4C1ED2E1A33D86DDC9B48132C2AF6276B74C1A9D ___1_index, int32_t ___2_offset, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21048,7 +21048,7 @@ IL2CPP_EXTERN_C  void AnimationJobCache_SetArray_TisIl2CppFullySharedGenericStru
 	_thisAdjusted = reinterpret_cast<AnimationJobCache_t7587E616AA022B5AA9D5B476D46CDDD29262C684*>(__this + _offset);
 	AnimationJobCache_SetArray_TisIl2CppFullySharedGenericStruct_m2DBE3D63F401B190953472E961A2357BDE919298(_thisAdjusted, ___0_v, ___1_index, ___2_offset, method);
 }
-// Method Definition Index: 135398
+// Method Definition Index: 135429
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AnimationSceneHandleUtility_ValidateAndGetArrayCount_TisPropertySceneHandle_tB8CC36E4534888D6FCAC24F3337F4D436A327EE1_TisSingle_t4530F2FF86FCB0DC29F35385CA1BD21BE294761C_m258DD671FB0A25F3D024F7102432145099174DBC_gshared (AnimationStream_tA73510DCEE63720142DF4F8E15C337A48E47B94A* ___0_stream, NativeArray_1_t798B180994A003D789E550668FB8C34394A61C2C ___1_handles, NativeArray_1_t3848EE4B6647317212A754634DE6DBC90B99FBEF ___2_buffer, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -21124,7 +21124,7 @@ IL_0063:
 		return L_12;
 	}
 }
-// Method Definition Index: 135398
+// Method Definition Index: 135429
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AnimationSceneHandleUtility_ValidateAndGetArrayCount_TisPropertyStreamHandle_tA4F5D5D4C6A47069B2D84EDDD84B8A7F982DA1B3_TisSingle_t4530F2FF86FCB0DC29F35385CA1BD21BE294761C_m575B05C2A15EF2FFE16FFAB3A1860F4C877B5B7B_gshared (AnimationStream_tA73510DCEE63720142DF4F8E15C337A48E47B94A* ___0_stream, NativeArray_1_t49E030AAA071A257CED2C04428CE048534E26719 ___1_handles, NativeArray_1_t3848EE4B6647317212A754634DE6DBC90B99FBEF ___2_buffer, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -21200,7 +21200,7 @@ IL_0063:
 		return L_12;
 	}
 }
-// Method Definition Index: 135398
+// Method Definition Index: 135429
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AnimationSceneHandleUtility_ValidateAndGetArrayCount_TisIl2CppFullySharedGenericStruct_TisIl2CppFullySharedGenericStruct_m5EE2B7121C17B58D9A1121793F89DAB1DFB2AEA2_gshared (AnimationStream_tA73510DCEE63720142DF4F8E15C337A48E47B94A* ___0_stream, NativeArray_1_tDB8B8DC66CC8E16ED6D9A8C75D2C1AFC80AC1E18 ___1_handles, NativeArray_1_tDB8B8DC66CC8E16ED6D9A8C75D2C1AFC80AC1E18 ___2_buffer, const RuntimeMethod* method) 
 {
 	il2cpp_rgctx_method_init(method);
@@ -21276,7 +21276,7 @@ IL_0063:
 		return L_12;
 	}
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisBlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368_mDA42C2B9E2D2BAB7905C5A35F417FB6F9785CE0B_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21343,7 +21343,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisBlendConst
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisBlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368_mDA42C2B9E2D2BAB7905C5A35F417FB6F9785CE0B(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C_m5123692CB4019203C814FCCE48DC217C72924272_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21410,7 +21410,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisChainIKCon
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C_m5123692CB4019203C814FCCE48DC217C72924272(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisDampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802_mD6C42996F641C6A445C381DCC1745B0DE4F2AAAB_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21477,7 +21477,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisDampedTran
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisDampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802_mD6C42996F641C6A445C381DCC1745B0DE4F2AAAB(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3_mDF24D26737AD03EC16A44B9904E8FCF84149FD32_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21544,7 +21544,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiAimCo
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisMultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3_mDF24D26737AD03EC16A44B9904E8FCF84149FD32(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43_m98D95374A183A0309BAEE5E81EB912D2CFE9779C_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21611,7 +21611,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiParen
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisMultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43_m98D95374A183A0309BAEE5E81EB912D2CFE9779C(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641_m6E3839A9A466BE92B6F38103AE618716B2358561_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21678,7 +21678,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiPosit
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisMultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641_m6E3839A9A466BE92B6F38103AE618716B2358561(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF_m4DBF541406F5D2EA85E82587E6B627464C21E867_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21745,7 +21745,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiRefer
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisMultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF_m4DBF541406F5D2EA85E82587E6B627464C21E867(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0_mB438D0E41EE03A4631D40B3E26DDEB92498CDF2C_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21812,7 +21812,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisMultiRotat
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisMultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0_mB438D0E41EE03A4631D40B3E26DDEB92498CDF2C(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisOverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F_mCB98D293789047275764E615B0F2C5CC2AF96153_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21879,7 +21879,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisOverrideTr
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisOverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F_mCB98D293789047275764E615B0F2C5CC2AF96153(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisRigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE_m4198DBAD2F49ADFDC741A7534C8043FEFEFC3A37_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -21946,7 +21946,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisRigSyncSce
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisRigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE_m4198DBAD2F49ADFDC741A7534C8043FEFEFC3A37(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisTwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6_m805005D8D6B6E852F674CA2397EF7A6B4CF5C595_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22013,7 +22013,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisTwistChain
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisTwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6_m805005D8D6B6E852F674CA2397EF7A6B4CF5C595(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisTwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0_m75C4C62C28BB3D5E3C71A03556E31E6527409918_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22080,7 +22080,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisTwistCorre
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisTwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0_m75C4C62C28BB3D5E3C71A03556E31E6527409918(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_mF69AA61165603A1EB1F14A5622712A71E15C7C1D_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22147,7 +22147,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisTwoBoneIKC
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_mF69AA61165603A1EB1F14A5622712A71E15C7C1D(_thisAdjusted, method);
 }
-// Method Definition Index: 135269
+// Method Definition Index: 135300
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_CheckJobTypeValidity_TisIl2CppFullySharedGenericAny_m33EAA66CE1A7CA0786F87FB47468385A87873115_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22214,7 +22214,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_CheckJobTypeValidity_TisIl2CppFull
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_CheckJobTypeValidity_TisIl2CppFullySharedGenericAny_m33EAA66CE1A7CA0786F87FB47468385A87873115(_thisAdjusted, method);
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisBlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368_mC63CF32E13C7B2D565724FC0DF3BD74ECB06BD14_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, BlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22250,7 +22250,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C_mA327AB3BEA724680CF82B0A5CA13212E51C667DE_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, ChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22286,7 +22286,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisDampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802_m39B03106C4A6727B8BCF8FCB564E00380376F638_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, DampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22322,7 +22322,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisMultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3_m9B79F85904A29284AD819A93A9F9B36D194ED86A_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, MultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22358,7 +22358,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisMultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43_m4F04A8D753FD5B64A29EFD3580129ADEB4780CA3_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, MultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22394,7 +22394,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisMultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641_m0CC36FD9F27BB0556C8E84CC94C0C2A8FD25F405_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, MultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22430,7 +22430,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisMultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF_m3DCA4F50706B012895D2729919FB935F4B31CF8A_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, MultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22466,7 +22466,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisMultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0_mB3BE177F0938904BFC7F3EC3EE4C4A5BA893610A_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, MultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22502,7 +22502,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisOverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F_mEFBFADB35FD8347F834F9FAD97C9766E3BD4483A_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22538,7 +22538,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisRigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE_mFA9BECDBEE931EA407665A4CAEEE56B78BBAD711_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, RigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22574,7 +22574,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisTwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6_m9169AA8C3122812708EEB584AB60573C6FC00492_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, TwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22610,7 +22610,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisTwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0_m4C65EFFF3BD384639B3F5F301C5D6A45624DBE3E_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, TwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0 ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22646,7 +22646,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_mCEEE2C37E6CD47409AFADF39C2BA01920EECC684_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, TwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22682,7 +22682,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135265
+// Method Definition Index: 135296
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127 AnimationScriptPlayable_Create_TisIl2CppFullySharedGenericStruct_mAAD1306D90781B3FEFE269F0546DD67C983B7C3D_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, Il2CppFullySharedGenericStruct ___1_jobData, int32_t ___2_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22720,7 +22720,7 @@ IL_001e:
 		return L_6;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisBlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368_mD8FF8BB12714466609FB304AE6BBE239016ED225_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22780,7 +22780,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C_mCF7330DB45F5BB887791D46B83DA16A2D0877863_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22840,7 +22840,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisDampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802_m9B771D4E6F4085A4ABBA40C47592760284089472_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22900,7 +22900,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisMultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3_m46675D3D83486DAC2956E6D4FEDD37FF8243FE0D_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -22960,7 +22960,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisMultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43_m13A2E6458F44EFE70E14FE27F6A76CC356CC5D82_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23020,7 +23020,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisMultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641_m733C7E3B560CF17D0F4CA070617948C2616C9613_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23080,7 +23080,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisMultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF_mEB841C44E84ECBA29D442608056AC13D0328E9B8_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23140,7 +23140,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisMultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0_m40C1F18BC51C683C745E8B8CFF52376DCDF02C27_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23200,7 +23200,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisOverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F_m33B5CAECA7236E97A07876800A712D29FD91DF60_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23260,7 +23260,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisRigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE_mF97F525A32FA4CB16AD4F225A73CFFCA151E4587_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23320,7 +23320,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisTwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6_mBD314226DC1FF7A24FC6D56C33C3D0FEF4142C41_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23380,7 +23380,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisTwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0_mEE020A79CD5F3532AC240C1D5C904355306381DF_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23440,7 +23440,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_m7D24F11509805F8F83C2782ABE1FC30AFF6B2DC7_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23500,7 +23500,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135266
+// Method Definition Index: 135297
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR PlayableHandle_t5D6A01EF94382EFEDC047202F71DF882769654D4 AnimationScriptPlayable_CreateHandle_TisIl2CppFullySharedGenericStruct_mEE438D89F5A96014C18DD755B6C93E4141EBD24E_gshared (PlayableGraph_t4A5B0B45343A240F0761574FD7C672E0CFFF7A6E ___0_graph, int32_t ___1_inputCount, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23560,7 +23560,7 @@ IL_0032:
 		return L_9;
 	}
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisBlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368_mAD300245CECA8BF5CAF71E23E8B27E8EBEDE9475_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, BlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23593,7 +23593,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisBlendConstraintJob_t
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisBlendConstraintJob_t0143E21A1C165F021D2FC5DDDC05C71227AB4368_mAD300245CECA8BF5CAF71E23E8B27E8EBEDE9475(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C_mE91FC20470530640EB8E5A14083C0C6BF848FF2B_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, ChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23626,7 +23626,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisChainIKConstraintJob
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisChainIKConstraintJob_tDE724AC0F6B9894048B0A7DDA17BAE1DC431907C_mE91FC20470530640EB8E5A14083C0C6BF848FF2B(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisDampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802_mE35D6EC6CCC6DD9D1772FE00D4CC0DFA5A3B1948_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, DampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23659,7 +23659,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisDampedTransformJob_t
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisDampedTransformJob_tFC5574EF08E2C6A5370FE791581A485D716D6802_mE35D6EC6CCC6DD9D1772FE00D4CC0DFA5A3B1948(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisMultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3_mC1A4D624FC5C464D8ADFC368B2E00C8080D34437_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, MultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23692,7 +23692,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisMultiAimConstraintJo
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisMultiAimConstraintJob_t401B4B7D2185F6B1A3C0AAC442081F6BA709B3C3_mC1A4D624FC5C464D8ADFC368B2E00C8080D34437(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisMultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43_m43DD16FD8A7C8C20BDDFA32D1F34E756F8EAC979_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, MultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23725,7 +23725,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisMultiParentConstrain
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisMultiParentConstraintJob_tE8304D9AEF7355B07E582EB4493E7E95290F4A43_m43DD16FD8A7C8C20BDDFA32D1F34E756F8EAC979(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisMultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641_m707C940D07C9A62F2BFE9D26E59B436EF6C752E6_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, MultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23758,7 +23758,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisMultiPositionConstra
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisMultiPositionConstraintJob_tC798C76F92B7986DDC999743AFA79D6ED7EBB641_m707C940D07C9A62F2BFE9D26E59B436EF6C752E6(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisMultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF_m4FE4312611B80CD6730948DDA86EEA35FDBBFED2_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, MultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23791,7 +23791,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisMultiReferentialCons
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisMultiReferentialConstraintJob_t8084EBD68E2EB517C427216A1F9ABBA8E2914FBF_m4FE4312611B80CD6730948DDA86EEA35FDBBFED2(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisMultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0_m4B310989AB9CBB1DB20CCB50D707B292984D7A0D_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, MultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23824,7 +23824,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisMultiRotationConstra
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisMultiRotationConstraintJob_t8467F525BB382E6383CDC43A1F96DDEFD565D4D0_m4B310989AB9CBB1DB20CCB50D707B292984D7A0D(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisOverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F_m97C2359583872EE5B59C5BE85468BD5514521976_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, OverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23857,7 +23857,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisOverrideTransformJob
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisOverrideTransformJob_t0F388E866D139426B5D806EF475991B5E7307A7F_m97C2359583872EE5B59C5BE85468BD5514521976(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisRigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE_m4887BDB91235B6B5BA07AFDBEA39485677BBAB77_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, RigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23890,7 +23890,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisRigSyncSceneToStream
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisRigSyncSceneToStreamJob_tC7E9F76DD7BF93617F3574D27B308ADF4732EEAE_m4887BDB91235B6B5BA07AFDBEA39485677BBAB77(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisTwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6_m4F39D08A7455A0F7048BB764E5B96FC41FC3E353_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, TwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23923,7 +23923,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisTwistChainConstraint
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisTwistChainConstraintJob_t41EF536A58684208D6141BC36E06CD88ABBB4DF6_m4F39D08A7455A0F7048BB764E5B96FC41FC3E353(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisTwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0_mA6CFF5B066DD3C82A575F7A6695C99A10C6C357B_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, TwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0 ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23956,7 +23956,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisTwistCorrectionJob_t
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisTwistCorrectionJob_t47C0DF26E9309D72B975C709F74A93EA9D2248D0_mA6CFF5B066DD3C82A575F7A6695C99A10C6C357B(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_m20908550F527313764BB13919D4604A416F8CC98_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, TwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -23989,7 +23989,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisTwoBoneIKConstraintJ
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisTwoBoneIKConstraintJob_t50F4FC30C2A29EAA17F885CAE0A8EA21F76D6C0D_m20908550F527313764BB13919D4604A416F8CC98(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 135270
+// Method Definition Index: 135301
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AnimationScriptPlayable_SetJobData_TisIl2CppFullySharedGenericStruct_m0875800AE8D572C36F6FD69BD08657826F883C75_gshared (AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127* __this, Il2CppFullySharedGenericStruct ___0_jobData, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24022,7 +24022,7 @@ IL2CPP_EXTERN_C  void AnimationScriptPlayable_SetJobData_TisIl2CppFullySharedGen
 	_thisAdjusted = reinterpret_cast<AnimationScriptPlayable_t1326433F6848D93D7D90BC54B4AB6649A5D59127*>(__this + _offset);
 	AnimationScriptPlayable_SetJobData_TisIl2CppFullySharedGenericStruct_m0875800AE8D572C36F6FD69BD08657826F883C75(_thisAdjusted, ___0_jobData, method);
 }
-// Method Definition Index: 93527
+// Method Definition Index: 93529
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AotHelper_EnsureDictionary_TisIl2CppFullySharedGenericAny_TisIl2CppFullySharedGenericAny_mC9E7F4C38FF23079A056826221D435D3491AEC6C_gshared (const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24062,7 +24062,7 @@ IL_001f:
 		return;
 	}
 }
-// Method Definition Index: 93526
+// Method Definition Index: 93528
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AotHelper_EnsureList_TisIl2CppFullySharedGenericAny_mA8919C366AD8833820513F3C67F4AB6DC495BA92_gshared (const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24102,7 +24102,7 @@ IL_001f:
 		return;
 	}
 }
-// Method Definition Index: 93525
+// Method Definition Index: 93527
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AotHelper_EnsureType_TisIl2CppFullySharedGenericAny_m8D94D34831BFD767668F5DE3953A46FD59601BA7_gshared (const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24142,7 +24142,7 @@ IL_001f:
 		return;
 	}
 }
-// Method Definition Index: 138292
+// Method Definition Index: 138323
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AppConfigExtensions_GetState_TisRuntimeObject_m5F6BB3B11F220A0CE1D753F69AB6ECC53CA6DF82_gshared (RuntimeObject* ___0_app, int32_t ___1_state, Dictionary_2_tAE981FFB8675A3AFB674EE2636BE5565849941A4* ___2_store, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24305,7 +24305,7 @@ IL_009c:
 		return L_28;
 	}
 }
-// Method Definition Index: 138292
+// Method Definition Index: 138323
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AppConfigExtensions_GetState_TisIl2CppFullySharedGenericAny_m64084357B28DFBEAD5F45F6FEEEC2695D92DCE5A_gshared (RuntimeObject* ___0_app, int32_t ___1_state, Dictionary_2_tAEFECB7912C437DA011A30BE6FCDFBF86D4D0B29* ___2_store, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24476,7 +24476,7 @@ IL_009c:
 		return;
 	}
 }
-// Method Definition Index: 138293
+// Method Definition Index: 138324
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AppConfigExtensions_SetState_TisRuntimeObject_m1F78B3FB6712E0F50249BBCF26F656331CF7E248_gshared (RuntimeObject* ___0_app, int32_t ___1_state, RuntimeObject* ___2_value, Dictionary_2_tAE981FFB8675A3AFB674EE2636BE5565849941A4* ___3_store, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -24616,7 +24616,7 @@ IL_0081:
 		return;
 	}
 }
-// Method Definition Index: 138293
+// Method Definition Index: 138324
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AppConfigExtensions_SetState_TisIl2CppFullySharedGenericAny_mB7D11C81ECED7DA072C6FE0CC6081EE1683B8B3A_gshared (RuntimeObject* ___0_app, int32_t ___1_state, Il2CppFullySharedGenericAny ___2_value, Dictionary_2_tAEFECB7912C437DA011A30BE6FCDFBF86D4D0B29* ___3_store, const RuntimeMethod* method) 
 {
 	if (!il2cpp_rgctx_is_initialized(method))
@@ -44047,7 +44047,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool IntPtr_op_Equality_m7D9CDCDE
 		return (bool)((((intptr_t)L_0) == ((intptr_t)L_1))? 1 : 0);
 	}
 }
-// Method Definition Index: 138206
+// Method Definition Index: 138237
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* FirebaseHandler_get_AppUtils_m5D80C76317AFA8DBEEFEF2427573A6EE7B6F7B27_inline (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;

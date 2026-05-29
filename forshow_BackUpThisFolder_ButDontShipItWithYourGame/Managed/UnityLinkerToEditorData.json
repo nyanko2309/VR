@@ -424,8 +424,7 @@
             "name": "MeshRenderer",
             "scenes": [
               "Assets/Scenes/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
             "icon": null
@@ -1142,8 +1141,7 @@
             "name": "BoxCollider",
             "scenes": [
               "Assets/Scenes/ColorPicker.unity",
-              "Assets/Scenes/HandScanScene.unity",
-              "Assets/Scenes/History.unity"
+              "Assets/Scenes/HandScanScene.unity"
             ],
             "dependencyType": 0,
             "icon": null
