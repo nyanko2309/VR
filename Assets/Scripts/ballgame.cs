@@ -694,15 +694,7 @@ public class PhysioBallGenerator : MonoBehaviour
         scoreCanvas.SetActive(true);
 
         if (scoreText != null)
-            scoreText.text =
-                $"Session Complete!\n\n" +
-                $"Cubes hit:   {_totalHit} / {_totalReps}\n\n" +
-                $"── Range of Motion ──\n" +
-                $"Vertical:   {vertROM * 100f:F0} cm\n" +
-                $"Lateral:     {latROM * 100f:F0} cm\n\n" +
-                $"── Calibrated baseline ──\n" +
-                $"Vert range: {_calibVertRange * 100f:F0} cm\n" +
-                $"Lat range:  {(Mathf.Abs(_romXMin) + _romXMax) * 100f:F0} cm";
+            scoreText.text = $"Score: {_totalHit} / {_totalReps}";
     }
 
     // ── Reset ─────────────────────────────────────────────────────────────

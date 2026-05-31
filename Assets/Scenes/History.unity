@@ -7483,7 +7483,7 @@ GameObject:
   - component: {fileID: 1098195929}
   - component: {fileID: 1098195928}
   m_Layer: 0
-  m_Name: Legbtn
+  m_Name: Mdnybtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

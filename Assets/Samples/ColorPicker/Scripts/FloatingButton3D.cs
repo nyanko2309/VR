@@ -2,12 +2,6 @@ using UnityEngine;
 using TMPro;
 using Debug = UnityEngine.Debug;
 
-/// <summary>
-/// Attach to a 3D GameObject (e.g. a Quad or Cube with a collider).
-/// When the player's laser ray hits the collider and the trigger is pressed,
-/// it runs the assigned UnityEvent action.
-/// Position it in world space — it won't move unless you parent it to something.
-/// </summary>
 [RequireComponent(typeof(Collider))]
 public class FloatingButton3D : MonoBehaviour
 {
@@ -16,9 +10,9 @@ public class FloatingButton3D : MonoBehaviour
     public string buttonText = "Back";
 
     [Header("Visual")]
-    public Color normalColor   = new Color(0.15f, 0.15f, 0.20f, 0.90f);
-    public Color hoveredColor  = new Color(0.30f, 0.55f, 1.00f, 1.00f);
-    public Color pressedColor  = new Color(1.00f, 1.00f, 1.00f, 1.00f);
+    public Color normalColor = new Color(0.15f, 0.15f, 0.20f, 0.90f);
+    public Color hoveredColor = new Color(0.30f, 0.55f, 1.00f, 1.00f);
+    public Color pressedColor = new Color(1.00f, 1.00f, 1.00f, 1.00f);
 
     [Header("Ray Source")]
     [Tooltip("Assign the same rayOrigin used by BodyTracker / laser")]
@@ -29,15 +23,13 @@ public class FloatingButton3D : MonoBehaviour
     public UnityEngine.Events.UnityEvent onPressed;
 
     // ── Private ───────────────────────────────────────────────────────────
-
     private Renderer _rend;
     private MaterialPropertyBlock _block;
-    private bool _hovered  = false;
-    private bool _wasDown  = false;
+    private bool _hovered = false;
 
     void Awake()
     {
-        _rend  = GetComponentInChildren<Renderer>();
+        _rend = GetComponentInChildren<Renderer>();
         _block = new MaterialPropertyBlock();
         if (label != null) label.text = buttonText;
         SetVisual(normalColor);
@@ -60,30 +52,30 @@ public class FloatingButton3D : MonoBehaviour
             SetVisual(_hovered ? hoveredColor : normalColor);
         }
 
-        // ── Trigger press while hovered ───────────────────────────────
-        float trigger = Mathf.Max(
-            OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger),
-            OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger));
-        bool triggerDown = trigger > 0.8f;
+        // ── Any button press ──────────────────────────────────────────
+        bool anyDown = OVRInput.GetDown(OVRInput.Button.Any);
 
-        if (_hovered && triggerDown && !_wasDown)
+        // ── Debug: log any controller input ──────────────────────────
+        if (anyDown)
+            Debug.Log($"[FloatingButton3D] Button pressed (hovered={_hovered})", this);
+
+        // ── Trigger action if hovered ─────────────────────────────────
+        if (_hovered && anyDown)
         {
             SetVisual(pressedColor);
             Debug.Log($"[FloatingButton3D] '{buttonText}' pressed");
             onPressed?.Invoke();
         }
 
-        if (!triggerDown && _wasDown && _hovered)
+        if (!anyDown && _hovered)
             SetVisual(hoveredColor);
-
-        _wasDown = triggerDown;
     }
 
     void SetVisual(Color col)
     {
         if (_rend == null) return;
         _rend.GetPropertyBlock(_block);
-        _block.SetColor("_BaseColor",     col);
+        _block.SetColor("_BaseColor", col);
         _block.SetColor("_EmissionColor", col * 0.4f);
         _rend.SetPropertyBlock(_block);
     }

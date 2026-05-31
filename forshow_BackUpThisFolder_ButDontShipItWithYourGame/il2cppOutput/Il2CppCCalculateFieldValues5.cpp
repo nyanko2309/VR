@@ -17336,7 +17336,6 @@ struct FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5  : public Mono
 	Renderer_t320575F223BCB177A982E5DDB5DB19FAA89E7FBF* ____rend;
 	MaterialPropertyBlock_t2308669579033A857EFE6E4831909F638B27411D* ____block;
 	bool ____hovered;
-	bool ____wasDown;
 };
 struct FriendsMatchmaking_t2947ECA54C91BCC221B86325F065EB9DFE7D9B0A  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
@@ -21568,9 +21567,9 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable15152[2] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable15153[8] = 
 {
 	static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ___modelAsset)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ___inputName)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ___outputName)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ___inputSize)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ___backend)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ____model)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ____worker)),static_cast<int32_t>(offsetof(LegDetector_t580AC24AE095DD12070F9F3B070BAC7A7C4F9FCC, ____inputTensor)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable15155[11] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable15155[10] = 
 {
-	static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___label)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___buttonText)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___normalColor)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___hoveredColor)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___pressedColor)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___rayOrigin)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___onPressed)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____rend)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____block)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____hovered)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____wasDown)),};
+	static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___label)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___buttonText)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___normalColor)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___hoveredColor)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___pressedColor)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___rayOrigin)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ___onPressed)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____rend)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____block)),static_cast<int32_t>(offsetof(FloatingButton3D_t7C8E9D151FB093D57864313A80419FA8540B94E5, ____hovered)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable15156[2] = 
 {
 	static_cast<int32_t>(offsetof(MarkerController_tE7C992C2C9DC77C450D93CD22B08AB0372D58C33, ____textMesh)),static_cast<int32_t>(offsetof(MarkerController_tE7C992C2C9DC77C450D93CD22B08AB0372D58C33, ___lastUpdateTime)),};
